@@ -2,247 +2,120 @@
 #define ARQUIVO_H
 
 #include <iostream>
-#include <cstring>
+#include <string.h>
 #include "estruturaLivro.h"
 #include "estruturaArvore.h"
-#include "utilizaveis.h"
 
 using namespace std;
 
 class Arquivo{
 private:
-    FILE*   saida;
     FILE* entrada;
-    string nomeSaida,nomeEntrada;
-    bool sucessoNaLeitura,saidaAberta,entradaAberta;
-    Log log;
+    FILE* saida;
+    string nomeEntrada,nomeSaida;
 public:
-    //Construtor padrão da classe Arquivo
-    Arquivo();
-
-    //Construtor que recebe o nome do arquivo de entrada
-    Arquivo(string nomeEntrada);
-
-    //Construtor que recebe o nome do arquivo de entrada e o de saida
+    //Construtor da classe Arquivo
     Arquivo(string nomeEntrada, string nomeSaida);
 
-    /* Setter da variável nomeSaida
-     * Entrada:      Nome do arquivo de saida
-     * Retorno:      Nenhum
-     * Pré-condição: Nenhuma
-     * Pós-condição: A variável nomeSaida é atualizada com o parâmetro passado
-    */
-    void setNomeSaida(string nomeSaida);
-
-    /* Getter da variável nomeSaida
-     * Entrada:      Nenhuma
-     * Retorno:      Nome do arquivo de saida
-     * Pré-condição: Nenhuma
-     * Pós-condição: Nenhuma
-    */
-    string getNomeSaida();
-
-    /* Setter da variável nomeEntrada
-     * Entrada:      Nome do arquivo de entrada
-     * Retorno:      Nenhum
-     * Pré-condição: Nenhuma
-     * Pós-condição: A variável nomeEntrada é atualizada com o parâmetro passado
-    */
+    //Setter do nome do arquivo de entrada
     void setNomeEntrada(string nomeEntrada);
 
-    /* Getter da variável nomeEntrada
-     * Entrada:      Nenhuma
-     * Retorno:      Nome do arquivo de entrada
-     * Pré-condição: Nenhuma
-     * Pós-condição: Nenhuma
-    */
-    string getNomeENtrada();
+    //Setter do nome do arquivo de saida
+    void setNomeSaida(string nomeSaida);
 
-    /* Setter da variável saida
-     * Entrada:      Ponteiro para o arquivo de saida
-     * Retorno:      Nenhum
-     * Pré-condição: Nenhuma
-     * Pós-condição: A variável saida é atualizada com o parâmetro passado
-    */
-    void setSaida(FILE* saida);
-
-    /* Getter da variável saida
-     * Entrada:      Nenhuma
-     * Retorno:      Ponteiro para o arquivo de saida
-     * Pré-condição: Nenhuma
-     * Pós-condição: Nenhuma
-    */
-    FILE* getSaida();
-
-    /* Setter da variável entrada
-     * Entrada:      Ponteiro para o arquivo de entrada
-     * Retorno:      Nenhum
-     * Pré-condição: Nenhuma
-     * Pós-condição: A variável entrada é atualizada com o parâmetro passado
-    */
-    void setEntrada(FILE* entrada);
-
-    /* Getter da variável entrada
-     * Entrada:      Nenhuma
-     * Retorno:      Ponteiro para o arquivo de entrada
-     * Pré-condição: Nenhuma
-     * Pós-condição: Nenhuma
-    */
+    //Getter do arquivo de entrada
     FILE* getEntrada();
 
-    /* Setter da variável sucessoNaLeitura
-     * Entrada:      Boolean
+    //Getter do nome do arquivo de entrada
+    string getNomeEntrada();
+
+    //Getter do arquivo de saida
+    FILE* getSaida();
+
+    //Getter do nome do arquivo de saida
+    string getNomeSaida();
+
+    /* Método que escreve o cabeçalho no arquivo binário de livros
+     * Entrada:      Cabeçalho de livros
      * Retorno:      Nenhum
-     * Pré-condição: Nenhuma
-     * Pós-condição: O valor da variável sucessoNaLeitura é atualizado
+     * Pré-condição: A variavel nomeSaida deve possuir o nome correto do arquivo de saida
+     * Pós-condição: O cabeçalho é escrito no arquivo binário de livros
     */
-    void setSucesso(bool sucesso);
+    void escreverCabecalhoLivro(CabecalhoLivro cab);
 
-    /* Getter da variável sucessoNaLeitura
+    /* Método que lê o cabeçalho no arquivo binário de livros
      * Entrada:      Nenhuma
-     * Retorno:      Verdadeiro ou falso
-     * Pré-condição: Nenhuma
-     * Pós-condição: Nenhuma
+     * Retorno:      Cabeçalho lido ou NULL caso não consiga ler
+     * Pré-condição: A variável nomeEntrada deve possuir o nome correto do arquivo de entrada
+     * Pós-condição: O cabeçalho é lido do arquivo binário de livros
     */
-    bool getSucesso();
+    CabecalhoLivro* lerCabecalhoLivro();
 
-    /* Setter da variável saidaAberta
-     * Entrada:      True ou false
+    /* Método que escreve o cabeçalho no arquivo binário de árvore
+     * Entrada:      Cabeçalho de árvore
      * Retorno:      Nenhum
-     * Pré-condição: Nenhuma
-     * Pós-condição: A variável é setada para o valor do parâmetro
+     * Pré-condição: A variavel nomeSaida deve possuir o nome correto do arquivo de saida
+     * Pós-condição: O cabeçalho é escrito no arquivo binário de árvore
     */
-    void setSaidaAberta(bool saidaAberta);
+    void escreverCabecalhoArvore(CabecalhoArvore cab);
 
-    /* Getter da varável saidaAberta
-     * Entrada:      Nenuma
-     * Retorno:      True ou false
-     * Pré-condição: Nenhuma
-     * Pós-condição: Nenhuma
-    */
-    bool getSaidaAberta();
-
-    /* Setter da variável entradaAberta
-     * Entrada:      True ou false
-     * Retorno:      Nenhum
-     * Pré-condição: Nenhuma
-     * Pós-condição: A variável é setada para o valor do parâmetro
-    */
-    void setEntradaAberta(bool entradaAberta);
-
-    /* Getter da varável entradaAberta
-     * Entrada:      Nenuma
-     * Retorno:      True ou false
-     * Pré-condição: Nenhuma
-     * Pós-condição: Nenhuma
-    */  
-    bool getEntradaAberta();
-
-    /* Método que abre o arquivo de saida para a escrita
-     * Entrada:      Nome do arquivo de saida
-     * Retorno:      True caso consiga abrir ou false caso contrário
-     * Pré-condição: Nenhuma
-     * Pós-condição: O arquivo saida é aberto para escrita com a opção "r+b"
-    */
-    bool abrirSaida(char* arquivo);
-
-    /* Método que fecha o arquivo de saida
+    /* Método que lê o cabeçalho no arquivo binário de árvore
      * Entrada:      Nenhuma
-     * Retorno:      True caso consiga fechar ou false caso contrário
-     * Pré-condição: O arquivo deve estar aberto
-     * Pós-condição: O arquivo é fechado
-    */
-    bool fecharSaida();
-
-    /* Método que abre o arquivo de entrada para a leitura
-     * Entrada:      Nome do arquivo de entrada
-     * Retorno:      True caso consiga abrir ou false caso contrário
-     * Pré-condição: Nenhuma
-     * Pós-condição: O arquivo entrada é aberto para leitura
-    */
-    bool abrirEntrada(char* arquivo);
-
-    /* Método que fecha o arquivo de entrada
-     * Entrada:      Nenhuma
-     * Retorno:      True caso consiga fechar ou false caso contrário
-     * Pré-condição: O arquivo deve estar aberto
-     * Pós-condição: O arquivo é fechado
-    */
-    bool fecharEntrada();
-
-    /* Método que escreve o cabeçalho no arquivo de livros
-     * Entrada:      Ponteiro para a struct que contém o cabeçalho do arquivo de livros a ser escrito
-     * Retorno:      True caso tenha dado certo ou false caso contrário
-     * Pré-condição: A variável nomeSaida deve estar preenchida com nome correto.
-     * Pós-condição: O cabeçalho é escrito no arquivo de saída
-    */
-    bool escreverCabecalhoLivros(CabecalhoLivro* cab);
-
-    /* Método que lê o cabeçalho no arquivo de livros
-     * Entrada:      Nenhuma
-     * Retorno:      Struct do cabeçalho lido ou NULL caso não leia
-     * Pré-condição: A variável entrada deve estar preenchida com o nome correto.
-     * Pós-condição: O cabeçalho é lido e retornado do arquivo de entrada
-    */
-    CabecalhoLivro* lerCabecalhoLivros();
-
-    /* Método que cria um arquivo de livros vazio
-     * Entrada:      Nenhuma
-     * Retorno:      True caso tenha dado certo ou false caso contrário
-     * Pré-condição: A variavel nomeSaida deve possuir o nome correto
-     * Pós-condição: O arquivo de livros é inicializado
-    */
-    bool criarArquivoLivrosVazio();
-
-    /* Método que escreve o cabeçalho no arquivo de árvore
-     * Entrada:      Cabeçalho do arquivo de árvore
-     * Retorno:      True caso consiga escrever ou false caso contrário
-     * Pré-condição: A variável nomeSaida deve estar com o nome corereto
-     * Pós-condição: O cabeçalho é escrito no arquivo de saida
-    */
-    bool escreverCabecalhoArvore(CabecalhoArvore* cab);
-
-    /* Método que lê o cabeçalho no arquivo de árvore
-     * Entrada:      Nenhuma
-     * Retorno:      Struct do cabeçalho lido ou NULL caso não leia
-     * Pré-condição: A variável entrada deve estar preenchida com o nome correto.
-     * Pós-condição: O cabeçalho é lido e retornado do arquivo de entrada
+     * Retorno:      Cabeçalho lido
+     * Pré-condição: A variável nomeEntrada deve possuir o nome correto do arquivo de entrada
+     * Pós-condição: O cabeçalho é lido do arquivo binário de árvore
     */
     CabecalhoArvore* lerCabecalhoArvore();
 
-    /* Método que cria um arquivo de árvore vazio
+    /* Método que escreve o arquivo binário vazio de livros
      * Entrada:      Nenhuma
-     * Retorno:      True caso tenha dado certo ou false caso contrário
-     * Pré-condição: A variavel nomeSaida deve possuir o nome correto
-     * Pós-condição: O arquivo de árvore é inicializado
-    */
-    bool criarArquivoArvoreVazio();
-
-    /* Método que lê um nó do arquivo binário de árvore B+
-     * Entrada:      Posição do nó que será lido no arquivo
-     * Retorno:      Nó lido ou NULL caso não exista
-     * Pré-condição: A variavel nomeEntrada deve possuir o nome correto do arquivo
-     * Pós-condição: O nó é lido do arquivo
-    */
-    NoBMais* lerNo(int pos);
-
-    /* Método que escreve um nó no árquivo binário de árvore
-     * Entrada:      Nó da árvore B+ e posição em que será escrito o nó
      * Retorno:      Nenhum
-     * Pré-condição: A variável nomeSaida deve estar com o nome correto do arquivo
-     * Pós-condição: O nó é escrito no arquivo
+     * Pré-condição: A variável nomeSaida deve possuir o nome correto do arquivo de saida
+     * Pós-condição: O arquivo binário vazio de livros é escrito
+    */
+    void escreverArquivoLivrosVazio();
+
+    /* Método que escreve o arquivo binário vazio de árvore
+     * Entrada:      Nenhuma
+     * Retorno:      Nenhum
+     * Pré-condição: A variável nomeSaida deve possuir o nome correto do arquivo de saida
+     * Pós-condição: O arquivo binário vazio de árvore é escrito
+    */
+    void escreverArquivoArvoreVazio();
+
+    /* Método que escreve um livro na posição indicada no arquivo binário de livros
+     * Entrada:      Livro a ser escrito e posição em que será escrita
+     * Retorno:      Nenhum
+     * Pré-condição: A variável nomeSaida deve possuir o nome correto do arquivo de saída
+     * Pós-condição: O livro é escrito no arquivo binário de livros
+    */
+    void escreverLivro(InfoLivro livro, int pos);
+
+    /* Método que lê um livro do arquivo binário de livros
+     * Entrada:      Posição da qual será lida o livro no arquivo
+     * Retorno:      Livro lido
+     * Pré-condição: A variável nomeEntrada deve possuir o nome correto do arquivo de entrada
+     * Pós-condição: O livro na posição fornecida é lido e retornado
+    */
+    InfoLivro* lerLivro(int pos);
+
+    /* Método que escreve um nó na posição indicada no arquivo binário de árvore
+     * Entrada:      Nó a ser escrito e posição em que será escrito
+     * Retorno:      Nenhum
+     * Pré-condição: A variável nomeSaida deve possuir o nome correto do arquivo de saída
+     * Pós-condição: O nó é escrito no arquivo binário de árvore
     */
     void escreverNo(NoBMais no, int pos);
 
-    /* Método que busca a proxima posição livre para ser escrita no arquivo bínario de arvore
-     * Entrada:      Cabeçalho do arquivo binario de arvore
-     * Retorno:      Posição livre para escrita
-     * Pré-condição: Variavel nomeEntrada deve possuir o nome correto do arquivo
-     * Pós-condição: Nenhuma
+    /* Método que lê um nó do arquivo binário de árvore
+     * Entrada:      Posição da qual será lida o nó no arquivo
+     * Retorno:      Nó lido
+     * Pré-condição: A variável nomeEntrada deve possuir o nome correto do arquivo de entrada
+     * Pós-condição: O nó na posição fornecida é lido e retornado
     */
-    int buscaProxPos(CabecalhoArvore cab);
+    NoBMais* lerNo(int pos);
 
-    //Destrutor padrão da classe Arquivo
+    //Destrutor da class Arquivo
     ~Arquivo();
 };
 

@@ -25,25 +25,10 @@ private:
     NoBMais no;
     CabecalhoArvore cab;
 public:
-    come
     void setNo(NoBMais no);
     void setCab(CabecalhoArvore cab);
     NoBMais getNo();
     CabecalhoArvore getCab();
-
-
-
-
-
 };
-
-
-
-
-
-
-
-
-
 
 #endif

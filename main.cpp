@@ -1,24 +1,23 @@
 #include <iostream>
 #include "estruturaLivro.h"
+#include "estruturaArvore.h"
 #include "arquivo.h"
 
 using namespace std;
 
-Arquivo* livros;
 Arquivo* arvore;
+Arquivo* livros;
 
-void iniciarArquivos(){
-    livros = new Arquivo("livros.bin","livros.bin");
-    arvore = new Arquivo("arvore.bin","arvore.bin");
+void inicializarArquivos(string liv, string arv){
+    arvore = new Arquivo(arv,arv);
+    livros = new Arquivo(liv,liv);
 
-    livros->criarArquivoLivrosVazio(); //Deve ser executado antes de qualquer outra coisa
-    arvore->criarArquivoArvoreVazio(); //Deve ser executado antes de qualquer outra coisa
-    cout << "\n\n";
-    
+    arvore->escreverArquivoArvoreVazio();
+    livros->escreverArquivoLivrosVazio();
 }
 
 int main(){
-    iniciarArquivos();
+    inicializarArquivos("livros.bin","arvore.bin");
     delete livros; delete arvore;
     return 0;
 }

@@ -1,526 +1,229 @@
 #include "arquivo.h"
 
-//Construtor padrão da classe Arquivo
-Arquivo::Arquivo(){
-    this->entrada          =  NULL;
-    this->saida            =  NULL;
-    this->sucessoNaLeitura = false;
-    this->nomeEntrada      =    "";
-    this->nomeSaida        =    "";
-    this->entradaAberta    = false;
-    this->saidaAberta      = false;
-}
-
-//Construtor que recebe o nome do arquivo de entrada
-Arquivo::Arquivo(string nomeEntrada){
-    this->entrada          =        NULL;
-    this->entradaAberta    =       false;
-    this->saida            =        NULL;
-    this->saidaAberta      =       false;
-    this->nomeEntrada      = nomeEntrada;
-    this->nomeSaida        =          "";
-    this->sucessoNaLeitura =       false;
-}
-
-//Construtor que recebe o nome do arquivo de entrada e o de saida
+//Construtor da classe Arquivo
 Arquivo::Arquivo(string nomeEntrada, string nomeSaida){
-    this->entrada          =        NULL;
-    this->entradaAberta    =       false;
-    this->saida            =        NULL;
-    this->saidaAberta      =       false;
-    this->nomeEntrada      = nomeEntrada;
-    this->nomeSaida        =   nomeSaida;
-    this->sucessoNaLeitura =       false;
+    this->nomeEntrada = nomeEntrada;
+    this->entrada     = NULL;
+    this->nomeSaida   = nomeSaida;
+    this->saida       = NULL;
 }
 
-/* Setter da variável nomeSaida
- * Entrada:      Nome do arquivo de saida
- * Retorno:      Nenhum
- * Pré-condição: Nenhuma
- * Pós-condição: A variável nomeSaida é atualizada com o parâmetro passado
-*/
-void Arquivo::setNomeSaida(string nomeSaida){
-    this->nomeSaida = nomeSaida;
-}
-
-/* Getter da variável nomeSaida
- * Entrada:      Nenhuma
- * Retorno:      Nome do arquivo de saida
- * Pré-condição: Nenhuma
- * Pós-condição: Nenhuma
-*/
-string Arquivo::getNomeSaida(){
-    return this->nomeSaida;
-}
-
-/* Setter da variável nomeEntrada
- * Entrada:      Nome do arquivo de entrada
- * Retorno:      Nenhum
- * Pré-condição: Nenhuma
- * Pós-condição: A variável nomeEntrada é atualizada com o parâmetro passado
-*/
+//Setter do nome do arquivo de entrada
 void Arquivo::setNomeEntrada(string nomeEntrada){
     this->nomeEntrada = nomeEntrada;
 }
 
-/* Getter da variável nomeEntrada
- * Entrada:      Nenhuma
- * Retorno:      Nome do arquivo de entrada
- * Pré-condição: Nenhuma
- * Pós-condição: Nenhuma
-*/
-string Arquivo::getNomeENtrada(){
-    return this->nomeEntrada;
+//Setter do nome do arquivo de saida
+void Arquivo::setNomeSaida(string nomeSaida){
+    this->nomeSaida = nomeSaida;
 }
 
-/* Setter da variável saida
- * Entrada:      Ponteiro para o arquivo de saida
- * Retorno:      Nenhum
- * Pré-condição: Nenhuma
- * Pós-condição: A variável saida é atualizada com o parâmetro passado
-*/
-void Arquivo::setSaida(FILE* saida){
-    this->saida = saida;
-}
-
-/* Getter da variável saida
- * Entrada:      Nenhuma
- * Retorno:      Ponteiro para o arquivo de saida
- * Pré-condição: Nenhuma
- * Pós-condição: Nenhuma
-*/
-FILE* Arquivo::getSaida(){
-    return this->saida;
-}
-
-/* Setter da variável entrada
- * Entrada:      Ponteiro para o arquivo de entrada
- * Retorno:      Nenhum
- * Pré-condição: Nenhuma
- * Pós-condição: A variável entrada é atualizada com o parâmetro passado
-*/
-void Arquivo::setEntrada(FILE* entrada){
-    this->entrada = entrada;
-}
-
-/* Getter da variável entrada
- * Entrada:      Nenhuma
- * Retorno:      Ponteiro para o arquivo de entrada
- * Pré-condição: Nenhuma
- * Pós-condição: Nenhuma
-*/
+//Getter do arquivo de entrada
 FILE* Arquivo::getEntrada(){
     return this->entrada;
 }
 
-/* Setter da variável sucessoNaLeitura
- * Entrada:      Boolean
+//Getter do nome do arquivo de entrada
+string Arquivo::getNomeEntrada(){
+    return this->nomeEntrada;
+}
+
+//Getter do arquivo de saida
+FILE* Arquivo::getSaida(){
+    return this->saida;
+}
+
+//Getter do nome do arquivo de saida
+string Arquivo::getNomeSaida(){
+    return this->nomeSaida;
+}
+
+/* Método que escreve o cabeçalho no arquivo binário de livros
+ * Entrada:      Cabeçalho de livros
  * Retorno:      Nenhum
- * Pré-condição: Nenhuma
- * Pós-condição: O valor da variável sucessoNaLeitura é atualizado
+ * Pré-condição: A variavel nomeSaida deve possuir o nome correto do arquivo de saida
+ * Pós-condição: O cabeçalho é escrito no arquivo binário de livros
 */
-void Arquivo::setSucesso(bool sucesso){
-    this->sucessoNaLeitura = sucesso;
-}
-
-/* Getter da variável sucessoNaLeitura
- * Entrada:      Nenhuma
- * Retorno:      Verdadeiro ou falso
- * Pré-condição: Nenhuma
- * Pós-condição: Nenhuma
-*/
-bool Arquivo::getSucesso(){
-    return this->sucessoNaLeitura;
-}
-
-/* Setter da variável saidaAberta
- * Entrada:      True ou false
- * Retorno:      Nenhum
- * Pré-condição: Nenhuma
- * Pós-condição: A variável é setada para o valor do parâmetro
-*/
-void Arquivo::setSaidaAberta(bool saidaAberta){
-    this->saidaAberta = saidaAberta;
-}
-
-/* Getter da varável saidaAberta
- * Entrada:      Nenuma
- * Retorno:      True ou false
- * Pré-condição: Nenhuma
- * Pós-condição: Nenhuma
-*/
-bool Arquivo::getSaidaAberta(){
-    return this->saidaAberta;
-}
-
-/* Setter da variável entradaAberta
- * Entrada:      True ou false
- * Retorno:      Nenhum
- * Pré-condição: Nenhuma
- * Pós-condição: A variável é setada para o valor do parâmetro
-*/
-void Arquivo::setEntradaAberta(bool entradaAberta){
-    this->entradaAberta = entradaAberta;
-}  
-
-/* Getter da varável entradaAberta
- * Entrada:      Nenuma
- * Retorno:      True ou false
- * Pré-condição: Nenhuma
- * Pós-condição: Nenhuma
-*/  
-bool Arquivo::getEntradaAberta(){
-    return this->entradaAberta;
-}
-
-/* Método que abre o arquivo de saida para a escrita
- * Entrada:      Nome do arquivo de saida
- * Retorno:      True caso consiga abrir ou false caso contrário
- * Pré-condição: Nenhuma
- * Pós-condição: O arquivo saida é aberto para escrita com a opção "r+b"
-*/
-bool Arquivo::abrirSaida(char* arquivo){
-    if(this->saidaAberta == false){
-        this->saida       = fopen(arquivo,"r+b");
-        this->saidaAberta =                 true;
-        return true;
-    }else{
-        cout << this->log.printErrorMessage(
-                "Erro ao abrir arquivo",
-                "Média",
-                "arquivo.cpp",
-                "Arquivo já aberto",
-                182                        );
-    }
-    return false;
-}
-
-/* Método que fecha o arquivo de saida
- * Entrada:      Nenhuma
- * Retorno:      True caso consiga fechar ou false caso contrário
- * Pré-condição: O arquivo deve estar aberto
- * Pós-condição: O arquivo é fechado
-*/
-bool Arquivo::fecharSaida(){
-    if(this->saidaAberta == true){
+void Arquivo::escreverCabecalhoLivro(CabecalhoLivro cab){
+    this->saida = fopen(this->nomeSaida.c_str(),"r+b");
+    if(this->saida != NULL){
+        fseek(this->saida,0,SEEK_SET);
+        fwrite(&cab,sizeof(CabecalhoLivro),1,this->saida);
         fclose(this->saida);
-        this->saidaAberta = false;
-        return true;
     }else{
-        cout << this->log.printErrorMessage     (
-                "Erro ao fechar arquivo",
-                "Alta",
-                "arquivo.cpp",
-                "Arquivo Não foi aberto",
-                204                             )
-                << endl;
+        printf("Erro ao abrir arquivo\n");
     }
-    return false;
 }
 
-/* Método que abre o arquivo de entrada para a leitura
- * Entrada:      Nome do arquivo de entrada
- * Retorno:      True caso consiga abrir ou false caso contrário
- * Pré-condição: Nenhuma
- * Pós-condição: O arquivo entrada é aberto para leitura
-*/
-bool Arquivo::abrirEntrada(char* arquivo){
-    if(this->entradaAberta == false){
-        this->entrada       = fopen(arquivo,"r+b");
-        this->entradaAberta =                 true;
-        return true;
-    }else{
-        cout << this->log.printErrorMessage(
-                "Erro ao abrir arquivo",
-                "Média",
-                "arquivo.cpp",
-                "Arquivo já aberto",
-                227                        );
-    }
-    return false;
-}
-
-/* Método que fecha o arquivo de entrada
+/* Método que lê o cabeçalho no arquivo binário de livros
  * Entrada:      Nenhuma
- * Retorno:      True caso consiga fechar ou false caso contrário
- * Pré-condição: O arquivo deve estar aberto
- * Pós-condição: O arquivo é fechado
+ * Retorno:      Cabeçalho lido ou NULL caso não consiga ler
+ * Pré-condição: A variável nomeEntrada deve possuir o nome correto do arquivo de entrada
+ * Pós-condição: O cabeçalho é lido do arquivo binário de livros
 */
-bool Arquivo::fecharEntrada(){
-        if(this->entradaAberta == true){
+CabecalhoLivro* Arquivo::lerCabecalhoLivro(){
+    this->entrada = fopen(this->nomeEntrada.c_str(),"r+b");
+    if(this->entrada != NULL){
+        CabecalhoLivro* cab = new CabecalhoLivro;
+        fseek(this->entrada,0,SEEK_SET);
+        fread(cab,sizeof(CabecalhoLivro),1,this->entrada);
         fclose(this->entrada);
-        this->entradaAberta = false;
-        return true;
-    }else{
-        cout << this->log.printErrorMessage     (
-                "Erro ao fechar arquivo",
-                "Alta",
-                "arquivo.cpp",
-                "Arquivo Não foi aberto",
-                249                             )
-                << endl;
+        return cab;
     }
-    return false;
-}
-
-/* Método que escreve o cabeçalho no arquivo de livros
- * Entrada:      Ponteiro para a struct que contém o cabeçalho do arquivo de livros a ser escrito
- * Retorno:      True caso tenha dado certo ou false caso contrário
- * Pré-condição: A variável nomeSaida deve estar preenchida com o nome correto
- * Pós-condição: O cabeçalho é escrito no arquivo de saída
-*/
-bool Arquivo::escreverCabecalhoLivros(CabecalhoLivro* cab){
-    if(this->nomeSaida != ""){
-        char aux[this->nomeSaida.size() + 1];
-        strcpy(aux,this->nomeSaida.c_str());
-        this->abrirSaida(aux);
-        if(this->saidaAberta == true){
-            fseek(this->saida,0,SEEK_SET);
-            this->sucessoNaLeitura = (fwrite(cab,sizeof(CabecalhoLivro),1,this->saida) == 1);
-            this->fecharSaida();
-            return this->sucessoNaLeitura;
-        }
-        this->sucessoNaLeitura = false;
-    }else{
-        cout << this->log.printErrorMessage                       (
-                "Erro ao abrir arquivo",
-                "Média",
-                "arquivo.cpp",
-                "Arquivo já aberto ou nome do arquivo não setado",
-                272                                               )
-                << endl;
-    }
-    return false;
-}
-
-/* Método que lê o cabeçalho no arquivo de livros
- * Entrada:      Nenhuma
- * Retorno:      Struct do cabeçalho lido ou NULL caso não leia
- * Pré-condição: A variável entrada deve estar preenchida com o nome correto.
- * Pós-condição: O cabeçalho é lido e retornado do arquivo de entrada
-*/
-CabecalhoLivro* Arquivo::lerCabecalhoLivros(){
-    CabecalhoLivro *cab = new CabecalhoLivro;
-    if(this->nomeEntrada != ""){
-        char aux[this->nomeEntrada.size() + 1];
-        strcpy(aux,this->nomeEntrada.c_str());
-        this->abrirEntrada(aux);
-        if(this->entradaAberta == true){
-            fseek(this->entrada,0,SEEK_SET);
-            this->sucessoNaLeitura = (fread(cab,sizeof(CabecalhoLivro),1,this->entrada) == 1);
-            this->fecharEntrada();
-            return cab;
-        }
-        return NULL;
-    }else{
-        cout << this->log.printErrorMessage                       (
-        "Erro ao abrir arquivo",
-        "Média",
-        "arquivo.cpp",
-        "Arquivo já aberto ou nome do arquivo não setado",
-        302                                               )
-        << endl;
-    }
+    printf("Erro ao abrir arquivo\n");
     return NULL;
 }
 
-/* Método que cria um arquivo de livros vazio
- * Entrada:      Nenhuma
- * Retorno:      True caso tenha dado certo ou false caso contrário
- * Pré-condição: A variavel nomeSaida deve possuir o nome correto
- * Pós-condição: O arquivo de livros é inicializado
+/* Método que escreve o cabeçalho no arquivo binário de árvore
+ * Entrada:      Cabeçalho de árvore
+ * Retorno:      Nenhum
+ * Pré-condição: A variavel nomeSaida deve possuir o nome correto do arquivo de saida
+ * Pós-condição: O cabeçalho é escrito no arquivo binário de árvore
 */
-bool Arquivo::criarArquivoLivrosVazio(){
-    if(this->nomeSaida != ""){
-        string s = "rm ";
-        s += this->nomeSaida;
-        s += " & clear && echo arquivo antigo removido com sucesso!";
-        system(s.c_str());
-        CabecalhoLivro cab;
-        cab.topo     =  0;
-        cab.posLivre = -1;
-        char aux[this->nomeSaida.size() +1];
-        strcpy(aux,this->nomeSaida.c_str());
-        this->saida       = fopen(aux,"w+b");
-        this->saidaAberta = true;
-        this->fecharSaida();
-        this->escreverCabecalhoLivros(&cab);
-        cout << "Arquivo de livros inicializado com sucesso!\n";
-        return true;
+void Arquivo::escreverCabecalhoArvore(CabecalhoArvore cab){
+    this->saida = fopen(this->nomeSaida.c_str(),"r+b");
+    if(saida != NULL){
+        fseek(this->saida,0,SEEK_SET);
+        fwrite(&cab,sizeof(CabecalhoArvore),1,this->saida);
+        fclose(this->saida);
     }else{
-        cout << this->log.printErrorMessage              (
-        "Erro criar arquivo vazio de livros",
-        "Média",
-        "arquivo.cpp",
-        "Nome do arquivo de saída não definido",
-        333                                              )
-        << endl;
+        printf("Erro ao abrir arquivo\n");
     }
-    return false;
 }
 
-/* Método que escreve o cabeçalho no arquivo de árvore
- * Entrada:      Cabeçalho do arquivo de árvore
- * Retorno:      True caso consiga escrever ou false caso contrário
- * Pré-condição: A variável nomeSaida deve estar com o nome corereto
- * Pós-condição: O cabeçalho é escrito no arquivo de saida
-*/
-bool Arquivo::escreverCabecalhoArvore(CabecalhoArvore* cab){
-    if(this->nomeSaida != ""){
-        char aux[this->nomeSaida.size() + 1];
-        strcpy(aux,this->nomeSaida.c_str());
-        this->abrirSaida(aux);
-        if(this->saidaAberta == true){
-            fseek(this->saida,0,SEEK_SET);
-            this->sucessoNaLeitura = (fwrite(cab,sizeof(CabecalhoArvore),1,this->saida) == 1);
-            this->fecharSaida();
-            return this->sucessoNaLeitura;
-        }
-        this->sucessoNaLeitura = false;
-    }else{
-        cout << this->log.printErrorMessage                       (
-        "Erro ao abrir arquivo",
-        "Média",
-        "arquivo.cpp",
-        "Arquivo já aberto ou nome do arquivo não setado",
-        368                                               )
-        << endl;
-    }
-    return false;
-}
-
-/* Método que lê o cabeçalho no arquivo de árvore
+/* Método que lê o cabeçalho no arquivo binário de árvore
  * Entrada:      Nenhuma
- * Retorno:      Struct do cabeçalho lido ou NULL caso não leia
- * Pré-condição: A variável entrada deve estar preenchida com o nome correto.
- * Pós-condição: O cabeçalho é lido e retornado do arquivo de entrada
+ * Retorno:      Cabeçalho lido
+ * Pré-condição: A variável nomeEntrada deve possuir o nome correto do arquivo de entrada
+ * Pós-condição: O cabeçalho é lido do arquivo binário de árvore
 */
 CabecalhoArvore* Arquivo::lerCabecalhoArvore(){
-     CabecalhoArvore *cab = new CabecalhoArvore;
-    if(this->nomeEntrada != ""){
-        char aux[this->nomeEntrada.size() + 1];
-        strcpy(aux,this->nomeEntrada.c_str());
-        this->abrirEntrada(aux);
-        if(this->entradaAberta == true){
-            fseek(this->entrada,0,SEEK_SET);
-            this->sucessoNaLeitura = (fread(cab,sizeof(CabecalhoArvore),1,this->entrada) == 1);
-            this->fecharEntrada();
-            return cab;
-        }
-        return NULL;
-    }else{
-        cout << this->log.printErrorMessage               (
-        "Erro ao abrir arquivo",
-        "Média",
-        "arquivo.cpp",
-        "Arquivo já aberto ou nome do arquivo não setado",
-        398                                               )
-        << endl;
+    this->entrada = fopen(this->nomeEntrada.c_str(),"r+b");
+    if(this->entrada != NULL){
+        CabecalhoArvore* cab = new CabecalhoArvore;
+        fseek(this->entrada,0,SEEK_SET);
+        fread(cab,sizeof(CabecalhoArvore),1,this->entrada);
+        fclose(this->entrada);
+        return cab;
     }
+    printf("Erro ao abrir arquivo\n");
     return NULL;
 }
 
-/* Método que cria um arquivo de árvore vazio
+/* Método que escreve o arquivo binário vazio de livros
  * Entrada:      Nenhuma
- * Retorno:      True caso tenha dado certo ou false caso contrário
- * Pré-condição: A variavel nomeSaida deve possuir o nome correto
- * Pós-condição: O arquivo de árvore é inicializado
+ * Retorno:      Nenhum
+ * Pré-condição: A variável nomeSaida deve possuir o nome correto do arquivo de saida
+ * Pós-condição: O arquivo binário vazio de livros é escrito
 */
-bool Arquivo::criarArquivoArvoreVazio(){
-    if(this->nomeSaida != ""){
-        string s = "rm ";
-        s += this->nomeSaida;
-        s += " & clear && echo arquivo antigo removido com sucesso!";
-        system(s.c_str());
-        CabecalhoArvore cab;
-        cab.topo     =  0;
+void Arquivo::escreverArquivoLivrosVazio(){
+    this->saida = fopen(this->nomeSaida.c_str(),"r+w");
+    if(this->saida != NULL){
+        CabecalhoLivro cab;
         cab.posLivre = -1;
-        cab.raiz     = -1;
-        char aux[this->nomeSaida.size() +1];
-        strcpy(aux,this->nomeSaida.c_str());
-        this->saida       = fopen(aux,"w+b");
-        this->saidaAberta = true;
-        this->fecharSaida();
-        this->escreverCabecalhoArvore(&cab);
-        cout << "Arquivo de livros inicializado com sucesso!\n";
-        return true;
+        cab.topo     =  0;
+        fseek(this->saida,0,SEEK_SET);
+        fwrite(&cab,sizeof(CabecalhoLivro),1,this->saida);
+        fclose(this->saida);
     }else{
-        cout << this->log.printErrorMessage              (
-        "Erro criar arquivo vazio de livros",
-        "Média",
-        "arquivo.cpp",
-        "Nome do arquivo de saída não definido",
-        429                                              )
-        << endl;
+        printf("Erro ao abrir arquivo\n");
     }
-    return false;
 }
 
-/* Método que lê um nó do arquivo binário de árvore B+
- * Entrada:      Posição do nó que será lido no arquivo
- * Retorno:      Nó lido ou NULL caso não exista
- * Pré-condição: A variavel nomeEntrada deve possuir o nome correto do arquivo
- * Pós-condição: O nó é lido do arquivo
+/* Método que escreve o arquivo binário vazio de árvore
+ * Entrada:      Nenhuma
+ * Retorno:      Nenhum
+ * Pré-condição: A variável nomeSaida deve possuir o nome correto do arquivo de saida
+ * Pós-condição: O arquivo binário vazio de árvore é escrito
 */
-NoBMais* Arquivo::lerNo(int pos){
-    char aux[this->nomeEntrada.size() + 1];
-    strcpy(aux,this->nomeEntrada.c_str());
-    this->abrirEntrada(aux);
-    if(this->entradaAberta){
-        NoBMais* noLido = new NoBMais;
-        fseek(this->entrada,sizeof(CabecalhoArvore)+(pos*sizeof(NoBMais)),SEEK_SET);
-        fread(noLido,sizeof(NoBMais),1,this->entrada);
-        this->fecharEntrada();
-        return noLido;
+void Arquivo::escreverArquivoArvoreVazio(){
+    this->saida = fopen(this->nomeSaida.c_str(),"r+w");
+    if(this->saida != NULL){
+        CabecalhoArvore cab;
+        cab.posLivre = -1;
+        cab.topo     =  0;
+        cab.raiz     = -1;
+        fseek(this->saida,0,SEEK_SET);
+        fwrite(&cab,sizeof(CabecalhoArvore),1,this->saida);
+        fclose(this->saida);
+    }else{
+        printf("Erro ao abrir arquivo\n");
     }
-    this->log.printErrorMessage(
-        "Erro ao abrir arquivo binário de árvore",
-        "Média",
-        "arquivo.cpp",
-        "Não conseguiu abrir o arquivo",
-        465                    );
+}
+
+/* Método que escreve um livro na posição indicada no arquivo binário de livros
+ * Entrada:      Livro a ser escrito e posição em que será escrita
+ * Retorno:      Nenhum
+ * Pré-condição: A variável nomeSaida deve possuir o nome correto do arquivo de saída
+ * Pós-condição: O livro é escrito no arquivo binário de livros
+*/
+void Arquivo::escreverLivro(InfoLivro livro, int pos){
+    this->saida = fopen(this->nomeSaida.c_str(),"r+b");
+    if(this->saida != NULL){
+        fseek(this->saida,sizeof(CabecalhoLivro) + (pos * sizeof(InfoLivro)),SEEK_SET);
+        fwrite(&livro,sizeof(InfoLivro),1,this->saida);
+        fclose(this->saida);
+    }else{
+        printf("Erro ao abrir arquivo\n");
+    }
+}
+
+/* Método que lê um livro do arquivo binário de livros
+ * Entrada:      Posição da qual será lida o livro no arquivo
+ * Retorno:      Livro lido
+ * Pré-condição: A variável nomeEntrada deve possuir o nome correto do arquivo de entrada
+ * Pós-condição: O livro na posição fornecida é lido e retornado
+*/
+InfoLivro* Arquivo::lerLivro(int pos){
+    this->entrada = fopen(this->nomeEntrada.c_str(),"r+b");
+    if(this->entrada != NULL){
+        InfoLivro* livro = new InfoLivro;
+        fseek(this->entrada,sizeof(CabecalhoLivro) + (pos * sizeof(InfoLivro)),SEEK_SET);
+        fread(livro,sizeof(InfoLivro),1,this->entrada);
+        fclose(this->entrada);
+        return livro;
+    }
+    printf("Erro ao abrir arquivo\n");
     return NULL;
 }
 
-/* Método que escreve um nó no árquivo binário de árvore
- * Entrada:      Nó da árvore B+ e posição em que será escrito o nó
+/* Método que escreve um nó na posição indicada no arquivo binário de árvore
+ * Entrada:      Nó a ser escrito e posição em que será escrito
  * Retorno:      Nenhum
- * Pré-condição: A variável nomeSaida deve estar com o nome correto do arquivo
- * Pós-condição: O nó é escrito no arquivo
+ * Pré-condição: A variável nomeSaida deve possuir o nome correto do arquivo de saída
+ * Pós-condição: O nó é escrito no arquivo binário de árvore
 */
 void Arquivo::escreverNo(NoBMais no, int pos){
-    char aux[this->nomeSaida.size() + 1];
-    strcpy(aux,this->nomeSaida.c_str());
-    this->abrirSaida(aux);
-    if(this->saidaAberta){
-        fseek(this->saida,sizeof(CabecalhoArvore)+(pos*sizeof(NoBMais)),SEEK_SET);
+    this->saida = fopen(this->nomeSaida.c_str(),"r+b");
+    if(this->saida != NULL){
+        fseek(this->saida,sizeof(CabecalhoArvore) + (pos * sizeof(NoBMais)),SEEK_SET);
         fwrite(&no,sizeof(NoBMais),1,this->saida);
-        this->fecharSaida();
+        fclose(this->saida);
     }else{
-    this->log.printErrorMessage(
-        "Erro ao abrir arquivo binário de árvore",
-        "Média",
-        "arquivo.cpp",
-        "Não conseguiu abrir o arquivo",
-        491                    );
+        printf("Erro ao abrir arquivo\n");
     }
 }
 
-/* Método que busca a proxima posição livre para ser escrita no arquivo bínario de arvore
- * Entrada:      Cabeçalho do arquivo binario de arvore
- * Retorno:      Posição livre para escrita
- * Pré-condição: Variavel nomeEntrada deve possuir o nome correto do arquivo
- * Pós-condição: Nenhuma
+/* Método que lê um nó do arquivo binário de árvore
+ * Entrada:      Posição da qual será lida o nó no arquivo
+ * Retorno:      Nó lido
+ * Pré-condição: A variável nomeEntrada deve possuir o nome correto do arquivo de entrada
+ * Pós-condição: O nó na posição fornecida é lido e retornado
 */
-int buscaProxPos(CabecalhoArvore cab){
-    if(cab.posLivre == -1){
-        return cab.topo;
+NoBMais* Arquivo::lerNo(int pos){
+    this->entrada = fopen(this->nomeEntrada.c_str(),"r+b");
+    if(this->entrada != NULL){
+        NoBMais* no = new NoBMais;
+        fseek(this->entrada,sizeof(CabecalhoArvore) + (pos * sizeof(NoBMais)),SEEK_SET);
+        fread(no,sizeof(NoBMais),1,this->entrada);
+        fclose(this->entrada);
+        return no;
     }
-    
-    return cab.posLivre
+    printf("Erro ao abrir arquivo\n");
+    return NULL;
 }
 
-//Destrutor padrão da classe Arquivo
+//Destrutor da class Arquivo
 Arquivo::~Arquivo(){
 
 }
