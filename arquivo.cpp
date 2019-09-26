@@ -456,6 +456,70 @@ bool Arquivo::criarArquivoArvoreVazio(){
     return false;
 }
 
+/* Método que lê um nó do arquivo binário de árvore B+
+ * Entrada:      Posição do nó que será lido no arquivo
+ * Retorno:      Nó lido ou NULL caso não exista
+ * Pré-condição: A variavel nomeEntrada deve possuir o nome correto do arquivo
+ * Pós-condição: O nó é lido do arquivo
+*/
+NoBMais* Arquivo::lerNo(int pos){
+    char aux[this->nomeEntrada.size() + 1];
+    strcpy(aux,this->nomeEntrada.c_str());
+    this->abrirEntrada(aux);
+    if(this->entradaAberta){
+        NoBMais* noLido = new NoBMais;
+        fseek(this->entrada,sizeof(CabecalhoArvore)+(pos*sizeof(NoBMais)),SEEK_SET);
+        fread(noLido,sizeof(NoBMais),1,this->entrada);
+        this->fecharEntrada();
+        return noLido;
+    }
+    this->log.printErrorMessage(
+        "Erro ao abrir arquivo binário de árvore",
+        "Média",
+        "arquivo.cpp",
+        "Não conseguiu abrir o arquivo",
+        465                    );
+    return NULL;
+}
+
+/* Método que escreve um nó no árquivo binário de árvore
+ * Entrada:      Nó da árvore B+ e posição em que será escrito o nó
+ * Retorno:      Nenhum
+ * Pré-condição: A variável nomeSaida deve estar com o nome correto do arquivo
+ * Pós-condição: O nó é escrito no arquivo
+*/
+void Arquivo::escreverNo(NoBMais no, int pos){
+    char aux[this->nomeSaida.size() + 1];
+    strcpy(aux,this->nomeSaida.c_str());
+    this->abrirSaida(aux);
+    if(this->saidaAberta){
+        fseek(this->saida,sizeof(CabecalhoArvore)+(pos*sizeof(NoBMais)),SEEK_SET);
+        fwrite(&no,sizeof(NoBMais),1,this->saida);
+        this->fecharSaida();
+    }else{
+    this->log.printErrorMessage(
+        "Erro ao abrir arquivo binário de árvore",
+        "Média",
+        "arquivo.cpp",
+        "Não conseguiu abrir o arquivo",
+        491                    );
+    }
+}
+
+/* Método que busca a proxima posição livre para ser escrita no arquivo bínario de arvore
+ * Entrada:      Cabeçalho do arquivo binario de arvore
+ * Retorno:      Posição livre para escrita
+ * Pré-condição: Variavel nomeEntrada deve possuir o nome correto do arquivo
+ * Pós-condição: Nenhuma
+*/
+int buscaProxPos(CabecalhoArvore cab){
+    if(cab.posLivre == -1){
+        return cab.topo;
+    }
+    
+    return cab.posLivre
+}
+
 //Destrutor padrão da classe Arquivo
 Arquivo::~Arquivo(){
 

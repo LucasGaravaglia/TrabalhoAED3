@@ -218,6 +218,30 @@ public:
     */
     bool criarArquivoArvoreVazio();
 
+    /* Método que lê um nó do arquivo binário de árvore B+
+     * Entrada:      Posição do nó que será lido no arquivo
+     * Retorno:      Nó lido ou NULL caso não exista
+     * Pré-condição: A variavel nomeEntrada deve possuir o nome correto do arquivo
+     * Pós-condição: O nó é lido do arquivo
+    */
+    NoBMais* lerNo(int pos);
+
+    /* Método que escreve um nó no árquivo binário de árvore
+     * Entrada:      Nó da árvore B+ e posição em que será escrito o nó
+     * Retorno:      Nenhum
+     * Pré-condição: A variável nomeSaida deve estar com o nome correto do arquivo
+     * Pós-condição: O nó é escrito no arquivo
+    */
+    void escreverNo(NoBMais no, int pos);
+
+    /* Método que busca a proxima posição livre para ser escrita no arquivo bínario de arvore
+     * Entrada:      Cabeçalho do arquivo binario de arvore
+     * Retorno:      Posição livre para escrita
+     * Pré-condição: Variavel nomeEntrada deve possuir o nome correto do arquivo
+     * Pós-condição: Nenhuma
+    */
+    int buscaProxPos(CabecalhoArvore cab);
+
     //Destrutor padrão da classe Arquivo
     ~Arquivo();
 };

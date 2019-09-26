@@ -5,6 +5,13 @@ BMais::BMais(){
     this->no.numChaves =     0;
     this->no.pai        =     0;
     this->no.ehFolha   = false;
+    this->cab.posLivre = -1;
+    this->cab.raiz = -1;
+    this->cab.topo = 0;
+}
+
+BMais::BMais(NoBMais no){
+    this->no = no;
 }
 
 /* Setter da variável no
@@ -136,7 +143,6 @@ void BMais::insereAux(int chave){
             adicionaDireita(pos,chave,NULL);
         }else{
             NoBMais novoNo;
-            //Ler o novo nó do arquivo: no.filhos[pos]
             this->setNo(novoNo);
             this->insereAux(chave);
         }
