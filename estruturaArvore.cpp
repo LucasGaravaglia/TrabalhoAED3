@@ -72,35 +72,33 @@ int BMais::buscaPos(int chave, int *pos){
  * Pós-condição: O nó sofre split e promove a chave mediana
 */
 int BMais::splitB(int *chavePromovida){
-    NoBMais* novoNo    = new NoBMais;
+    NoBMais novoNo;
     int metadeChaves   = this->no.numChaves/2,i;
-    novoNo->numChaves  = this->no.numChaves - metadeChaves - 1;
+    novoNo.numChaves  = this->no.numChaves - metadeChaves - 1;
     this->no.numChaves = metadeChaves;
     *chavePromovida    = this->no.chave[metadeChaves];
-    novoNo->filhos[0]  = this->no.filhos[metadeChaves + 1];
-    for(i=0;i < novoNo->numChaves;i++){
-        novoNo->chave[i]    = this->no.chave[metadeChaves + 1 + i];
-        novoNo->filhos[i+1] = this->no.filhos[metadeChaves + 2 + i];
+    novoNo.filhos[0]  = this->no.filhos[metadeChaves + 1];
+    for(i=0;i < novoNo.numChaves;i++){
+        novoNo.chave[i]    = this->no.chave[metadeChaves + 1 + i];
+        novoNo.filhos[i+1] = this->no.filhos[metadeChaves + 2 + i];
     }
-    novoNo->pai = this->no.pai;
+    novoNo.pai = this->no.pai;
     //Escreve o antigo nó novamente
-    this->WHFile->escreverNo(this->no,this->pos);
+    this->WHFile.escreverNo(this->no,this->pos);
     if(this->cab.posLivre == -1){
         //Escrevo o novo no, alterando o topo do cabecalho
-        this->WHFile->escreverNo(novoNo,this->cab.topo);
+        this->WHFile.escreverNo(novoNo,this->cab.topo);
         this->cab.topo++;
-        delete(novoNo);
         return (this->cab.topo-1);
     }else{
         //Escrevo o novo no, alterando a posLivre no cabecalho
         NoBMais* tempNo    = new NoBMais;
-        this->WHFile->lerNo(this->cab.posLivre);
+        this->WHFile.lerNo(this->cab.posLivre);
         int novaposLivre = tempNo->pai;
         int possplit = this->cab.posLivre;
         delete(tempNo);
-        this->WHFile->escreverNo(novoNo,this->cab.posLivre);
+        this->WHFile.escreverNo(novoNo,this->cab.posLivre);
         this->cab.posLivre = novaposLivre;
-        delete(novoNo);
         return possplit;
     }
 }
@@ -111,42 +109,40 @@ int BMais::splitB(int *chavePromovida){
  * Pré-condição: Nó não pode ser NULL. Nó Deve estar cheio de chaves
  * Pós-condição: O nó sofre split e promove a chave mediana
 */
-int BMais::splitBMais(int *chavePromovida{
-    NoBMais* novoNo          = new NoBMais;
+int BMais::splitBMais(int *chavePromovida){
+    NoBMais novoNo;
     int metadeChaves         = this->no.numChaves/2,i,x,posnovono;
     x                        = this->no.filhos[ORDEM];
-    novoNo->numChaves        = this->no.numChaves - metadeChaves - 1;
+    novoNo.numChaves        = this->no.numChaves - metadeChaves - 1;
     this->no.numChaves       = metadeChaves;
     //(*ponteiroNovoNo)        = &(this->no.filhos[ORDEM]);
     *chavePromovida          = this->no.chave[metadeChaves];
-    novoNo->filhos[0]        = this->no.filhos[metadeChaves + 1];
-    for(i=0;i < novoNo->numChaves;i++){
-        novoNo->chave[i]    = this->no.chave[metadeChaves + 1 + i];
-        novoNo->filhos[i+1] = this->no.filhos[metadeChaves + 2 + i];
+    novoNo.filhos[0]        = this->no.filhos[metadeChaves + 1];
+    for(i=0;i < novoNo.numChaves;i++){
+        novoNo.chave[i]    = this->no.chave[metadeChaves + 1 + i];
+        novoNo.filhos[i+1] = this->no.filhos[metadeChaves + 2 + i];
     }
-    novoNo->pai = this->no.pai;
-    novoNo->filhos[ORDEM]   = x;
+    novoNo.pai = this->no.pai;
+    novoNo.filhos[ORDEM]   = x;
     if(this->cab.posLivre == -1){
         //Escrevo o novo no, alterando o topo do cabecalho
-        this->WHFile->escreverNo(novoNo,this->cab.topo);
+        this->WHFile.escreverNo(novoNo,this->cab.topo);
         this->no.filhos[ORDEM] = cab.topo;
         this->cab.topo++;
-        delete(novoNo);
         posnovono = (this->cab.topo-1);
     }else{
         //Escrevo o novo no, alterando a posLivre no cabecalho
         NoBMais* tempNo    = new NoBMais;
-        this->WHFile->lerNo(this->cab.posLivre);
+        this->WHFile.lerNo(this->cab.posLivre);
         int novaposLivre = tempNo->pai;
         delete(tempNo);
         posnovono = this->cab.posLivre;
-        this->WHFile->escreverNo(novoNo,this->cab.posLivre);
+        this->WHFile.escreverNo(novoNo,this->cab.posLivre);
         this->no.filhos[ORDEM] = cab.posLivre;
         this->cab.posLivre = novaposLivre;
         delete(tempNo);
-        delete(novoNo);
     }
-    this->WHFile->escreverNo(this->no,this->pos);
+    this->WHFile.escreverNo(this->no,this->pos);
     return posnovono;
 }
 
@@ -165,7 +161,7 @@ void BMais::adicionaDireita(int pos, int chave, int subarvore){
     this->no.chave[pos]    = chave;
     this->no.filhos[pos+1] = subarvore;
     this->no.numChaves++;
-    this->WHFile->escreverNo(this->no,this->pos);
+    this->WHFile.escreverNo(this->no,this->pos);
 }
 
 /* Método que verifica se tem overflow no nó
@@ -191,20 +187,20 @@ void BMais::insereAux(int chave){
         if(this->no.ehFolha){
             adicionaDireita(pos,chave,NULL);
         }else{
-            NoBMais novoNo = new NoBMais();
-            novoNo = this->WHFile->lerNo(this->no.filhos[pos]);
+            NoBMais novoNo;
+            novoNo = this->WHFile.lerNo(this->no.filhos[pos]);
             this->setPos(this->no.filhos[pos]);
             this->setNo(novoNo);
             this->insereAux(chave);
             if(this->overflow()){
                 int m;//valor da chave mediana
                 int nosplit = this->splitBMais(&m);
-                novoNo = this->WHFile->lerNo(this->no.pai);
+                novoNo = this->WHFile.lerNo(this->no.pai);
                 this->setNo(novoNo);
                 this->adicionaDireita(pos,m,nosplit);
             }
             this->setPos(this->no.pai);
-            novoNo = this->WHFile->lerNo(this->no.pai);
+            novoNo = this->WHFile.lerNo(this->no.pai);
             this->setNo(novoNo);
         }
     }
@@ -216,44 +212,44 @@ void BMais::insereAux(int chave){
  * Pre-condicao: Nenhum
  * Pos-condicao: Nenhum
 */
-void BMais::nsere(int chave){
+void BMais::insere(int chave){
     this->cab = this->WHFile.lerCabecalhoArvore();
     if(this->cab.topo == -1){
         this->cab.topo == 1;
         this->no.chave[0] = chave;
-        this->no.filho[0] = NULL;
+        this->no.filhos[0] = NULL;
         this->no.numChaves = 1;
     }else{
-        this->WHRFile.lerNo(this->cab.raiz);
+        this->WHFile.lerNo(this->cab.raiz);
         this->setPos(this->cab.raiz);
         this->insereAux(chave);
         if(this->overflow()){
             int m;
-            int noSplit = this->splitBmais(&m);
+            int noSplit = this->splitBMais(&m);
             NoBMais novaRaiz;
             novaRaiz.chave[0] = m;
             novaRaiz.filhos[0] = this->pos;
             novaRaiz.filhos[1] = noSplit;
             novaRaiz.numChaves = 1;
             if(this->cab.posLivre == -1){
-                this->WHFile->escreverNo(novaRaiz,this->cab.topo);
+                this->WHFile.escreverNo(novaRaiz,this->cab.topo);
                 this->no.pai = this->cab.topo;
                 this->cab.topo++;
             }else{
                 NoBMais *temp = new NoBMais;
-                temp = this->WHFile->lerNo(this->cab.posLivre);
-                this->WHFile->escreverNo(novaRaiz,this->cab.posLivre);
+                temp = this->WHFile.lerNo(this->cab.posLivre);
+                this->WHFile.escreverNo(novaRaiz,this->cab.posLivre);
                 this->no.pai = this->cab.posLivre;
-                this->cab.raiz = this->cab,posLivre;
+                this->cab.raiz = this->cab.posLivre;
                 this->cab.posLivre = temp->pai;
             }
         }
-        this->WHFile->escreverNo(this->no,this->pos);
-        this->WHFile->escreverCabecalhoArvore(this->cab);
+        this->WHFile.escreverNo(this->no,this->pos);
+        this->WHFile.escreverCabecalhoArvore(this->cab);
     }
 }
 
 //destrutor da classe
-~BMais::BMais(){
+BMais::~BMais(){
 
 }
