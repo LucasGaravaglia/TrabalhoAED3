@@ -11,14 +11,14 @@ class BMais{
 private:
     NoBMais no;
     CabecalhoArvore cab;
-    Arquivo *WHFile;
+    Arquivo WHFile;
     int pos;
 public:
     //contrutor da classe
     BMais();
 
     //contrutor da classe
-    //BMais(NoBMais no, CabecalhoArvore cab);
+    BMais(NoBMais no, CabecalhoArvore cab);
 
     //setter da variavel no
     void setNo(NoBMais no);
