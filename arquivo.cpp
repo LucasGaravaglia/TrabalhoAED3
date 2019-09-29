@@ -8,6 +8,12 @@ Arquivo::Arquivo(string nomeEntrada, string nomeSaida){
     this->saida       = NULL;
 }
 
+//Construtor da classe Arquivo
+Arquivo::Arquivo(){
+    this->entrada     = NULL;
+    this->saida       = NULL;
+}
+
 //Setter do nome do arquivo de entrada
 void Arquivo::setNomeEntrada(string nomeEntrada){
     this->nomeEntrada = nomeEntrada;

@@ -17,6 +17,9 @@ public:
     //Construtor da classe Arquivo
     Arquivo(string nomeEntrada, string nomeSaida);
 
+    //Construtor da classe Arquivo
+    Arquivo();
+
     //Setter do nome do arquivo de entrada
     void setNomeEntrada(string nomeEntrada);
 

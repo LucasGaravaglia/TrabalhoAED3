@@ -1,5 +1,6 @@
 #include "arvore.h"
 #include "arquivo.h"
+#include "estruturaArvore.h"
 
 //construtor da classe
 BMais::BMais(){
@@ -10,14 +11,11 @@ BMais::BMais(){
     this->cab.topo     = -1;
     this->cab.raiz     = 0;
     this->pos          = 0;
-    this->WHFile = new Arquivo("arvore.bin","arvore.bin");
+    this->WHFile.setNomeEntrada("arvore.bin");
+    this->WHFile.setNomeSaida("arvore.bin");
+
 }
 
-//contrutor da classe
-BMais::BMais(NoBMais no, CabecalhoArvore cab){
-    this->no = no;
-    this->cab = cab;
-}
 
 //setter da variavel no
 void BMais::setNo(NoBMais no){
@@ -187,21 +185,21 @@ void BMais::insereAux(int chave){
         if(this->no.ehFolha){
             adicionaDireita(pos,chave,NULL);
         }else{
-            NoBMais novoNo;
+            NoBMais *novoNo;
             novoNo = this->WHFile.lerNo(this->no.filhos[pos]);
             this->setPos(this->no.filhos[pos]);
-            this->setNo(novoNo);
+            this->no = *novoNo;
             this->insereAux(chave);
             if(this->overflow()){
                 int m;//valor da chave mediana
                 int nosplit = this->splitBMais(&m);
                 novoNo = this->WHFile.lerNo(this->no.pai);
-                this->setNo(novoNo);
+                this->no = *novoNo;
                 this->adicionaDireita(pos,m,nosplit);
             }
             this->setPos(this->no.pai);
             novoNo = this->WHFile.lerNo(this->no.pai);
-            this->setNo(novoNo);
+            this->no = *novoNo;
         }
     }
 }
@@ -213,7 +211,7 @@ void BMais::insereAux(int chave){
  * Pos-condicao: Nenhum
 */
 void BMais::insere(int chave){
-    this->cab = this->WHFile.lerCabecalhoArvore();
+    this->cab = *(this->WHFile.lerCabecalhoArvore());
     if(this->cab.topo == -1){
         this->cab.topo == 1;
         this->no.chave[0] = chave;

@@ -17,9 +17,6 @@ public:
     //contrutor da classe
     BMais();
 
-    //contrutor da classe
-    BMais(NoBMais no, CabecalhoArvore cab);
-
     //setter da variavel no
     void setNo(NoBMais no);
 
