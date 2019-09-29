@@ -1,4 +1,4 @@
-#include "estruturaArvore.h"
+#include "arvore.h"
 #include "arquivo.h"
 
 //construtor da classe
