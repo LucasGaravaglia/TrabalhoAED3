@@ -4,18 +4,18 @@
 
 //construtor da classe
 BMais::BMais(){
-    this->no.numChaves = 0;
-    this->no.pai       = 0;
-    this->no.ehFolha   = true;
-    this->cab.posLivre = -1;
-    this->cab.topo     = -1;
-    this->cab.raiz     = 0;
-    this->pos          = 0;
+    this->no.numChaves     = 0;
+    this->no.pai           = 0;
+    this->no.ehFolha       = true;
+    this->cab.posLivre     = -1;
+    this->cab.topo         = -1;
+    this->cab.raiz         = 0;
+    this->no.filhos[ORDEM] = 0;
+    this->pos              = 0;
     this->WHFile.setNomeEntrada("arvore.bin");
     this->WHFile.setNomeSaida("arvore.bin");
 
 }
-
 
 //setter da variavel no
 void BMais::setNo(NoBMais no){
@@ -101,7 +101,7 @@ int BMais::splitB(int *chavePromovida){
     }
 }
 
-/* Método que faz o split de um nó interno(Não folha)
+/* Método que faz o split de um nó interno(Folha)
  * Entrada:      Nó BMais e ponteiro para a chave que foi promovida
  * Retorno:      Nó criado pelo split
  * Pré-condição: Nó não pode ser NULL. Nó Deve estar cheio de chaves
@@ -113,7 +113,6 @@ int BMais::splitBMais(int *chavePromovida){
     x                        = this->no.filhos[ORDEM];
     novoNo.numChaves        = this->no.numChaves - metadeChaves - 1;
     this->no.numChaves       = metadeChaves;
-    //(*ponteiroNovoNo)        = &(this->no.filhos[ORDEM]);
     *chavePromovida          = this->no.chave[metadeChaves];
     novoNo.filhos[0]        = this->no.filhos[metadeChaves + 1];
     for(i=0;i < novoNo.numChaves;i++){
@@ -217,6 +216,7 @@ void BMais::insere(int chave){
         this->no.chave[0] = chave;
         this->no.filhos[0] = NULL;
         this->no.numChaves = 1;
+        this->setPos(0);
     }else{
         this->WHFile.lerNo(this->cab.raiz);
         this->setPos(this->cab.raiz);
