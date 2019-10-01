@@ -26,33 +26,41 @@ void printVet(int *v, int n){
     printf("\n");
 }
 
+void debug(int pos,bool eh_folha = false,bool prox_folha = false ,bool nos = false,bool pai= false){
+    NoBMais* n;
+    n = arvore->lerNo(pos);
+    printf("-------------------------------\n");
+    printf("pos = %d\n",pos);
+    if(nos) printVet(n->chave,n->numChaves);
+    if(n->ehFolha) printf("eh_folha\n"); else printf("nao_folha\n");
+    if(prox_folha) printf("prox folha = %d\n",n->filhos[ORDEM]);
+    if(pai) printf("pai = %d",n->pai);
+    printf("-------------------------------\n");
+    delete(n);
+
+
+}
+
 int main(){
     BMais *a = new BMais();
     inicializarArquivos("livros.bin","arvore.bin");
-    NoBMais *n;
     CabecalhoArvore cab;
     a->insere(8);
     a->insere(10);
     a->insere(7);
     a->insere(9);
-    // a->insere(6);
-    // a->insere(13);
-    //a->insere(12);
-    //a->insere(13);
+    a->insere(6);
+    a->insere(2);
+    a->insere(3);
+    a->insere(4);
     //a->insere(14);
-    // ..........n = arvore->lerNo(2);
-    // ..........printVet(n->chave,n->numChaves);
-    // ..........printf("pai = %d\n",n->pai);
-    // ..........n = arvore->lerNo(0);
-    // ..........printVet(n->chave,n->numChaves);
-    // ..........printf("pai = %d\n",n->pai);
-    n = arvore->lerNo(0);
-    printVet(n->chave,n->numChaves);
-    printf("pai = %d\neh filho %d",n->pai,n->ehFolha);
-    // cab = a->getCab();
-    // printf("raiz = %d, topo = %d, poslivre = %d",cab.raiz,cab.topo,cab.posLivre);
-    //n = arvore->lerNo(3);
-    //printVet(n->chave,n->numChaves);
-    delete livros; delete arvore; delete n;
+    // if(a->buscaNo(10) == -1) printf("no nao encontrado");
+    // else printf("no encontrado");
+    debug(2,true,true,true,false);
+    debug(0,true,true,true,false);
+    debug(1,true,true,true,false);
+    debug(3,true,true,true,false);
+    
+    delete livros; delete arvore;
     return 0;
 }
