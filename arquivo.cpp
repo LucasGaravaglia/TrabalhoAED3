@@ -123,7 +123,7 @@ CabecalhoArvore* Arquivo::lerCabecalhoArvore(){
  * Pós-condição: O arquivo binário vazio de livros é escrito
 */
 void Arquivo::escreverArquivoLivrosVazio(){
-    this->saida = fopen(this->nomeSaida.c_str(),"r+w");
+    this->saida = fopen(this->nomeSaida.c_str(),"w+b");
     if(this->saida != NULL){
         CabecalhoLivro cab;
         cab.posLivre = -1;
@@ -143,7 +143,7 @@ void Arquivo::escreverArquivoLivrosVazio(){
  * Pós-condição: O arquivo binário vazio de árvore é escrito
 */
 void Arquivo::escreverArquivoArvoreVazio(){
-    this->saida = fopen(this->nomeSaida.c_str(),"r+w");
+    this->saida = fopen(this->nomeSaida.c_str(),"w+b");
     if(this->saida != NULL){
         CabecalhoArvore cab;
         cab.posLivre = -1;
