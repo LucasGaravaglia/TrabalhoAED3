@@ -20,6 +20,19 @@ void inicializarArquivos(string liv, string arv){
     livros->escreverArquivoLivrosVazio();
 }
 
+// void debug(int pos,bool eh_folha = false,bool prox_folha = false ,bool nos = false,bool pai= false){
+//     NoBMais* n;
+//     n = arvore->lerNo(pos);
+//     printf("-------------------------------\n");
+//     printf("pos = %d\n",pos);
+//     if(nos) printvetBMais(n->chave,n->numChaves);
+//     if(n->ehFolha) printf("eh_folha\n"); else printf("nao_folha\n");
+//     if(prox_folha) printf("prox folha = %d\n",n->filhos[ORDEM]);
+//     if(pai) printf("pai = %d",n->pai);
+//     printf("-------------------------------\n");
+//     delete(n);
+// }
+
 int main(){
     inicializarArquivos("livros.bin","arvore.bin");
     arv = new BMais();
@@ -29,8 +42,11 @@ int main(){
     arv->insere(40);
     arv->insere(50);
     arv->insere(60);
-    arv->insere(70);
-    //imprimirArvore(4);
+    NoBMais teste;
+    teste = arv->
+    printf("------%d\n")
+    // arv->insere(70);
+    // debug(1,false,false,false,true);
     arv->imprimirTodoOsNiveis();
     printf("Altura: %d\n",arv->altura());
     delete livros; delete arvore; delete arv; delete no; delete cab;

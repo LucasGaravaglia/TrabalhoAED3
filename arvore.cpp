@@ -237,16 +237,18 @@ void BMais::insere(int chave){
             novoNo.numChaves = 1;
             novoNo.ehFolha = false;
             if(this->cab.posLivre == -1){
-                this->WHFile.escreverNo(novoNo,this->cab.topo);
-                this->no.pai = this->cab.raiz;
-                this->cab.raiz = this->cab.topo;
                 novoNo.pai = this->cab.raiz;
+                this->WHFile.escreverNo(novoNo,this->cab.topo);
+                // this->no.pai = this->cab.topo;
+                this->cab.raiz = this->cab.topo;
+                this->no = novoNo;
+                this->setPos(this->cab.topo);
                 this->cab.topo++;
             }else{
                 NoBMais *temp = new NoBMais;
                 temp = this->WHFile.lerNo(this->cab.posLivre);
                 this->WHFile.escreverNo(novoNo,this->cab.posLivre);
-                this->no.pai = this->cab.posLivre;
+                // this->no.pai = this->cab.posLivre;
                 this->cab.raiz = this->cab.posLivre;
                 novoNo.pai = this->cab.raiz;
                 this->cab.posLivre = temp->pai;
@@ -288,7 +290,7 @@ void BMais::printVetBMais(int *v, int n){
 /* Método que imprime um nivel da árvore b+
  * Entrada:      Nível a ser impresso e nível atual
  * Retorno:      Nenhum
- * Pré-condição: O nó da classe deve ser a raiz.
+ * Pré-condição: Raiz não nula
  * Pós-condição: O nível é impresso por nível.
 */
 void BMais::imprimirPorNivel(int nivel, int atual){

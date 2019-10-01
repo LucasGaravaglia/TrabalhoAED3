@@ -108,7 +108,7 @@ public:
     /* Método que imprime um nivel da árvore b+
      * Entrada:      Nível a ser impresso e nível atual
      * Retorno:      Nenhum
-     * Pré-condição: O nó da classe deve ser a raiz.
+     * Pré-condição: Raiz não nula
      * Pós-condição: O nível é impresso por nível.
     */
     void imprimirPorNivel(int nivel, int atual);
