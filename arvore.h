@@ -97,6 +97,14 @@ public:
     */
     void insere(int chave);
 
+    /* Método que busca um nó que contenha a chave fornecida
+     * Entrada:      Chave a ser procurada
+     * Retorno:      Posição do nó que contém a chave ou -1 caso ela não exista
+     * Pré-condição: Nenhuma
+     * Pós-condição: Nenhuma
+    */
+    int buscaNo(int chave);
+
     //destrutor da classe
     ~BMais();
 };
