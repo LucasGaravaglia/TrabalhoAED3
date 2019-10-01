@@ -97,13 +97,37 @@ public:
     */
     void insere(int chave);
 
-    /* Método que busca um nó que contenha a chave fornecida
-     * Entrada:      Chave a ser procurada
-     * Retorno:      Posição do nó que contém a chave ou -1 caso ela não exista
+    /* Método que imprime um vetor da árvore B+
+     * Entrada:      Vetor e tamanho do vetor
+     * Retorno:      Nenhum
      * Pré-condição: Nenhuma
      * Pós-condição: Nenhuma
     */
-    int buscaNo(int chave);
+    void printVetBMais(int *v, int n);
+
+    /* Método que imprime um nivel da árvore b+
+     * Entrada:      Nível a ser impresso e nível atual
+     * Retorno:      Nenhum
+     * Pré-condição: O nó da classe deve ser a raiz.
+     * Pós-condição: O nível é impresso por nível.
+    */
+    void imprimirPorNivel(int nivel, int atual);
+
+    /* Método que calcula a altura da árvore B+
+     * Entrada:      Nenhuma
+     * Retorno:      Altura da árvore B+
+     * Pré-condição: Raiz não nula
+     * Pós-condição: A altura da árvore é calculada e retornada
+    */
+    int altura();
+
+    /* Método que imprime todos os níveis da árvore b+
+     * Entrada:      Nenhuma
+     * Retorno:      Nenhum
+     * Pré-condição: Nenhuma
+     * Pós-condição: Todos os níveis da árvore são impressos
+    */
+    void imprimirTodoOsNiveis();
 
     //destrutor da classe
     ~BMais();
