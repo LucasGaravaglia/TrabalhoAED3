@@ -10,7 +10,7 @@ BMais::BMais(){
     this->cab.posLivre     = -1;
     this->cab.topo         = 0;
     this->cab.raiz         =-1;
-    this->no.filhos[ORDEM] = 0;
+    this->no.filhos[ORDEM] = -1;
     this->pos              = 0;
     this->WHFile.setNomeEntrada("arvore.bin");
     this->WHFile.setNomeSaida("arvore.bin");
@@ -71,12 +71,13 @@ int BMais::buscaPos(int chave, int *pos){
 */
 int BMais::splitB(int *chavePromovida){
     NoBMais novoNo;
-    int metadeChaves   = this->no.numChaves/2,i;
-    novoNo.numChaves  = this->no.numChaves - metadeChaves - 1;
+    int metadeChaves   = this->no.numChaves/2,i,posnovono;
+    novoNo.numChaves   = this->no.numChaves - metadeChaves - 1;
     this->no.numChaves = metadeChaves;
     *chavePromovida    = this->no.chave[metadeChaves];
-    novoNo.filhos[0]  = this->no.filhos[metadeChaves + 1];
-    for(i=metadeChaves;i < ORDEM;i++){
+    novoNo.filhos[0]   = this->no.filhos[metadeChaves + 1];
+    novoNo.ehFolha = false;
+    for(i=0;i < novoNo.numChaves;i++){
         novoNo.chave[i]    = this->no.chave[metadeChaves + 1 + i];
         novoNo.filhos[i+1] = this->no.filhos[metadeChaves + 2 + i];
     }
@@ -86,8 +87,8 @@ int BMais::splitB(int *chavePromovida){
     if(this->cab.posLivre == -1){
         //Escrevo o novo no, alterando o topo do cabecalho
         this->WHFile.escreverNo(novoNo,this->cab.topo);
+        posnovono = (this->cab.topo);
         this->cab.topo++;
-        return (this->cab.topo-1);
     }else{
         //Escrevo o novo no, alterando a posLivre no cabecalho
         NoBMais tempNo;
@@ -96,8 +97,15 @@ int BMais::splitB(int *chavePromovida){
         int possplit = this->cab.posLivre;
         this->WHFile.escreverNo(novoNo,this->cab.posLivre);
         this->cab.posLivre = novaposLivre;
-        return possplit;
+        return possplit;/*  ARRUMAR OS FILHOS DO NOVO NO */
     }
+    NoBMais filho;
+    for(i=0;i<=novoNo.numChaves+1;i++){
+        filho = this->WHFile.lerNo(novoNo.filhos[i]);
+        filho.pai = posnovono;
+        this->WHFile.escreverNo(filho,novoNo.filhos[i]);
+    }
+    return posnovono;
 }
 
 /* Método que faz o split de um nó interno(Folha)
@@ -107,25 +115,28 @@ int BMais::splitB(int *chavePromovida){
  * Pós-condição: O nó sofre split e promove a chave mediana
 */
 int BMais::splitBMais(int *chavePromovida){
-     NoBMais novoNo;
+    NoBMais novoNo;
     int metadeChaves         = this->no.numChaves/2,i,x,posnovono;
+    for(i=0;i<ORDEM;i++)
+        novoNo.filhos[i] = -1;
     x                        = this->no.filhos[ORDEM];
     novoNo.numChaves         = this->no.numChaves - metadeChaves - 1;
+    novoNo.ehFolha           = true;
     this->no.numChaves       = metadeChaves;
     *chavePromovida          = this->no.chave[metadeChaves];
-    for(i=metadeChaves;i < ORDEM;i++){//alterado, revisar
+    for(i=0;i < novoNo.numChaves;i++){//alterado, revisar
         novoNo.chave[i+1]    = this->no.chave[metadeChaves + 1 + i];
     }
     novoNo.chave[0]    = this->no.chave[metadeChaves];
     novoNo.numChaves++;
-    novoNo.pai = this->no.pai;
     novoNo.filhos[ORDEM]   = x;
+    novoNo.pai = this->no.pai;
     if(this->cab.posLivre == -1){
         //Escrevo o novo no, alterando o topo do cabecalho
         this->WHFile.escreverNo(novoNo,this->cab.topo);
         this->no.filhos[ORDEM] = cab.topo;
+        posnovono = (this->cab.topo);
         this->cab.topo++;
-        posnovono = (this->cab.topo-1);
     }else{
         //Escrevo o novo no, alterando a posLivre no cabecalho
         NoBMais tempNo;
@@ -192,7 +203,11 @@ void BMais::insereAux(int chave){
                     nosplit = this->splitB(&m);
                 }
                 this->mudarNo(this->no.pai); //Volta o pai para o nó atual
+                NoBMais temp = this->WHFile.lerNo(nosplit);
+                temp.pai = this->pos;
+                this->WHFile.escreverNo(temp,nosplit);
                 this->adicionaDireita(posChave,m,nosplit);
+                
             }else{
                 this->mudarNo(this->no.pai); //Volta o pai para o nó atual
             }
@@ -255,8 +270,10 @@ void BMais::insere(int chave){
             NoBMais filho;
             for(i=0;i<=this->no.numChaves+1;i++){ //Arrumando os ponteiros dos filhos para os pais
                 filho = this->WHFile.lerNo(this->no.filhos[i]);
-                filho.pai = this->pos;
-                this->WHFile.escreverNo(filho,this->no.filhos[i]);
+                if(filho.numChaves != -1){
+                    filho.pai = this->pos;
+                    this->WHFile.escreverNo(filho,this->no.filhos[i]);
+                }
             }
         }
     }
@@ -317,7 +334,7 @@ int BMais::altura(){
     CabecalhoArvore cab = this->WHFile.lerCabecalhoArvore();
     aux.no = this->WHFile.lerNo(cab.raiz);
     for(;aux.no.filhos[0] != -1;altura++){
-        aux.no = this->WHFile.lerNo(this->no.filhos[0]);
+        aux.mudarNo(aux.no.filhos[0]);
     }
     return altura + 1;
 }
@@ -367,6 +384,8 @@ void BMais::DeBug(int pos){
     printf("\nchave = ");
     for(i=0;i<this->no.numChaves;i++)
         printf(" %d | ",this->no.chave[i]);
+    if(this->no.ehFolha)
+        printf("\nproxima folha = %d",this->no.filhos[ORDEM]);
     printf("\n\n");    
 }
 
