@@ -76,7 +76,7 @@ int BMais::splitB(int *chavePromovida){
     this->no.numChaves = metadeChaves;
     *chavePromovida    = this->no.chave[metadeChaves];
     novoNo.filhos[0]  = this->no.filhos[metadeChaves + 1];
-    for(i=0;i < novoNo.numChaves;i++){
+    for(i=metadeChaves;i < ORDEM;i++){
         novoNo.chave[i]    = this->no.chave[metadeChaves + 1 + i];
         novoNo.filhos[i+1] = this->no.filhos[metadeChaves + 2 + i];
     }
@@ -90,11 +90,10 @@ int BMais::splitB(int *chavePromovida){
         return (this->cab.topo-1);
     }else{
         //Escrevo o novo no, alterando a posLivre no cabecalho
-        NoBMais* tempNo    = new NoBMais;
-        this->WHFile.lerNo(this->cab.posLivre);
-        int novaposLivre = tempNo->pai;
+        NoBMais tempNo;
+        tempNo = this->WHFile.lerNo(this->cab.posLivre);
+        int novaposLivre = tempNo.pai;
         int possplit = this->cab.posLivre;
-        delete(tempNo);
         this->WHFile.escreverNo(novoNo,this->cab.posLivre);
         this->cab.posLivre = novaposLivre;
         return possplit;
@@ -108,16 +107,14 @@ int BMais::splitB(int *chavePromovida){
  * Pós-condição: O nó sofre split e promove a chave mediana
 */
 int BMais::splitBMais(int *chavePromovida){
-    NoBMais novoNo;
+     NoBMais novoNo;
     int metadeChaves         = this->no.numChaves/2,i,x,posnovono;
     x                        = this->no.filhos[ORDEM];
     novoNo.numChaves         = this->no.numChaves - metadeChaves - 1;
     this->no.numChaves       = metadeChaves;
     *chavePromovida          = this->no.chave[metadeChaves];
-    novoNo.filhos[0]         = this->no.filhos[metadeChaves + 1];
-    for(i=0;i < novoNo.numChaves;i++){
+    for(i=metadeChaves;i < ORDEM;i++){//alterado, revisar
         novoNo.chave[i+1]    = this->no.chave[metadeChaves + 1 + i];
-        novoNo.filhos[i+1] = this->no.filhos[metadeChaves + 2 + i];
     }
     novoNo.chave[0]    = this->no.chave[metadeChaves];
     novoNo.numChaves++;
@@ -131,16 +128,15 @@ int BMais::splitBMais(int *chavePromovida){
         posnovono = (this->cab.topo-1);
     }else{
         //Escrevo o novo no, alterando a posLivre no cabecalho
-        NoBMais* tempNo    = new NoBMais;
-        this->WHFile.lerNo(this->cab.posLivre);
-        int novaposLivre = tempNo->pai;
-        delete(tempNo);
+        NoBMais tempNo;
+        tempNo = this->WHFile.lerNo(this->cab.posLivre);
+        int novaposLivre = tempNo.pai;
         posnovono = this->cab.posLivre;
         this->WHFile.escreverNo(novoNo,this->cab.posLivre);
         this->no.filhos[ORDEM] = cab.posLivre;
         this->cab.posLivre = novaposLivre;
-        delete(tempNo);
     }
+    //Escreve o antigo nó novamente
     this->WHFile.escreverNo(this->no,this->pos);
     return posnovono;
 }
@@ -170,7 +166,7 @@ void BMais::adicionaDireita(int pos, int chave, int subarvore){
  * Pos-condicao: Nenhuma
 */
 bool BMais::overflow(){
-    return (this->no.numChaves == ORDEM);
+    return this->no.numChaves == ORDEM;
 }
 
 /* Método auxiliar para inserir uma chave
@@ -180,30 +176,29 @@ bool BMais::overflow(){
  * Pós-condição: A chave é inserida na árvore
 */
 void BMais::insereAux(int chave){
-    int pos;
-    if(!this->buscaPos(chave,&pos)){ //Chave não está no nó atual
+    int posChave;
+    if(!this->buscaPos(chave,&posChave)){ //Chave não está no nó atual
         if(this->no.ehFolha){
-            adicionaDireita(pos,chave,-1);
-        }else{
-            NoBMais *novoNo;
-            novoNo = this->WHFile.lerNo(this->no.filhos[pos]);
-            novoNo->pai = this->pos;
-            this->setPos(this->no.filhos[pos]);
-            this->no = *novoNo;
+            adicionaDireita(posChave,chave,-1);
+        }else{ //Não é folha
+            this->mudarNo(this->no.filhos[posChave]);
             this->insereAux(chave);
             if(this->overflow()){
                 int m;//valor da chave mediana
-                int nosplit = this->splitBMais(&m);
-                novoNo = this->WHFile.lerNo(this->no.pai);
-                this->setPos(this->no.pai);
-                this->no = *novoNo;
-                this->adicionaDireita(pos,m,nosplit);
+                int nosplit;
+                if(this->no.ehFolha){
+                    nosplit = this->splitBMais(&m);
+                }else{
+                    nosplit = this->splitB(&m);
+                }
+                this->mudarNo(this->no.pai); //Volta o pai para o nó atual
+                this->adicionaDireita(posChave,m,nosplit);
+            }else{
+                this->mudarNo(this->no.pai); //Volta o pai para o nó atual
             }
-            this->setPos(this->no.pai);
-            novoNo = this->WHFile.lerNo(this->no.pai);
-            this->no = *novoNo;
-            delete(novoNo);
         }
+    }else{
+        printf("A chave já existe na árvore\n");
     }
 }
 
@@ -214,59 +209,59 @@ void BMais::insereAux(int chave){
  * Pos-condicao: Nenhum
 */
 void BMais::insere(int chave){
-    this->cab = *(this->WHFile.lerCabecalhoArvore());
-    if(this->cab.topo == 0){
+    this->cab = this->WHFile.lerCabecalhoArvore();
+    if(this->cab.topo == 0){ //Não tem raiz
         this->no.pai       = 0;
         this->cab.topo     = 1;
         this->cab.raiz     = 0;
         this->no.chave[0]  = chave;
         this->no.filhos[0] = -1;
+        this->no.filhos[1] = -1;
         this->no.numChaves = 1;
-        this->setPos(0);
+        this->setPos(0); //Posição em que foi inserida a raiz
     }else{
-        this->no = *(this->WHFile.lerNo(this->cab.raiz));
-        this->setPos(this->cab.raiz);
+        this->mudarNo(this->cab.raiz); //Coloca a raiz no nó atual
         this->insereAux(chave);
         if(this->overflow()){
             int chavePromovida;
-            int noSplit = this->splitBMais(&chavePromovida);
-            NoBMais novoNo;
-            novoNo.chave[0]  = chavePromovida;
-            novoNo.filhos[0] = this->pos;
-            novoNo.filhos[1] = noSplit;
-            novoNo.numChaves = 1;
-            novoNo.ehFolha = false;
-            if(this->cab.posLivre == -1){
-                novoNo.pai = this->cab.raiz;
-                this->WHFile.escreverNo(novoNo,this->cab.topo);
-                // this->no.pai = this->cab.topo;
-                this->cab.raiz = this->cab.topo;
-                this->no = novoNo;
-                this->setPos(this->cab.topo);
-                this->cab.topo++;
+            int noSplit;
+            if(this->no.ehFolha){
+                noSplit = this->splitBMais(&chavePromovida);
             }else{
-                NoBMais *temp = new NoBMais;
+                noSplit = this->splitB(&chavePromovida);
+            }
+            NoBMais novaraiz;
+            novaraiz.chave[0]  = chavePromovida;
+            novaraiz.filhos[0] = this->pos;
+            novaraiz.filhos[1] = noSplit;
+            novaraiz.numChaves = 1;
+            novaraiz.ehFolha   = false;
+            if(this->cab.posLivre == -1){ //Inserir no topo
+                novaraiz.pai = this->cab.raiz;// PERIGOSO
+                this->WHFile.escreverNo(novaraiz,this->cab.topo); 
+                this->cab.raiz = this->cab.topo;
+                this->mudarNo(this->cab.topo); //Coloca a nova Raiz no nó atual
+                this->cab.topo++;
+            }else{ //Inserir no posLivre /* OLHAR DEPOIS */
+                NoBMais temp;
                 temp = this->WHFile.lerNo(this->cab.posLivre);
-                this->WHFile.escreverNo(novoNo,this->cab.posLivre);
+                this->WHFile.escreverNo(novaraiz,this->cab.posLivre);
                 // this->no.pai = this->cab.posLivre;
                 this->cab.raiz = this->cab.posLivre;
-                novoNo.pai = this->cab.raiz;
-                this->cab.posLivre = temp->pai;
+                novaraiz.pai = this->cab.raiz; /* INSERIR O NÓ NO ARQUIVO DEPOIS DISSO */
+                this->cab.posLivre = temp.pai;
             }
-            NoBMais novopai;
+            NoBMais filho;
             int i;
-            novopai = *(this->WHFile.lerNo(this->no.filhos[0]));
-            novopai.pai = this->pos;
-            this->WHFile.escreverNo(novopai,this->no.filhos[0]);
-            for(i=0;i<this->no.numChaves;i++){
-                novopai = *(this->WHFile.lerNo(this->no.filhos[i+1]));
-                novopai.pai = this->pos;
-                this->WHFile.escreverNo(novopai,this->no.filhos[i+1]);
+            for(i=0;i<=this->no.numChaves;i++){ //Arrumando os ponteiros dos filhos para os pais
+                filho = this->WHFile.lerNo(this->no.filhos[i]);
+                filho.pai = this->pos;
+                this->WHFile.escreverNo(filho,this->no.filhos[i]);
             }
         }
     }
-        this->WHFile.escreverCabecalhoArvore(this->cab);
-        this->WHFile.escreverNo(this->no,this->pos);
+    this->WHFile.escreverCabecalhoArvore(this->cab);
+    this->WHFile.escreverNo(this->no,this->pos);
 }
 
 /* Método que imprime um vetor da árvore B+
@@ -295,22 +290,24 @@ void BMais::printVetBMais(int *v, int n){
 */
 void BMais::imprimirPorNivel(int nivel, int atual){
     if(nivel == atual){
+        printf("Entrou no primeiro if:\n");
         this->printVetBMais(this->no.chave,this->no.numChaves);
     }else{
-        int i;
-        CabecalhoArvore * cab = this->WHFile.lerCabecalhoArvore();
+        int i,posVoltar;
         BMais *aux = this;
         if(atual <= nivel){
-            for(i=0;i<ORDEM && this->no.filhos[i] != -1;i++){
-                aux->no = *this->WHFile.lerNo(cab->raiz);
-                aux->no = *this->WHFile.lerNo(this->no.filhos[i]);
+            for(i=0;i<aux->no.numChaves+1 && aux->no.filhos[i] != -1;i++){
+                printf("\nChave antes: %d\n",aux->no.chave[0]);
+                printf("filho direita: %d\n",aux->no.filhos[i+1]);
+                printf("filho esquerda: %d\n",aux->no.filhos[i]);
+                aux->mudarNo(aux->no.filhos[i]); //Coloca o nó no próximo filho
                 aux->imprimirPorNivel(nivel,atual+1);
+                aux->mudarNo(aux->no.pai);
+                printf("\nChave depois: %d\n",aux->no.chave[0]);
+                printf("Condição do for: %d\n",aux->no.filhos[i] == -1);
             }
-            // aux->no = *this->WHFile.lerNo(cab->raiz);
-            // aux->no = *this->WHFile.lerNo(this->no.filhos[i]);
-            // aux->imprimirPorNivel(nivel,atual+1);
         }
-        delete aux; delete cab;
+        delete aux;
     }
 }
 
@@ -323,12 +320,11 @@ void BMais::imprimirPorNivel(int nivel, int atual){
 int BMais::altura(){
     int altura=0;
     BMais aux;
-    CabecalhoArvore *cab = this->WHFile.lerCabecalhoArvore();
-    aux.no = *this->WHFile.lerNo(cab->raiz);
+    CabecalhoArvore cab = this->WHFile.lerCabecalhoArvore();
+    aux.no = this->WHFile.lerNo(cab.raiz);
     for(;aux.no.filhos[0] != -1;altura++){
-        aux.no = *this->WHFile.lerNo(this->no.filhos[0]);
+        aux.no = this->WHFile.lerNo(this->no.filhos[0]);
     }
-    delete cab;
     return altura + 1;
 }
 
@@ -339,17 +335,33 @@ int BMais::altura(){
  * Pós-condição: Todos os níveis da árvore são impressos
 */
 void BMais::imprimirTodoOsNiveis(){
-    int i,alt;
-    NoBMais aux          = this->no;
-    CabecalhoArvore* cab = this->WHFile.lerCabecalhoArvore();
-    this->no             = *this->WHFile.lerNo(cab->raiz);
+    int i,alt,posAtual;
+    posAtual            = this->pos;
+    CabecalhoArvore cab = this->WHFile.lerCabecalhoArvore();
+    this->mudarNo(cab.raiz);
     alt                  = this->altura();
     for(i=0;i<alt;i++){
         this->imprimirPorNivel(i,0);
         printf("\n");
     }
-    this->no = aux;
-    delete cab;
+    this->mudarNo(posAtual);
+}
+
+/* Método que muda o nó que está carregado na classe
+ * Entrada:      Posição do nó que será carregado do arquivo
+ * Retorno:      Nenhum
+ * Pré-condição: Nenhum
+ * Pós-condição: O nó é carregado para a classe
+*/
+void BMais::mudarNo(int posNo){
+    NoBMais aux;
+    aux = this->WHFile.lerNo(posNo);
+    if(aux.numChaves != -1){ //Sucesso na leitura. Muda o nó que está na classe
+        this->setPos(posNo);
+        this->no = this->WHFile.lerNo(posNo);
+    }else{
+        printf("Erro, não foi possível ler a posição no arquivo arvore.bin\n");
+    }
 }
 
 //destrutor da classe

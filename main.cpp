@@ -41,11 +41,8 @@ int main(){
     arv->insere(30);
     arv->insere(40);
     arv->insere(50);
-    arv->insere(60);
-    NoBMais teste;
-    teste = arv->
-    printf("------%d\n")
-    // arv->insere(70);
+    //arv->insere(60);
+    //arv->insere(70);
     // debug(1,false,false,false,true);
     arv->imprimirTodoOsNiveis();
     printf("Altura: %d\n",arv->altura());

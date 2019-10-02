@@ -63,21 +63,22 @@ void Arquivo::escreverCabecalhoLivro(CabecalhoLivro cab){
 
 /* Método que lê o cabeçalho no arquivo binário de livros
  * Entrada:      Nenhuma
- * Retorno:      Cabeçalho lido ou NULL caso não consiga ler
+ * Retorno:      Cabeçalho lido ou -1 no cab.topo caso não consiga ler
  * Pré-condição: A variável nomeEntrada deve possuir o nome correto do arquivo de entrada
  * Pós-condição: O cabeçalho é lido do arquivo binário de livros
 */
-CabecalhoLivro* Arquivo::lerCabecalhoLivro(){
+CabecalhoLivro Arquivo::lerCabecalhoLivro(){
     this->entrada = fopen(this->nomeEntrada.c_str(),"r+b");
+    CabecalhoLivro cab;
     if(this->entrada != NULL){
-        CabecalhoLivro* cab = new CabecalhoLivro;
         fseek(this->entrada,0,SEEK_SET);
-        fread(cab,sizeof(CabecalhoLivro),1,this->entrada);
+        fread(&cab,sizeof(CabecalhoLivro),1,this->entrada);
         fclose(this->entrada);
-        return cab;
     }
+    cab.posLivre = -1;
+    cab.topo     = -1;
     printf("Erro ao abrir arquivo\n");
-    return NULL;
+    return cab;
 }
 
 /* Método que escreve o cabeçalho no arquivo binário de árvore
@@ -99,21 +100,24 @@ void Arquivo::escreverCabecalhoArvore(CabecalhoArvore cab){
 
 /* Método que lê o cabeçalho no arquivo binário de árvore
  * Entrada:      Nenhuma
- * Retorno:      Cabeçalho lido
+ * Retorno:      Cabeçalho lido ou cab.topo -1 caso não consiga ler
  * Pré-condição: A variável nomeEntrada deve possuir o nome correto do arquivo de entrada
  * Pós-condição: O cabeçalho é lido do arquivo binário de árvore
 */
-CabecalhoArvore* Arquivo::lerCabecalhoArvore(){
+CabecalhoArvore Arquivo::lerCabecalhoArvore(){
     this->entrada = fopen(this->nomeEntrada.c_str(),"r+b");
+    CabecalhoArvore cab;
     if(this->entrada != NULL){
-        CabecalhoArvore* cab = new CabecalhoArvore;
         fseek(this->entrada,0,SEEK_SET);
-        fread(cab,sizeof(CabecalhoArvore),1,this->entrada);
+        fread(&cab,sizeof(CabecalhoArvore),1,this->entrada);
         fclose(this->entrada);
         return cab;
     }
+    cab.topo      = -1;
+    cab.posLivre  = -1;
+    cab.raiz      = -1;
     printf("Erro ao abrir arquivo\n");
-    return NULL;
+    return cab;
 }
 
 /* Método que escreve o arquivo binário vazio de livros
@@ -176,21 +180,22 @@ void Arquivo::escreverLivro(InfoLivro livro, int pos){
 
 /* Método que lê um livro do arquivo binário de livros
  * Entrada:      Posição da qual será lida o livro no arquivo
- * Retorno:      Livro lido
+ * Retorno:      Livro lido ou livro.quantidade -1 caso não consiga ler
  * Pré-condição: A variável nomeEntrada deve possuir o nome correto do arquivo de entrada
  * Pós-condição: O livro na posição fornecida é lido e retornado
 */
-InfoLivro* Arquivo::lerLivro(int pos){
+InfoLivro Arquivo::lerLivro(int pos){
     this->entrada = fopen(this->nomeEntrada.c_str(),"r+b");
+        InfoLivro livro;
     if(this->entrada != NULL){
-        InfoLivro* livro = new InfoLivro;
         fseek(this->entrada,sizeof(CabecalhoLivro) + (pos * sizeof(InfoLivro)),SEEK_SET);
-        fread(livro,sizeof(InfoLivro),1,this->entrada);
+        fread(&livro,sizeof(InfoLivro),1,this->entrada);
         fclose(this->entrada);
         return livro;
     }
+    livro.quantidade = -1;
     printf("Erro ao abrir arquivo\n");
-    return NULL;
+    return livro;
 }
 
 /* Método que escreve um nó na posição indicada no arquivo binário de árvore
@@ -212,21 +217,22 @@ void Arquivo::escreverNo(NoBMais no, int pos){
 
 /* Método que lê um nó do arquivo binário de árvore
  * Entrada:      Posição da qual será lida o nó no arquivo
- * Retorno:      Nó lido
+ * Retorno:      Nó lido ou no.numChaves -1 caso não consiga ler
  * Pré-condição: A variável nomeEntrada deve possuir o nome correto do arquivo de entrada
  * Pós-condição: O nó na posição fornecida é lido e retornado
 */
-NoBMais* Arquivo::lerNo(int pos){
+NoBMais Arquivo::lerNo(int pos){
     this->entrada = fopen(this->nomeEntrada.c_str(),"r+b");
+    NoBMais no;
     if(this->entrada != NULL){
-        NoBMais* no = new NoBMais;
         fseek(this->entrada,sizeof(CabecalhoArvore) + (pos * sizeof(NoBMais)),SEEK_SET);
-        fread(no,sizeof(NoBMais),1,this->entrada);
+        fread(&no,sizeof(NoBMais),1,this->entrada);
         fclose(this->entrada);
         return no;
     }
+    no.numChaves = -1;
     printf("Erro ao abrir arquivo\n");
-    return NULL;
+    return no;
 }
 
 //Destrutor da class Arquivo

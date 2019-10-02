@@ -48,11 +48,11 @@ public:
 
     /* Método que lê o cabeçalho no arquivo binário de livros
      * Entrada:      Nenhuma
-     * Retorno:      Cabeçalho lido ou NULL caso não consiga ler
+     * Retorno:      Cabeçalho lido ou -1 no cab.topo caso não consiga ler
      * Pré-condição: A variável nomeEntrada deve possuir o nome correto do arquivo de entrada
      * Pós-condição: O cabeçalho é lido do arquivo binário de livros
     */
-    CabecalhoLivro* lerCabecalhoLivro();
+    CabecalhoLivro lerCabecalhoLivro();
 
     /* Método que escreve o cabeçalho no arquivo binário de árvore
      * Entrada:      Cabeçalho de árvore
@@ -64,11 +64,11 @@ public:
 
     /* Método que lê o cabeçalho no arquivo binário de árvore
      * Entrada:      Nenhuma
-     * Retorno:      Cabeçalho lido
+     * Retorno:      Cabeçalho lido ou cab.topo -1 caso não consiga ler
      * Pré-condição: A variável nomeEntrada deve possuir o nome correto do arquivo de entrada
      * Pós-condição: O cabeçalho é lido do arquivo binário de árvore
     */
-    CabecalhoArvore* lerCabecalhoArvore();
+    CabecalhoArvore lerCabecalhoArvore();
 
     /* Método que escreve o arquivo binário vazio de livros
      * Entrada:      Nenhuma
@@ -96,11 +96,11 @@ public:
 
     /* Método que lê um livro do arquivo binário de livros
      * Entrada:      Posição da qual será lida o livro no arquivo
-     * Retorno:      Livro lido
+     * Retorno:      Livro lido ou livro.quantidade -1 caso não consiga ler
      * Pré-condição: A variável nomeEntrada deve possuir o nome correto do arquivo de entrada
      * Pós-condição: O livro na posição fornecida é lido e retornado
     */
-    InfoLivro* lerLivro(int pos);
+    InfoLivro lerLivro(int pos);
 
     /* Método que escreve um nó na posição indicada no arquivo binário de árvore
      * Entrada:      Nó a ser escrito e posição em que será escrito
@@ -112,11 +112,11 @@ public:
 
     /* Método que lê um nó do arquivo binário de árvore
      * Entrada:      Posição da qual será lida o nó no arquivo
-     * Retorno:      Nó lido
+     * Retorno:      Nó lido ou no.numChaves -1 caso não consiga ler
      * Pré-condição: A variável nomeEntrada deve possuir o nome correto do arquivo de entrada
      * Pós-condição: O nó na posição fornecida é lido e retornado
     */
-    NoBMais* lerNo(int pos);
+    NoBMais lerNo(int pos);
 
     //Destrutor da class Arquivo
     ~Arquivo();

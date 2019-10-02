@@ -129,6 +129,14 @@ public:
     */
     void imprimirTodoOsNiveis();
 
+    /* Método que muda o nó que está carregado na classe
+     * Entrada:      Posição do nó que será carregado do arquivo
+     * Retorno:      Nenhum
+     * Pré-condição: Nenhum
+     * Pós-condição: O nó é carregado para a classe
+    */
+    void mudarNo(int posNo);
+
     //destrutor da classe
     ~BMais();
 };
