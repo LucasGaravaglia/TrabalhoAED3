@@ -210,13 +210,14 @@ void BMais::insereAux(int chave){
 */
 void BMais::insere(int chave){
     this->cab = this->WHFile.lerCabecalhoArvore();
+    int i;
     if(this->cab.topo == 0){ //Não tem raiz
         this->no.pai       = 0;
         this->cab.topo     = 1;
         this->cab.raiz     = 0;
         this->no.chave[0]  = chave;
-        this->no.filhos[0] = -1;
-        this->no.filhos[1] = -1;
+        for(i=0;i<ORDEM;i++)
+            this->no.filhos[i] = -1;
         this->no.numChaves = 1;
         this->setPos(0); //Posição em que foi inserida a raiz
     }else{
@@ -237,7 +238,7 @@ void BMais::insere(int chave){
             novaraiz.numChaves = 1;
             novaraiz.ehFolha   = false;
             if(this->cab.posLivre == -1){ //Inserir no topo
-                novaraiz.pai = this->cab.raiz;// PERIGOSO
+                novaraiz.pai = -1;
                 this->WHFile.escreverNo(novaraiz,this->cab.topo); 
                 this->cab.raiz = this->cab.topo;
                 this->mudarNo(this->cab.topo); //Coloca a nova Raiz no nó atual
@@ -252,8 +253,7 @@ void BMais::insere(int chave){
                 this->cab.posLivre = temp.pai;
             }
             NoBMais filho;
-            int i;
-            for(i=0;i<=this->no.numChaves;i++){ //Arrumando os ponteiros dos filhos para os pais
+            for(i=0;i<=this->no.numChaves+1;i++){ //Arrumando os ponteiros dos filhos para os pais
                 filho = this->WHFile.lerNo(this->no.filhos[i]);
                 filho.pai = this->pos;
                 this->WHFile.escreverNo(filho,this->no.filhos[i]);
@@ -290,21 +290,15 @@ void BMais::printVetBMais(int *v, int n){
 */
 void BMais::imprimirPorNivel(int nivel, int atual){
     if(nivel == atual){
-        printf("Entrou no primeiro if:\n");
         this->printVetBMais(this->no.chave,this->no.numChaves);
     }else{
         int i,posVoltar;
         BMais *aux = this;
         if(atual <= nivel){
             for(i=0;i<aux->no.numChaves+1 && aux->no.filhos[i] != -1;i++){
-                printf("\nChave antes: %d\n",aux->no.chave[0]);
-                printf("filho direita: %d\n",aux->no.filhos[i+1]);
-                printf("filho esquerda: %d\n",aux->no.filhos[i]);
                 aux->mudarNo(aux->no.filhos[i]); //Coloca o nó no próximo filho
                 aux->imprimirPorNivel(nivel,atual+1);
                 aux->mudarNo(aux->no.pai);
-                printf("\nChave depois: %d\n",aux->no.chave[0]);
-                printf("Condição do for: %d\n",aux->no.filhos[i] == -1);
             }
         }
         delete aux;
@@ -362,6 +356,18 @@ void BMais::mudarNo(int posNo){
     }else{
         printf("Erro, não foi possível ler a posição no arquivo arvore.bin\n");
     }
+}
+//
+void BMais::DeBug(int pos){
+    int i;
+    this->mudarNo(pos);
+    printf("pos   = %d\npai   = %d: \nfilho = ",pos,this->no.pai);//
+    for(i=0;i<=this->no.numChaves;i++)
+        printf("%d | ",this->no.filhos[i]);
+    printf("\nchave = ");
+    for(i=0;i<this->no.numChaves;i++)
+        printf(" %d | ",this->no.chave[i]);
+    printf("\n\n");    
 }
 
 //destrutor da classe

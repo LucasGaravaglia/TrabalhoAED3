@@ -137,6 +137,8 @@ public:
     */
     void mudarNo(int posNo);
 
+    void DeBug(int pos);
+
     //destrutor da classe
     ~BMais();
 };
