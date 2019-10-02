@@ -53,7 +53,7 @@ int BMais::getPos(){
  * Pré-condição: Nó não pode ser NULL
  * Pós-condição: Nenhuma
 */
-int BMais::buscaPos(int chave, int *pos){
+int BMais::buscarPos(int chave, int *pos){
     for((*pos) = 0; (*pos) < this->no.numChaves; (*pos)++){
         if(chave == this->no.chave[(*pos)])
             return 1;
@@ -158,7 +158,7 @@ int BMais::splitBMais(int *chavePromovida){
  * Pré-condição: Nó não pode ser NULL
  * Pós-condição: A chave é adiciona à direita de pos
 */
-void BMais::adicionaDireita(int pos, int chave, int subarvore){
+void BMais::adicionarDireita(int pos, int chave, int subarvore){
     int i;
     for(i=this->no.numChaves;i>pos;i--){
         this->no.chave[i]         = this->no.chave[i-1];
@@ -186,14 +186,14 @@ bool BMais::overflow(){
  * Pré-condição: A árvore não pode ser NULL
  * Pós-condição: A chave é inserida na árvore
 */
-void BMais::insereAux(int chave){
+void BMais::inserirAux(int chave){
     int posChave;
-    if(!this->buscaPos(chave,&posChave)){ //Chave não está no nó atual
+    if(!this->buscarPos(chave,&posChave)){ //Chave não está no nó atual
         if(this->no.ehFolha){
-            adicionaDireita(posChave,chave,-1);
+            adicionarDireita(posChave,chave,-1);
         }else{ //Não é folha
             this->mudarNo(this->no.filhos[posChave]);
-            this->insereAux(chave);
+            this->inserirAux(chave);
             if(this->overflow()){
                 int m;//valor da chave mediana
                 int nosplit;
@@ -206,7 +206,7 @@ void BMais::insereAux(int chave){
                 NoBMais temp = this->WHFile.lerNo(nosplit);
                 temp.pai = this->pos;
                 this->WHFile.escreverNo(temp,nosplit);
-                this->adicionaDireita(posChave,m,nosplit);
+                this->adicionarDireita(posChave,m,nosplit);
                 
             }else{
                 this->mudarNo(this->no.pai); //Volta o pai para o nó atual
@@ -223,7 +223,7 @@ void BMais::insereAux(int chave){
  * Pre-condicao: Nenhum
  * Pos-condicao: Nenhum
 */
-void BMais::insere(int chave){
+void BMais::inserir(int chave){
     this->cab = this->WHFile.lerCabecalhoArvore();
     int i;
     if(this->cab.topo == 0){ //Não tem raiz
@@ -237,7 +237,7 @@ void BMais::insere(int chave){
         this->setPos(0); //Posição em que foi inserida a raiz
     }else{
         this->mudarNo(this->cab.raiz); //Coloca a raiz no nó atual
-        this->insereAux(chave);
+        this->inserirAux(chave);
         if(this->overflow()){
             int chavePromovida;
             int noSplit;
@@ -374,7 +374,7 @@ void BMais::mudarNo(int posNo){
         printf("Erro, não foi possível ler a posição no arquivo arvore.bin\n");
     }
 }
-//
+
 void BMais::DeBug(int pos){
     int i;
     this->mudarNo(pos);
@@ -387,6 +387,79 @@ void BMais::DeBug(int pos){
     if(this->no.ehFolha)
         printf("\nproxima folha = %d",this->no.filhos[ORDEM]);
     printf("\n\n");    
+}
+
+/* Método que busca em qual nó FOLHA está uma chave
+ * Entrada:      Chave a ser procurada e ponteiro para a chave no vetor
+ * Retorno:      Nó em que a chave foi encontrada ou no.numChaves 1 caso não a ache
+ * Pré-condição: Nenhuma
+ * Pós-condição: Nenhuma
+*/
+NoBMais BMais::buscarChave(int chave, int *pos){
+    int i;
+    BMais *aux;
+    CabecalhoArvore cab;
+    NoBMais no;
+    cab = this->WHFile.lerCabecalhoArvore();
+    aux = new BMais();
+    aux->mudarNo(cab.raiz);
+    for(i=0;i < aux->no.numChaves && !aux->no.ehFolha;i++){ //Percorrimento da árvore
+        if(chave < aux->no.chave[i]) //Vai para a esquerda
+            aux->mudarNo(aux->no.filhos[i]);
+        else if(i == aux->no.numChaves-1) //Vai para a direita
+            aux->mudarNo(aux->no.filhos[i+1]);
+    }
+    if(no.ehFolha){ //Achou o nó em que deveria estar a chave
+        if(aux->buscarPos(chave,pos)){ //Achou a posição no vetor em que deveria estar a chave
+            if(chave == aux->no.chave[*pos]){ //Achou a chave
+                no = aux->no;
+                delete aux;
+                return no;
+            }
+        }
+    }//Não achou a chave
+    printf("Chave não encontrada\n");
+    no = aux->no;
+    no.numChaves = -1;
+    delete aux;
+    return no;
+}
+
+/* Método que busca em qual nó FOLHA está uma chave
+ * Entrada:      Chave a ser procurada, ponteiro para a chave no vetor e para o nó no arquivo
+ * Retorno:      Nó em que a chave foi encontrada ou no.numChaves 1 caso não a ache
+ * Pré-condição: Nenhuma
+ * Pós-condição: Nenhuma
+*/
+NoBMais BMais::buscarChave(int chave, int *posChave, int *posNo){
+    int i;
+    BMais *aux;
+    CabecalhoArvore cab;
+    NoBMais no;
+    cab = this->WHFile.lerCabecalhoArvore();
+    aux = new BMais();
+    aux->mudarNo(cab.raiz);
+    for(i=0;i < aux->no.numChaves && !aux->no.ehFolha;i++){ //Percorrimento da árvore
+        if(chave < aux->no.chave[i]) //Vai para a esquerda
+            aux->mudarNo(aux->no.filhos[i]);
+        else if(i == aux->no.numChaves-1) //Vai para a direita
+            aux->mudarNo(aux->no.filhos[i+1]);
+    }
+    if(no.ehFolha){ //Achou o nó em que deveria estar a chave
+        if(aux->buscarPos(chave,posChave)){ //Achou a posição no vetor em que deveria estar a chave
+            if(chave == aux->no.chave[*posChave]){ //Achou a chave
+                no = aux->no;
+                *posNo = aux->pos;
+                delete aux;
+                return no;
+            }
+        }
+    }//Não achou a chave
+    printf("Chave não encontrada\n");
+    no = aux->no;
+    no.numChaves = -1;
+    delete aux;
+    return no;
 }
 
 //destrutor da classe

@@ -47,7 +47,7 @@ public:
      * Pré-condição: Nó não pode ser NULL
      * Pós-condição: Nenhuma
     */
-    int buscaPos(int chave, int *pos);
+    int buscarPos(int chave, int *pos);
 
     /* Método que faz o split de um nó interno(Não folha)
      * Entrada:      Nó BMais e ponteiro para a chave que foi promovida
@@ -71,7 +71,7 @@ public:
      * Pré-condição: Nó não pode ser NULL
      * Pós-condição: A chave é adiciona à direita de pos
     */
-    void adicionaDireita(int pos, int chave, int subarvore);
+    void adicionarDireita(int pos, int chave, int subarvore);
 
     /* Método que verifica se tem overflow no nó
      * Entrada:      Nenhuma
@@ -87,7 +87,7 @@ public:
      * Pré-condição: A árvore não pode ser NULL
      * Pós-condição: A chave é inserida na árvore
     */
-    void insereAux(int chave);
+    void inserirAux(int chave);
 
     /* Método que insere uma chave na arvore , fazendo split caso necessario
      * Entrada:      chave a ser inserida
@@ -95,7 +95,7 @@ public:
      * Pre-condicao: Nenhum
      * Pos-condicao: Nenhum
     */
-    void insere(int chave);
+    void inserir(int chave);
 
     /* Método que imprime um vetor da árvore B+
      * Entrada:      Vetor e tamanho do vetor
@@ -138,6 +138,22 @@ public:
     void mudarNo(int posNo);
 
     void DeBug(int pos);
+
+    /* Método que busca em qual nó FOLHA está uma chave
+     * Entrada:      Chave a ser procurada e ponteiro para a chave no vetor
+     * Retorno:      Nó em que a chave foi encontrada ou no.numChaves 1 caso não a ache
+     * Pré-condição: Nenhuma
+     * Pós-condição: Nenhuma
+    */
+    NoBMais buscarChave(int chave, int *pos);
+
+    /* Método que busca em qual nó FOLHA está uma chave
+     * Entrada:      Chave a ser procurada, ponteiro para a chave no vetor e para o nó no arquivo
+     * Retorno:      Nó em que a chave foi encontrada ou no.numChaves 1 caso não a ache
+     * Pré-condição: Nenhuma
+     * Pós-condição: Nenhuma
+    */
+    NoBMais buscarChave(int chave, int *posChave, int *posNo);
 
     //destrutor da classe
     ~BMais();
