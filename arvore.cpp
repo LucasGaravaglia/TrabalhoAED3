@@ -55,9 +55,9 @@ int BMais::getPos(){
 */
 int BMais::buscarPos(int chave, int *pos){
     for((*pos) = 0; (*pos) < this->no.numChaves; (*pos)++){
-        if(chave == this->no.chave[(*pos)])
+        if(chave == this->no.chave[(*pos)].info)
             return 1;
-        else if(chave < this->no.chave[(*pos)])
+        else if(chave < this->no.chave[(*pos)].info)
             break;
     }
     return 0;
@@ -69,7 +69,7 @@ int BMais::buscarPos(int chave, int *pos){
  * Pré-condição: Nó não pode ser NULL. Nó Deve estar cheio de chaves
  * Pós-condição: O nó sofre split e promove a chave mediana
 */
-int BMais::splitB(int *chavePromovida){
+int BMais::splitB(Chave *chavePromovida){
     NoBMais novoNo;
     int metadeChaves   = this->no.numChaves/2,i,posnovono;
     novoNo.numChaves   = this->no.numChaves - metadeChaves - 1;
@@ -114,7 +114,7 @@ int BMais::splitB(int *chavePromovida){
  * Pré-condição: Nó não pode ser NULL. Nó Deve estar cheio de chaves
  * Pós-condição: O nó sofre split e promove a chave mediana
 */
-int BMais::splitBMais(int *chavePromovida){
+int BMais::splitBMais(Chave *chavePromovida){
     NoBMais novoNo;
     int metadeChaves         = this->no.numChaves/2,i,x,posnovono;
     for(i=0;i<ORDEM;i++)
@@ -158,7 +158,7 @@ int BMais::splitBMais(int *chavePromovida){
  * Pré-condição: Nó não pode ser NULL
  * Pós-condição: A chave é adiciona à direita de pos
 */
-void BMais::adicionarDireita(int pos, int chave, int subarvore){
+void BMais::adicionarDireita(int pos, Chave chave, int subarvore){
     int i;
     for(i=this->no.numChaves;i>pos;i--){
         this->no.chave[i]         = this->no.chave[i-1];
@@ -186,16 +186,16 @@ bool BMais::overflow(){
  * Pré-condição: A árvore não pode ser NULL
  * Pós-condição: A chave é inserida na árvore
 */
-void BMais::inserirAux(int chave){
+void BMais::inserirAux(Chave chave){
     int posChave;
-    if(!this->buscarPos(chave,&posChave)){ //Chave não está no nó atual
+    if(!this->buscarPos(chave.info,&posChave)){ //Chave não está no nó atual
         if(this->no.ehFolha){
             adicionarDireita(posChave,chave,-1);
         }else{ //Não é folha
             this->mudarNo(this->no.filhos[posChave]);
             this->inserirAux(chave);
             if(this->overflow()){
-                int m;//valor da chave mediana
+                Chave m;//valor da chave mediana
                 int nosplit;
                 if(this->no.ehFolha){
                     nosplit = this->splitBMais(&m);
@@ -223,7 +223,7 @@ void BMais::inserirAux(int chave){
  * Pre-condicao: Nenhum
  * Pos-condicao: Nenhum
 */
-void BMais::inserir(int chave){
+void BMais::inserir(Chave chave){
     this->cab = this->WRFile.lerCabecalhoArvore();
     int i;
     if(this->cab.topo == 0){ //Não tem raiz
@@ -239,7 +239,7 @@ void BMais::inserir(int chave){
         this->mudarNo(this->cab.raiz); //Coloca a raiz no nó atual
         this->inserirAux(chave);
         if(this->overflow()){
-            int chavePromovida;
+            Chave chavePromovida;
             int noSplit;
             if(this->no.ehFolha){
                 noSplit = this->splitBMais(&chavePromovida);
@@ -287,14 +287,14 @@ void BMais::inserir(int chave){
  * Pré-condição: Nenhuma
  * Pós-condição: Nenhuma
 */
-void BMais::printVetBMais(int *v, int n){
+void BMais::printVetBMais(Chave v[], int n){
     int i;
     printf("[");
     for(i=0;i<n;i++){
         if(i<n-1)
-            printf("%d,",v[i]);
+            printf("%d,",v[i].info);
         else
-            printf("%d",v[i]);
+            printf("%d",v[i].info);
     }
     printf("]");
 }
@@ -402,7 +402,7 @@ void BMais::DeBug(int pos){
  * Pré-condição: Nenhuma
  * Pós-condição: Nenhuma
 */
-NoBMais BMais::buscarChave(int chave, int *pos){
+NoBMais BMais::buscarChave(Chave chave, int *pos){
     int i;
     BMais *aux;
     CabecalhoArvore cab;
@@ -411,14 +411,14 @@ NoBMais BMais::buscarChave(int chave, int *pos){
     aux = new BMais();
     aux->mudarNo(cab.raiz);
     for(i=0;i < aux->no.numChaves && !aux->no.ehFolha;i++){ //Percorrimento da árvore
-        if(chave < aux->no.chave[i]) //Vai para a esquerda
+        if(chave.info < aux->no.chave[i].info) //Vai para a esquerda
             aux->mudarNo(aux->no.filhos[i]);
         else if(i == aux->no.numChaves-1) //Vai para a direita
             aux->mudarNo(aux->no.filhos[i+1]);
     }
     if(no.ehFolha){ //Achou o nó em que deveria estar a chave
-        if(aux->buscarPos(chave,pos)){ //Achou a posição no vetor em que deveria estar a chave
-            if(chave == aux->no.chave[*pos]){ //Achou a chave
+        if(aux->buscarPos(chave.info,pos)){ //Achou a posição no vetor em que deveria estar a chave
+            if(chave.info == aux->no.chave[*pos].info){ //Achou a chave
                 no = aux->no;
                 delete aux;
                 return no;
@@ -438,7 +438,7 @@ NoBMais BMais::buscarChave(int chave, int *pos){
  * Pré-condição: Nenhuma
  * Pós-condição: Nenhuma
 */
-NoBMais BMais::buscarChave(int chave, int *posChave, int *posNo){
+NoBMais BMais::buscarChave(Chave chave, int *posChave, int *posNo){
     int i;
     BMais *aux;
     CabecalhoArvore cab;
@@ -447,14 +447,14 @@ NoBMais BMais::buscarChave(int chave, int *posChave, int *posNo){
     aux = new BMais();
     aux->mudarNo(cab.raiz);
     for(i=0;i < aux->no.numChaves && !aux->no.ehFolha;i++){ //Percorrimento da árvore
-        if(chave < aux->no.chave[i]) //Vai para a esquerda
+        if(chave.info < aux->no.chave[i].info) //Vai para a esquerda
             aux->mudarNo(aux->no.filhos[i]);
         else if(i == aux->no.numChaves-1) //Vai para a direita
             aux->mudarNo(aux->no.filhos[i+1]);
     }
     if(no.ehFolha){ //Achou o nó em que deveria estar a chave
-        if(aux->buscarPos(chave,posChave)){ //Achou a posição no vetor em que deveria estar a chave
-            if(chave == aux->no.chave[*posChave]){ //Achou a chave
+        if(aux->buscarPos(chave.info,posChave)){ //Achou a posição no vetor em que deveria estar a chave
+            if(chave.info == aux->no.chave[*posChave].info){ //Achou a chave
                 no = aux->no;
                 *posNo = aux->pos;
                 delete aux;

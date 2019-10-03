@@ -56,7 +56,7 @@ public:
      * Pré-condição: Nó não pode ser NULL. Nó Deve estar cheio de chaves
      * Pós-condição: O nó sofre split e promove a chave mediana
     */
-    int splitB(int *chavePromovida);
+    int splitB(Chave *chavePromovida);
 
     /* Método que faz o split de um nó interno(Folha)
      * Entrada:      Nó BMais e ponteiro para a chave que foi promovida
@@ -64,7 +64,7 @@ public:
      * Pré-condição: Nó não pode ser NULL. Nó Deve estar cheio de chaves
      * Pós-condição: O nó sofre split e promove a chave mediana
     */
-    int splitBMais(int *chavePromovida);
+    int splitBMais(Chave *chavePromovida);
 
     /* Método que adiciona uma chave à direita de pos
      * Entrada:      Nó, posição, chave e filho da direita
@@ -72,7 +72,7 @@ public:
      * Pré-condição: Nó não pode ser NULL
      * Pós-condição: A chave é adiciona à direita de pos
     */
-    void adicionarDireita(int pos, int chave, int subarvore);
+    void adicionarDireita(int pos, Chave chave, int subarvore);
 
     /* Método que verifica se tem overflow no nó
      * Entrada:      Nenhuma
@@ -88,7 +88,7 @@ public:
      * Pré-condição: A árvore não pode ser NULL
      * Pós-condição: A chave é inserida na árvore
     */
-    void inserirAux(int chave);
+    void inserirAux(Chave chave);
 
     /* Método que insere uma chave na arvore , fazendo split caso necessario
      * Entrada:      chave a ser inserida
@@ -96,7 +96,7 @@ public:
      * Pre-condicao: Nenhum
      * Pos-condicao: Nenhum
     */
-    void inserir(int chave);
+    void inserir(Chave chave);
 
     /* Método que imprime um vetor da árvore B+
      * Entrada:      Vetor e tamanho do vetor
@@ -104,7 +104,7 @@ public:
      * Pré-condição: Nenhuma
      * Pós-condição: Nenhuma
     */
-    void printVetBMais(int *v, int n);
+    void printVetBMais(Chave *v, int n);
 
     /* Método que imprime um nivel da árvore b+
      * Entrada:      Nível a ser impresso e nível atual
@@ -146,7 +146,7 @@ public:
      * Pré-condição: Nenhuma
      * Pós-condição: Nenhuma
     */
-    NoBMais buscarChave(int chave, int *pos);
+    NoBMais buscarChave(Chave chave, int *pos);
 
     /* Método que busca em qual nó FOLHA está uma chave
      * Entrada:      Chave a ser procurada, ponteiro para a chave no vetor e para o nó no arquivo
@@ -154,7 +154,7 @@ public:
      * Pré-condição: Nenhuma
      * Pós-condição: Nenhuma
     */
-    NoBMais buscarChave(int chave, int *posChave, int *posNo);
+    NoBMais buscarChave(Chave chave, int *posChave, int *posNo);
 
     //destrutor da classe
     ~BMais();

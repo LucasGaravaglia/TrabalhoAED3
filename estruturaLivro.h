@@ -7,7 +7,7 @@ using namespace std;
 
 //Estrutura para armazenar as informações de um livro
 typedef struct{
-    int codigo
+    int codigo;
     int quantidade;//Guarda a quantidade de livro e usado para o encadeamento de livros removidos.
     char titulo[1250],autor[1250];
 }InfoLivro;
