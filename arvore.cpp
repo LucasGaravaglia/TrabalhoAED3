@@ -5,7 +5,7 @@
 //construtor da classe
 BMais::BMais(){
     this->no.numChaves     = 0;
-    this->no.pai           = 0;
+    this->no.pai           = -1;
     this->no.ehFolha       = true;
     this->cab.posLivre     = -1;
     this->cab.topo         = 0;
@@ -100,7 +100,7 @@ int BMais::splitB(Chave *chavePromovida){
         return possplit;/*  ARRUMAR OS FILHOS DO NOVO NO */
     }
     NoBMais filho;
-    for(i=0;i<=novoNo.numChaves+1;i++){
+    for(i=0;i<novoNo.numChaves+1;i++){
         filho = this->WRFile.lerNo(novoNo.filhos[i]);
         filho.pai = posnovono;
         this->WRFile.escreverNo(filho,novoNo.filhos[i]);
@@ -227,7 +227,6 @@ void BMais::inserir(Chave chave){
     this->cab = this->WRFile.lerCabecalhoArvore();
     int i;
     if(this->cab.topo == 0){ //Não tem raiz
-        this->no.pai       = 0;
         this->cab.topo     = 1;
         this->cab.raiz     = 0;
         this->no.chave[0]  = chave;
@@ -268,7 +267,7 @@ void BMais::inserir(Chave chave){
                 this->cab.posLivre = temp.pai;
             }
             NoBMais filho;
-            for(i=0;i<=this->no.numChaves+1;i++){ //Arrumando os ponteiros dos filhos para os pais
+            for(i=0;i<this->no.numChaves+1;i++){ //Arrumando os ponteiros dos filhos para os pais
                 filho = this->WRFile.lerNo(this->no.filhos[i]);
                 if(filho.numChaves != -1){
                     filho.pai = this->pos;
@@ -310,15 +309,14 @@ void BMais::imprimirPorNivel(int nivel, int atual){
         this->printVetBMais(this->no.chave,this->no.numChaves);
     }else{
         int i,posVoltar;
-        BMais *aux = this;
+        BMais aux = *this;
         if(atual <= nivel){
-            for(i=0;i<aux->no.numChaves+1 && aux->no.filhos[i] != -1;i++){
-                aux->mudarNo(aux->no.filhos[i]); //Coloca o nó no próximo filho
-                aux->imprimirPorNivel(nivel,atual+1);
-                aux->mudarNo(aux->no.pai);
+            for(i=0;i<aux.no.numChaves+1 && aux.no.filhos[i] != -1;i++){
+                aux.mudarNo(aux.no.filhos[i]); //Coloca o nó no próximo filho
+                aux.imprimirPorNivel(nivel,atual+1);
+                aux.mudarNo(aux.no.pai);
             }
         }
-        delete aux;
     }
 }
 

@@ -20,87 +20,20 @@ void inicializarArquivos(string liv, string arv){
     livros->escreverArquivoLivrosVazio();
 }
 
+void inserir(int chave){
+    Chave envia;
+    envia.info = chave;
+    arv->inserir(envia);
+}
 
 int main(){//testando, pra ver oq ta carregando no arquivo
     inicializarArquivos("livros.bin","arvore.bin");
     arv = new BMais();
     NoBMais no;
-    int pos,posA;
-    Chave envia;
-    envia.info = 10;
-    arv->inserir(envia);
-    envia.info++;
-    arv->inserir(envia);
-    envia.info++;
-    arv->inserir(envia);
-    envia.info++;
-    arv->inserir(envia);
-    envia.info++;
-    arv->inserir(envia);
-    envia.info++;
-    arv->inserir(envia);
-    envia.info++;
-    arv->inserir(envia);
-    envia.info++;
-    arv->inserir(envia);
-    envia.info++;
-    arv->inserir(envia);
-    envia.info++;
-    arv->inserir(envia);
-    envia.info++;
-    arv->inserir(envia);
-    envia.info++;
-    arv->inserir(envia);
-    envia.info++;
-    arv->inserir(envia);
-    envia.info++;
-    arv->inserir(envia);
-    envia.info++;
-    arv->inserir(envia);
-    envia.info++;
-    arv->inserir(envia);
-    envia.info++;
-    arv->inserir(envia);
-    envia.info++;
-    arv->inserir(envia);
-    envia.info++;
-    arv->inserir(envia);
-    envia.info++;
-    arv->inserir(envia);
-    envia.info++;
-    arv->inserir(envia);
-    envia.info++;
-    arv->inserir(envia);
-    envia.info++;
-    arv->inserir(envia);
-    envia.info++;
-    arv->inserir(envia);
-    envia.info++;
-    arv->inserir(envia);
-    envia.info++;
-    arv->inserir(envia);
-    envia.info++;
-    arv->inserir(envia);
-    envia.info++;
-    arv->inserir(envia);
-    envia.info++;
-    arv->inserir(envia);
-    envia.info++;
-    arv->inserir(envia);
-    envia.info++;
-    arv->inserir(envia);
-    envia.info++;
-    arv->inserir(envia);
-    envia.info++;
-    arv->inserir(envia);
-    envia.info++;
-    arv->inserir(envia);
-    envia.info++;
-    arv->inserir(envia);
-    envia.info++;
-    arv->inserir(envia);
-    envia.info++;
-    arv->inserir(envia);
+    int j;
+    for(j=0;j<50;j++){
+        inserir(j);
+    }
     arv->imprimirTodoOsNiveis();
     delete livros; delete arvore; delete arv;
     return 0;
