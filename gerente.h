@@ -9,60 +9,44 @@ private:
     Livro livro;
     NoBMais arvore;
 public:
-    /*
-     * Entrada:      
-     * Retorno:      
-     * Pre-condicao: 
-     * Pos-condicao: 
-    */
+    
+    //Contrutor da classe gerente
     Gerente();
-    /*
-     * Entrada:      
-     * Retorno:      
-     * Pre-condicao: 
-     * Pos-condicao: 
-    */
+    
+    //Setter da classe Livro
     void setLivro(Livro livro);
-    /*
-     * Entrada:      
-     * Retorno:      
-     * Pre-condicao: 
-     * Pos-condicao: 
-    */
+    
+    //Getter da classe Livro
     Livro getLivro();
-    /*
-     * Entrada:      
-     * Retorno:      
-     * Pre-condicao: 
-     * Pos-condicao: 
-    */
+    
+    //Setter da classe NoBMais
     void setArvore(NoBMais arvore);
-    /*
-     * Entrada:      
-     * Retorno:      
-     * Pre-condicao: 
-     * Pos-condicao: 
-    */
+    
+    //Getter da classe NoBMais
     NoBMais getArvore();
-    /*
-     * Entrada:      
-     * Retorno:      
-     * Pre-condicao: 
-     * Pos-condicao: 
+
+    /* Método que insere um livro no arquivo de arvore, e no arquivo de dados
+     * Entrada:      classe livro, e classe arvore
+     * Retorno:      True se foi inserido, false caso contrario
+     * Pre-condicao: Classe instanciada
+     * Pos-condicao: Nenhum
     */
+
     bool inserir(Livro livro,NoBMais arvore);
-    /*
-     * Entrada:      
-     * Retorno:      
-     * Pre-condicao: 
-     * Pos-condicao: 
+
+    /* Métdo que remove um livro do arquivo de arvore e do arquivo de dados
+     * Entrada:      classe livro, e classe arvore
+     * Retorno:      True se removeu, false caso contrario
+     * Pre-condicao: Classe instanciada
+     * Pos-condicao: Nenhum
     */
     bool remover(Livro livro,NoBMais arvore);
-    /*
-     * Entrada:      
-     * Retorno:      
-     * Pre-condicao: 
-     * Pos-condicao: 
+
+    /* Método que altera a quantidade de livros
+     * Entrada:      sei la, arrumar
+     * Retorno:      ?
+     * Pre-condicao: ?
+     * Pos-condicao: ?
     */
     bool alterar(Livro livro,NoBMais arvore);
 

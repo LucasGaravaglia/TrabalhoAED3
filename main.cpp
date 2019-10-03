@@ -31,7 +31,7 @@ int main(){//testando, pra ver oq ta carregando no arquivo
     arv = new BMais();
     NoBMais no;
     int j;
-    for(j=0;j<50;j++){
+    for(j=1;j<100000;j++){
         inserir(j);
     }
     arv->imprimirTodoOsNiveis();
