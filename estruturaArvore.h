@@ -6,7 +6,10 @@
 using namespace std;
 
 #define ORDEM 5
-
+// typedef struct{
+//     int info;
+//     int posLivro;
+// }Chave;
 //Estrutura para árvore B+
 typedef struct{
     int posLivro[ORDEM];  //Posição dos livros no arquivo binário de livros

@@ -1,3 +1,4 @@
+
 #ifndef ARVORE_H
 #define ARVORE_H
 
@@ -11,7 +12,7 @@ class BMais{
 private:
     NoBMais no;
     CabecalhoArvore cab;
-    Arquivo WHFile;
+    Arquivo WRFile;
     int pos;
 public:
     //contrutor da classe
@@ -36,10 +37,10 @@ public:
     int getPos();
 
     //set da variavel pos
-    void setWhfile(Arquivo WHFile);
+    void setWRFile(Arquivo WRFile);
 
     //get da variavel pos
-    int getWhfile();
+    int getWRFile();
 
     /* Método que busca a posição em que está ou estaria a chave em um nó
      * Entrada:      Árvore b+, A chave, Ponteiro para a posição em que estaria a chave

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string.h>
 #include "estruturaLivro.h"
+#include "arquivo.h"
 
 using namespace std;
 
@@ -12,6 +13,7 @@ class Livro{
 private:
     InfoLivro livro;
     CabecalhoLivro cab;
+    Arquivo WRFile;
 public:
     //Construtor padrão da classe Livro
     Livro();
@@ -69,6 +71,22 @@ public:
      * Pós-condição: A quantidade de exemplares do livro carregado é alterada
     */
     void atualizarExemplares(int quantidade);
+
+    /* Método que insere um livro no arquivo de dados
+     * Entrada:      Struct de livro
+     * Retorno:      posição inserida no arquivo
+     * Pre-condicao: Nenhum
+     * Pos-condicao: Nenhum
+    */
+    int insereLivro(infoLivro livro);
+
+    /* Método que remove um livro do arquivo de dados
+     * Entrada:      Posição do livro no arquivo
+     * Retorno:      Nenhum
+     * Pre-condicao: Nenhum
+     * Pos-condicao: Nenhum
+    */
+    void removeLivro(int pos);
 
     //Destrutor da classe Livro
     ~Livro();

@@ -8,6 +8,8 @@ Livro::Livro(){
     this->cab.posLivre     =   -1;
     strcpy(this->livro.titulo,"");
     strcpy(this->livro.autor,"") ;
+    this->WRFile.setNomeEntrada("dados.bin");
+    this->WRFile.setNomeSaida("dados.bin");
 }
 
 //Construtor completo da classe Livro
@@ -92,6 +94,46 @@ string Livro::toString(){
 void Livro::atualizarExemplares(int quantidade){
     this->livro.quantidade = quantidade;
 }
+
+/* Método que insere um livro no arquivo de dados
+ * Entrada:      Struct de livro
+ * Retorno:      posição inserida no arquivo
+ * Pre-condicao: Nenhum
+ * Pos-condicao: Nenhum
+*/
+int Livro::insereLivro(InfoLivro livro){
+    int posLivro;
+    this->cab = this->WRFile.lerCabecalhoLivro();
+    if(this->cab.posLivre == -1){
+        this->WRFile.escreverLivro(livro,this->cab.topo);
+        posLivro = this->cab.topo;
+        this->cab.topo++;
+        this->WRFile.escreverCabecalhoLivro(this->cab);
+    }else{
+        InfoLivro temp = this->WRFile.lerLivro(this->cab.posLivre);
+        this->WRFile.escreverLivro(livro,this->cab.posLivre);
+        posLivro = this->cab.posLivre;
+        this->cab.posLivre = temp.quantidade;
+        this->WRFile.escreverCabecalhoLivro(this->cab);
+    }
+    return posLivro;
+}
+
+/* Método que remove um livro do arquivo de dados
+ * Entrada:      Posição do livro no arquivo
+ * Retorno:      Nenhum
+ * Pre-condicao: Nenhum
+ * Pos-condicao: Nenhum
+*/
+void Livro::removeLivro(int pos){
+    this->cab = this->WRFile.lerCabecalhoLivro();
+    this->livro = this->WRFile.lerLivro();
+    this->livro.codigo = this->cab.posLivre;
+    this->WRFile.escreverLivro(this->livro,pos);
+    this->cab.posLivre = pos;
+    this->WRFile.escreverCabecalhoLivro(this->cab);
+}
+
 
 //Destrutor da classe Livro
 Livro::~Livro(){
