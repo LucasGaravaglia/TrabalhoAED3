@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "gerenciamento.h"
 
 
 /* Captura um char do terminal
@@ -215,16 +216,10 @@ void deciderMenu(){
         }else if(MENU == BUSCARDADOSDOLIVRO){
             system("clear");        
             MENU = MENUPRINCIPAL;
-        }else if(MENU == IMPRIMIRARVOREBINARIA){ 
-            system("clear");         
-            MENU = MENUPRINCIPAL;
         }else if(MENU == IMPRIMIRARVORENIVEL){ 
             system("clear");         
             MENU = MENUPRINCIPAL;
         }else if(MENU == IMPRIMIRACERVO){ 
-            system("clear");
-            MENU = MENUPRINCIPAL;
-        }else if(MENU == LISTAGEMLIVROS){ 
             system("clear");
             MENU = MENUPRINCIPAL;
         }else if(MENU == CARREGARARQUIVOINICIAL){  

@@ -10,11 +10,12 @@ using namespace std;
 
 class BMais{
 private:
-    NoBMais no;
-    CabecalhoArvore cab;
-    Arquivo WRFile;
-    int pos;
+    NoBMais no;          //Variável que guarda o nó que está sendo manipulado
+    CabecalhoArvore cab; //Variavel que manipula o cabeçalho do arquivo arvore.bin
+    int pos;             //Posição do nó que está carregado na memória no arquivo
 public:
+    Arquivo arquivo;     //Variavel que manipula o arquivo arvore.bin
+
     //contrutor da classe
     BMais();
 
@@ -36,16 +37,15 @@ public:
     //get da variavel pos
     int getPos();
 
-    //set da variavel pos
-    void setWRFile(Arquivo WRFile);
-
-    //get da variavel pos
-    int getWRFile();
-
     /* Método que busca a posição em que está ou estaria a chave em um nó
      * Entrada:      Árvore b+, A chave, Ponteiro para a posição em que estaria a chave
      * Retorno:      1 caso a chave esteja presente ou 0 caso contrário
      * Pré-condição: Nó não pode ser NULL
+     * Pós-condição: Nenhuma
+    */    /* Método que retorna a posição do folha mais à esquerda
+     * Entrada:      Nenhuma
+     * Retorno:      Posição da primeira folha no arquivo de nós ou -1 caso não tenha
+     * Pré-condição: Nenhuma
      * Pós-condição: Nenhuma
     */
     int buscarPos(int chave, int *pos);
@@ -138,6 +138,12 @@ public:
     */
     void mudarNo(int posNo);
 
+    /* Método usado para ler todas as informações de um nó inseridoo no arquivo
+     * Entrada:      Posição do nó no arquivo
+     * Retorno:      Nenhum
+     * Pre-condicao: Nenhum
+     * Pos-condicao: Nenhum
+    */
     void DeBug(int pos);
 
     /* Método que busca em qual nó FOLHA está uma chave
@@ -156,8 +162,24 @@ public:
     */
     NoBMais buscarChave(Chave chave, int *posChave, int *posNo);
 
+    /* Método que busca em qual nó FOLHA está uma chave
+     * Entrada:      Chave a ser procurada, ponteiro para a chave no vetor e para o nó no arquivo
+     * Retorno:      Posição do livro no arquivo de dados  ou -1 caso não encontre
+     * Pré-condição: Chave existente
+     * Pós-condição: Nenhuma
+    */
+    int buscarChave(Chave chave);
+
     //destrutor da classe
     ~BMais();
+
+    /* Método que retorna a posição do folha mais à esquerda
+     * Entrada:      Nenhuma
+     * Retorno:      Posição da primeira folha no arquivo de nós ou -1 caso não tenha
+     * Pré-condição: Nenhuma
+     * Pós-condição: Nenhuma
+    */
+    int pegarPrimeiraFolha();
 };
 
 #endif

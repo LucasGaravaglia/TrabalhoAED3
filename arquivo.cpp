@@ -57,7 +57,7 @@ void Arquivo::escreverCabecalhoLivro(CabecalhoLivro cab){
         fwrite(&cab,sizeof(CabecalhoLivro),1,this->saida);
         fclose(this->saida);
     }else{
-        printf("Erro ao abrir arquivo\n");
+        printf("Erro ao abrir arquivo 2\n");
     }
 }
 
@@ -74,6 +74,7 @@ CabecalhoLivro Arquivo::lerCabecalhoLivro(){
         fseek(this->entrada,0,SEEK_SET);
         fread(&cab,sizeof(CabecalhoLivro),1,this->entrada);
         fclose(this->entrada);
+        return cab;
     }
     cab.posLivre = -1;
     cab.topo     = -1;

@@ -13,8 +13,8 @@ class Livro{
 private:
     InfoLivro livro;
     CabecalhoLivro cab;
-    Arquivo WRFile;
 public:
+    Arquivo arquivo;
     //Construtor padrão da classe Livro
     Livro();
 
@@ -31,6 +31,14 @@ public:
      * Pós-condição: O livro é setado com as informações passadas
     */
     void setLivro(int quantidade, int codigo, char* titulo, char *autor);
+
+    /* Setter do livro
+     * Entrada:      Livro
+     * Retorno:      Nenhum
+     * Pré-condição: Nenhuma
+     * Pós-condição: O livro é setado com as informações passadas
+    */
+    void setLivro(InfoLivro livro);
 
     /* Getter do livro
      * Entrada:      Nenhuma

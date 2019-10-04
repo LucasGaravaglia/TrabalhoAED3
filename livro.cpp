@@ -8,8 +8,8 @@ Livro::Livro(){
     this->cab.posLivre     =   -1;
     strcpy(this->livro.titulo,"");
     strcpy(this->livro.autor,"") ;
-    this->WRFile.setNomeEntrada("dados.bin");
-    this->WRFile.setNomeSaida("dados.bin");
+    this->arquivo.setNomeEntrada("livros.bin");
+    this->arquivo.setNomeSaida("livros.bin");
 }
 
 //Construtor completo da classe Livro
@@ -38,6 +38,16 @@ void Livro::setLivro(int quantidade, int codigo, char* titulo, char *autor){
     this->livro.quantidade = quantidade;
     strcpy(this->livro.titulo,titulo)  ;
     strcpy(this->livro.autor,autor)    ;
+}
+
+/* Setter do livro
+ * Entrada:      Livro
+ * Retorno:      Nenhum
+ * Pré-condição: Nenhuma
+ * Pós-condição: O livro é setado com as informações passadas
+*/
+void Livro::setLivro(InfoLivro livro){
+    this->livro = livro;
 }
 
  /* Getter do livro
@@ -103,18 +113,18 @@ void Livro::atualizarExemplares(int quantidade){
 */
 int Livro::insereLivro(InfoLivro livro){
     int posLivro;
-    this->cab = this->WRFile.lerCabecalhoLivro();
+    this->cab = this->arquivo.lerCabecalhoLivro();
     if(this->cab.posLivre == -1){
-        this->WRFile.escreverLivro(livro,this->cab.topo);
+        this->arquivo.escreverLivro(livro,this->cab.topo);
         posLivro = this->cab.topo;
         this->cab.topo++;
-        this->WRFile.escreverCabecalhoLivro(this->cab);
+        this->arquivo.escreverCabecalhoLivro(this->cab);
     }else{
-        InfoLivro temp = this->WRFile.lerLivro(this->cab.posLivre);
-        this->WRFile.escreverLivro(livro,this->cab.posLivre);
+        InfoLivro temp = this->arquivo.lerLivro(this->cab.posLivre);
+        this->arquivo.escreverLivro(livro,this->cab.posLivre);
         posLivro = this->cab.posLivre;
         this->cab.posLivre = temp.quantidade;
-        this->WRFile.escreverCabecalhoLivro(this->cab);
+        this->arquivo.escreverCabecalhoLivro(this->cab);
     }
     return posLivro;
 }
@@ -126,12 +136,12 @@ int Livro::insereLivro(InfoLivro livro){
  * Pos-condicao: Nenhum
 */
 void Livro::removeLivro(int pos){
-    this->cab = this->WRFile.lerCabecalhoLivro();
-    this->livro = this->WRFile.lerLivro(pos);
-    this->livro.codigo = this->cab.posLivre;
-    this->WRFile.escreverLivro(this->livro,pos);
+    this->cab = this->arquivo.lerCabecalhoLivro();
+    this->livro = this->arquivo.lerLivro(pos);
+    this->livro.quantidade = this->cab.posLivre; 
+    this->arquivo.escreverLivro(this->livro,pos);
     this->cab.posLivre = pos;
-    this->WRFile.escreverCabecalhoLivro(this->cab);
+    this->arquivo.escreverCabecalhoLivro(this->cab);
 }
 
 
