@@ -1,0 +1,10 @@
+70;O Senhor dos Aneis; J. R. R. Tolkien;5
+30;As Brumas de Avalon; Marion Zimmer Bradley;2
+150;Sapiens: uma breve historia da humanidade;Yuval Harari;11
+20;Principios e Praticas de Programacao com C++; Bjarne Stroustrup;3
+10;Programming in Prolog; W. Clocksin;2
+90;Primeiras Estorias; Joao Guimaraes Rosa;4
+111;Memorial de Maria Moura; Rachel de Queiroz;5
+6;Memorias Postumas de Bras Cubas;Joaquim Maria Machado de Assis;7
+45;O Discurso do Metodo; Rene Descartes;3
+200;Ulisses; James Joyce;7

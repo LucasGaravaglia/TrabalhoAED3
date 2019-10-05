@@ -33,12 +33,12 @@ public:
     bool inserirLivro(InfoLivro livro);
 
     /* Métdo que remove um livro do arquivo de arvore e do arquivo de dados
-     * Entrada:      Struct de dados
+     * Entrada:      Chave que sera removida
      * Retorno:      true caso removeu, false caso contrario
      * Pre-condicao: Struct de dados valida
      * Pos-condicao: Nenhum
     */
-    bool removerLivro(InfoLivro livro);
+    bool removerLivro(Chave chave);
 
     /* Método que altera a quantidade de livros
      * Entrada:      Codigo do livro que deseja alterar, Nova quantidade de livros

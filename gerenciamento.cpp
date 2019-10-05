@@ -51,14 +51,12 @@ bool Gerente::inserirLivro(InfoLivro livro){
 }
 
 /* Métdo que remove um livro do arquivo de arvore e do arquivo de dados
- * Entrada:      Struct de dados
+ * Entrada:      Chave que sera removida
  * Retorno:      true caso removeu, false caso contrario
  * Pre-condicao: Struct de dados valida
  * Pos-condicao: Nenhum
 */
-bool Gerente::removerLivro(InfoLivro livro){
-    Chave chave;
-    chave.info = livro.codigo;
+bool Gerente::removerLivro(Chave chave){
     int pos = this->arvore.buscarChave(chave);
     if(pos != -1){
         this->livro.removeLivro(pos);

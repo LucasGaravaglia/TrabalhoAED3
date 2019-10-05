@@ -1,38 +1,69 @@
-#ifndef INTERACAO_H
-#define INTERACAO_H
+#ifndef INTERACA_H
+#define INTERACA_H
 
+#include "gerenciamento.h"
+#include "arquivo.h"
+#include <iostream>
 
-/* Carrega o arquivo inicial
- * Entrada:      Nenhum
- * Retorno:      Nenhum
- * Pré-condição: Nenhum
- * Pós-condição: Nenhum
-*/
-void loadStartFile();
+class Interacao{
+private:
+    Gerente gerente;
+public:
 
-/* Faz a interação com o usuario para inserir um livro
- * Entrada:      Nenhum
- * Retorno:      Nenhum
- * Pré-condição: Nenhum
- * Pós-condição: Nenhum
-*/
-void insereLivro();
+    //Contrutor da classe Interacao
+    Interacao();
 
-/* Faz a interação com o usuario para remover um livro
- * Entrada:      Nenhum
- * Retorno:      Nenhum
- * Pré-condição: Nenhum
- * Pós-condição: Nenhum
-*/
-void removeLivro();
+    //Setter da variavel gerente
+    void setGerente(Gerente gerente);
 
-/* Faz interação com o usuario para atualizar os exemplares
- * Entrada:      Nenhum
- * Retorno:      Nenhum
- * Pré-condição: Nenhum
- * Pós-condição: Nenhum
-*/
-void atualizaExemplares();
+    //Getter da variavel gerente
+    Gerente getGerente();
 
+    /* Método que recebe uma string e remove os espaços excedentes
+     * Entrada:      String a ser alterada
+     * Retorno:      Nenhum
+     * Pre-condicao: String não null
+     * Pos-condicao: Nenhum
+    */
+    void removeSpaces(char *s);
+
+    InfoLivro Interacao::criaLivro(char *linha);
+
+    /* Carrega o arquivo inicial
+     * Entrada:      Nenhum
+     * Retorno:      Nenhum
+     * Pré-condição: Nenhum
+     * Pós-condição: Nenhum
+    */
+    void loadStartFile();
+
+    /* Faz a interação com o usuario para inserir um livro
+     * Entrada:      Nenhum
+     * Retorno:      Nenhum
+     * Pré-condição: Nenhum
+     * Pós-condição: Nenhum
+    */
+    void insereLivro();
+
+    /* Faz a interação com o usuario para remover um livro
+     * Entrada:      Nenhum
+     * Retorno:      Nenhum
+     * Pré-condição: Nenhum
+     * Pós-condição: Nenhum
+    */
+    void removeLivro();
+
+    /* Faz interação com o usuario para atualizar os exemplares
+     * Entrada:      Nenhum
+     * Retorno:      Nenhum
+     * Pré-condição: Nenhum
+     * Pós-condição: Nenhum
+    */
+    void atualizaExemplares();
+
+    //Destrutor da classe interacao
+    ~Interacao();
+
+};
 
 #endif

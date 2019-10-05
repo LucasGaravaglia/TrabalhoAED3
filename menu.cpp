@@ -203,27 +203,35 @@ void deciderMenu(){
     while(MENU != SAIRDOPROGRAMA){ 
         if(MENU == MENUPRINCIPAL){
             system("clear");
+            backmenu();
             mainMenu(&MENU);
         }else if(MENU == INSERIRLIVRO){
             system("clear");
+            backmenu();
             MENU = MENUPRINCIPAL;
         }else if(MENU == ATUALIZAREXEMPLARES){
             system("clear");
+            backmenu();
             MENU = MENUPRINCIPAL;
         }else if(MENU == REMOVERLIVRO){
             system("clear");
+            backmenu();
             MENU = MENUPRINCIPAL;
         }else if(MENU == BUSCARDADOSDOLIVRO){
-            system("clear");        
+            system("clear");  
+            backmenu();      
             MENU = MENUPRINCIPAL;
         }else if(MENU == IMPRIMIRARVORENIVEL){ 
-            system("clear");         
+            system("clear");  
+            backmenu();       
             MENU = MENUPRINCIPAL;
         }else if(MENU == IMPRIMIRACERVO){ 
             system("clear");
+            backmenu();
             MENU = MENUPRINCIPAL;
         }else if(MENU == CARREGARARQUIVOINICIAL){  
-            system("clear");                     
+            system("clear"); 
+            backmenu();                    
             MENU = MENUPRINCIPAL;
         }
             

@@ -1,4 +1,3 @@
-
 #ifndef ARVORE_H
 #define ARVORE_H
 
@@ -39,16 +38,12 @@ public:
 
     /* Método que busca a posição em que está ou estaria a chave em um nó
      * Entrada:      Árvore b+, A chave, Ponteiro para a posição em que estaria a chave
-     * Retorno:      1 caso a chave esteja presente ou 0 caso contrário
+     * Retorno:      true caso a chave esteja presente ou false caso contrário
      * Pré-condição: Nó não pode ser NULL
      * Pós-condição: Nenhuma
-    */    /* Método que retorna a posição do folha mais à esquerda
-     * Entrada:      Nenhuma
-     * Retorno:      Posição da primeira folha no arquivo de nós ou -1 caso não tenha
-     * Pré-condição: Nenhuma
-     * Pós-condição: Nenhuma
-    */
-    int buscarPos(int chave, int *pos);
+    */    
+
+    bool buscarPos(int chave, int *pos);
 
     /* Método que faz o split de um nó interno(Não folha)
      * Entrada:      Nó BMais e ponteiro para a chave que foi promovida
@@ -170,9 +165,6 @@ public:
     */
     int buscarChave(Chave chave);
 
-    //destrutor da classe
-    ~BMais();
-
     /* Método que retorna a posição do folha mais à esquerda
      * Entrada:      Nenhuma
      * Retorno:      Posição da primeira folha no arquivo de nós ou -1 caso não tenha
@@ -180,6 +172,16 @@ public:
      * Pós-condição: Nenhuma
     */
     int pegarPrimeiraFolha();
+
+    bool underflow();
+    
+    void remover(int chave);
+
+
+
+    
+    //destrutor da classe
+    ~BMais();
 };
 
 #endif

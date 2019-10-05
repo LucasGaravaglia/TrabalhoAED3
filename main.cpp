@@ -1,6 +1,7 @@
 #include <iostream>
-#include <string.h>
+#include <string>
 #include "arquivo.h"
+#include "interacao.h"
 
 using namespace std;
 

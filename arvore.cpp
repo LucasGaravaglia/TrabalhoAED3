@@ -53,14 +53,14 @@ int BMais::getPos(){
  * Pré-condição: Nó não pode ser NULL
  * Pós-condição: Nenhuma
 */
-int BMais::buscarPos(int chave, int *pos){
+bool BMais::buscarPos(int chave, int *pos){
     for((*pos) = 0; (*pos) < this->no.numChaves; (*pos)++){
         if(chave == this->no.chave[(*pos)].info)
-            return 1;
+            return true;
         else if(chave < this->no.chave[(*pos)].info)
             break;
     }
-    return 0;
+    return false;
 }
 
 /* Método que faz o split de um nó interno(Não folha)
@@ -494,6 +494,17 @@ int BMais::pegarPrimeiraFolha(){
         aux.mudarNo(aux.no.filhos[0]);
     }
     return aux.pos;
+}
+
+bool BMais::underflow(){
+    return (this->no.numChaves < (ORDEM/2));
+}
+
+void BMais::remover(int chave){
+    int pos;
+    if(this->buscarPos(chave,&pos)){
+
+    }
 }
 
 //destrutor da classe
