@@ -126,11 +126,11 @@ public:
 
     /* Método que muda o nó que está carregado na classe
      * Entrada:      Posição do nó que será carregado do arquivo
-     * Retorno:      Nenhum
+     * Retorno:      True caso consiga ler ou False caso contrário
      * Pré-condição: Nenhum
      * Pós-condição: O nó é carregado para a classe
     */
-    void mudarNo(int posNo);
+    bool mudarNo(int posNo);
 
     /* Método usado para ler todas as informações de um nó inseridoo no arquivo
      * Entrada:      Posição do nó no arquivo
@@ -181,20 +181,72 @@ public:
     bool underflow();
 
     /* Método que arrasta tudo que está à direita de pos para pós no vetor de chaves
-     * Entrada:      Posição que será apagada
+     * Entrada:      Vetor de chaves e posição que será apagada
      * Retorno:      Nenhum
-     * Pré-condição: O nó que está sendo manipulado deve estar carregado na classe
+     * Pré-condição: Nenhuma
      * Pós-condição: A chave na posição pos é retirada do vetor
     */
-    void arrastaPraEsquerda(int pos){
+    void arrastaPraEsquerda(int pos);
 
     /* Método que remove uma chave de um nó folha
      * Entrada:      Chave a ser removida
-     * Retorno:      Posição do livro no arquivo de livros da chave que foi removida
+     * Retorno:      Nenhum
      * Pré-condição: Nó não nulo. Nó em que a chave será removida deve estar na classe
      * Pós-condição: A chave é removida do nó
     */
-    int removerChaveNaFolha(Chave chave);
+    void removerChaveNaFolha(Chave chave);
+
+    /* Arrasta todas as chaves à direita de pos para à esquerda, eliminando pos, arrumando os filhos
+     * Entrada:      Posição a ser eliminada
+     * Retorno:      Nenhum
+     * Pré-condição: Nenhuma
+     * Pós-condição: O elemento de pos é removido e o vetor rearranjado
+    */
+    void arrastaPraEsquerdaComFilhos(int pos);
+    
+    /* Método que remove um chave que não está na folha
+     * Entrada:      Chave a ser removida
+     * Retorno:      Nenhum
+     * Pré-condição: Nó não nulo. Nó em que será a remoção deve estar carregado na classe
+     * Pós-condição: A chave é removida do nó
+    */
+    void removerChaveNaoFolhaNoMergeFolha(Chave chave);
+
+    /* Método que pega uma chave emprestada de um dos irmãos e coloca no nó atual
+     * Entrada:      Nenhuma
+     * Retorno:      Nenhum
+     * Pré-condição: O nó com underflow deve estar carregado na classe. Pelo menos um dos irmãos deve poder
+     *               Emprestar uma chave
+     * Pós-condição: Uma chave é emprestada de um dos irmãos e as alterações necessárias são feitas
+    */
+    void empresta(Chave chave);
+
+    /* Método que remove uma chave na folha e corrige a folha que fica com underflow
+     * Entrada:      Chave a ser removida
+     * Retorno:      Nenhum
+     * Pré-condição: O nó que sofrerá a remoção deve estar carregado na classe. 
+     *               Ter um irmão com chave disponivel para emprestar
+     * Pós-condição: A chave é removida da folha e os nós envolvidos são rearranjados
+    */
+    void removerChaveNaFolhaComUnderflow(Chave chave);
+    
+    /* Método que concatena duas folhas, caso houver underflow
+     * Entrada:      Nó que sofrerá merge e deixará de existir
+     * Retorno:      Nenhum
+     * Pré-condição: Somatório do número de chave dos dois nós não ser maior que ordem-1. Nós não nulos
+     * Pós-condição: Nó recebido como parâmetro sofre merge com o nó carregado na classe e é removido
+    */
+    void mergeFolha(BMais no);
+
+    /* Método que remove uma chave da folha que sofrerá merge
+     * Entrada:      Chave a ser removida
+     * Retorno:      Nenhum
+     * Pré-condição: O nó que sofrerá a remoção deve estar carregado na classe.
+     *               Nós não nulos.
+     *               Deve haver nós possíveis para se fazer merge
+     * Pós-condição: A chave é removida do nó
+    */
+    void removerChaveNaFolhaComMerge(Chave chave);
 
     //destrutor da classe
     ~BMais();

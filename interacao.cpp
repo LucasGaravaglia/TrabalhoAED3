@@ -30,18 +30,18 @@ Gerente Interacao::getGerente(){
  * Pre-condicao: String não null
  * Pos-condicao: Nenhum
 */
-void Interacao::removeSpaces(char *s){
-	char *temp = NULL;
-	char novo[200];
-    novo[0] = '\0';
-	temp = strtok(s," ");
-	while(temp != NULL){
-		strcat(novo,temp);
-		temp = strtok(NULL," ");
-		if(temp != NULL) strcat(novo," ");
-	}
-	strcpy(s,novo);
-}
+//void Interacao::removeSpaces(char *s){
+//	char *temp = NULL;
+//	char novo[200];
+//    novo[0] = '\0';
+//	temp = strtok(s," ");
+//	while(temp != NULL){
+//		strcat(novo,temp);
+//		temp = strtok(NULL," ");
+//		if(temp != NULL) strcat(novo," ");
+//	}
+//	strcpy(s,novo);
+//}
 
 /* Método que cria uma struct de dados a partir de uma linha lida no arquivo
  * Entrada:      Uma linha do arquivo
@@ -49,18 +49,18 @@ void Interacao::removeSpaces(char *s){
  * Pre-condicao: Linha não nulla
  * Pos-condicao: Nenhum
 */
-InfoLivro Interacao::criaLivro(char *linha){
-    InfoLivro novoLivro;
-    char *temp;
-    int valor=0,i=0;
-    temp = strtok(linha,";");
-    while(temp[i]){
-        valor = (valor * 10) + (temp[i++]-48);
-    }
-    novoLivro.codigo = valor;
+//InfoLivro Interacao::criaLivro(char *linha){
+    //InfoLivro novoLivro;
+    //char *temp;
+    //int valor=0,i=0;
+    //temp = strtok(linha,";");
+    //while(temp[i]){
+    //    valor = (valor * 10) + (temp[i++]-48);
+    //}
+    //novoLivro.codigo = valor;
     
 
-}
+//}
 
 // /* Carrega o arquivo inicial
 //  * Entrada:      Nenhum

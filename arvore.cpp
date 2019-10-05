@@ -261,7 +261,7 @@ void BMais::inserir(Chave chave){
                 NoBMais temp;
                 temp = this->arquivo.lerNo(this->cab.posLivre);
                 this->arquivo.escreverNo(novaraiz,this->cab.posLivre);
-                // this->no.pai = this->cab.posLivre;
+               // this->no.pai = this->cab.posLivre;
                 this->cab.raiz = this->cab.posLivre;
                 novaraiz.pai = this->cab.raiz; /* INSERIR O NÓ NO ARQUIVO DEPOIS DISSO */
                 this->cab.posLivre = temp.pai;
@@ -358,19 +358,19 @@ void BMais::imprimirTodoOsNiveis(){
 
 /* Método que muda o nó que está carregado na classe
  * Entrada:      Posição do nó que será carregado do arquivo
- * Retorno:      Nenhum
+ * Retorno:      True caso consiga ler ou False caso contrário
  * Pré-condição: Nenhum
  * Pós-condição: O nó é carregado para a classe
 */
-void BMais::mudarNo(int posNo){
+bool BMais::mudarNo(int posNo){
     NoBMais aux;
     aux = this->arquivo.lerNo(posNo);
     if(aux.numChaves != -1){ //Sucesso na leitura. Muda o nó que está na classe
         this->setPos(posNo);
         this->no = this->arquivo.lerNo(posNo);
-    }else{
-        printf("Erro, não foi possível ler a posição no arquivo arvore.bin\n");
+        return true;
     }
+    return false;
 }
 
 /* Método usado para ler todas as informações de um nó inseridoo no arquivo
@@ -388,6 +388,7 @@ void BMais::DeBug(int pos){
     printf("\nchave = ");
     for(i=0;i<this->no.numChaves;i++)
         printf(" %d | ",this->no.chave[i]);
+    printf("Quantidade de chaves = %d\n",this->no.numChaves);
     if(this->no.ehFolha)
         printf("\nproxima folha = %d",this->no.filhos[ORDEM]);
     printf("\n\n");    
@@ -514,7 +515,7 @@ bool BMais::underflow(){
 */
 void BMais::arrastaPraEsquerda(int pos){
     int i;
-    for(i=pos;i<this->no.numChaves-2;i++){
+    for(i=pos;i<this->no.numChaves-1;i++){
         this->no.chave[i] = this->no.chave[i+1];
     }
 }
@@ -525,13 +526,172 @@ void BMais::arrastaPraEsquerda(int pos){
  * Pré-condição: Nó não nulo. Nó em que a chave será removida deve estar na classe
  * Pós-condição: A chave é removida do nó
 */
-int BMais::removerChaveNaFolha(Chave chave){
+void BMais::removerChaveNaFolha(Chave chave){
     int posChave,posLivro;
     this->buscarPos(chave.info,&posChave);
-    posLivro = this->no.chave[pos].posLivro;
-    this->arrastaPraEsquerda(pos);
+    this->arrastaPraEsquerda(posChave);
     this->no.numChaves--;
-    return posLivro;
+    this->arquivo.escreverNo(this->no,this->pos);
+}
+
+
+/* Método que pega uma chave emprestada de um dos irmãos e coloca no nó atual
+ * Entrada:      Nenhuma
+ * Retorno:      Nenhum
+ * Pré-condição: O nó com underflow deve estar carregado na classe. Pelo menos um dos irmãos deve poder
+ *               Emprestar uma chave
+ * Pós-condição: Uma chave é emprestada de um dos irmãos e as alterações necessárias são feitas
+*/
+void BMais::empresta(Chave chave){
+    int posChave;
+    BMais pai,esquerda,direita;
+    pai.mudarNo(this->no.pai);
+    if(pai.buscarPos(chave.info,&posChave)){ //Tem irmão à direita e à esquerda
+        esquerda.mudarNo(pai.no.filhos[posChave]);
+        direita.mudarNo(pai.no.filhos[posChave+2]);
+        if(esquerda.no.numChaves > ORDEM/2){ //Pega emprestado do irmão à esquerda
+            this->adicionarDireita(0,esquerda.no.chave[esquerda.no.numChaves-1],-1);
+            esquerda.removerChaveNaFolha(esquerda.no.chave[esquerda.no.numChaves-1]);
+            pai.no.chave[posChave] = this->no.chave[0];
+            esquerda.arquivo.escreverNo(esquerda.no,esquerda.getPos());
+        }else{ //Pega emprestado do irmão à direita
+            this->adicionarDireita(this->no.numChaves,direita.no.chave[0],-1);
+            direita.removerChaveNaFolha(direita.no.chave[0]);
+            pai.no.chave[posChave+1] = direita.no.chave[0];
+            direita.arquivo.escreverNo(direita.no,direita.getPos());
+        }
+    }else{
+        direita.mudarNo(pai.no.filhos[posChave+1]);
+        if(posChave != 0){ //Tem um nó à esquerda
+            esquerda.mudarNo(posChave-1);
+            if(esquerda.no.numChaves > ORDEM/2){
+                this->adicionarDireita(0,esquerda.no.chave[esquerda.no.numChaves-1],-1);
+                esquerda.removerChaveNaFolha(esquerda.no.chave[esquerda.no.numChaves-1]);
+                pai.no.chave[posChave-1] = this->no.chave[0];
+                esquerda.arquivo.escreverNo(esquerda.no,esquerda.getPos());
+            }else{
+                this->adicionarDireita(this->no.numChaves,direita.no.chave[0],-1);
+                direita.removerChaveNaFolha(direita.no.chave[0]);
+                pai.no.chave[posChave] = direita.no.chave[0];
+                direita.arquivo.escreverNo(direita.no,direita.getPos());  
+            }
+        }else{ //Não tem nó à esquerda
+            this->adicionarDireita(this->no.numChaves,direita.no.chave[0],-1);
+            direita.removerChaveNaFolha(direita.no.chave[0]);
+            pai.no.chave[posChave] = direita.no.chave[0];
+            direita.arquivo.escreverNo(direita.no,direita.getPos());   
+        }
+    }
+    pai.arquivo.escreverNo(pai.no,pai.getPos());
+}
+
+/* Método que remove uma chave na folha e corrige a folha que fica com underflow
+ * Entrada:      Chave a ser removida
+ * Retorno:      Nenhum
+ * Pré-condição: O nó que sofrerá a remoção deve estar carregado na classe. 
+ *               Ter um irmão com chave disponivel para emprestar
+ * Pós-condição: A chave é removida da folha e os nós envolvidos são rearranjados
+*/
+void BMais::removerChaveNaFolhaComUnderflow(Chave chave){
+    this->removerChaveNaFolha(chave);
+    this->empresta(chave);
+}
+
+/* Arrasta todas as chaves à direita de pos para à esquerda, eliminando pos, arrumando os filhos
+ * Entrada:      Posição a ser eliminada
+ * Retorno:      Nenhum
+ * Pré-condição: Nenhuma
+ * Pós-condição: O elemento de pos é removido e o vetor rearranjado
+*/
+void BMais::arrastaPraEsquerdaComFilhos(int pos){
+    int i;
+    for(i=pos;i<this->no.numChaves-1;i++){
+        this->no.chave[i] = this->no.chave[i+1];
+        this->no.filhos[i+1] = this->no.filhos[i+2];
+    }
+}
+
+/* Método que remove um chave que não está na folha
+ * Entrada:      Chave a ser removida
+ * Retorno:      Nenhum
+ * Pré-condição: Nó não nulo. Nó em que será a remoção deve estar carregado na classe
+ * Pós-condição: A chave é removida do nó
+*/
+void BMais::removerChaveNaoFolhaNoMergeFolha(Chave chave){
+    int posChave,posLivro;
+    this->buscarPos(chave.info,&posChave);
+    this->arrastaPraEsquerdaComFilhos(posChave);
+    this->no.numChaves--;
+    this->arquivo.escreverNo(this->no,this->pos);
+}
+
+/* Método que concatena duas folhas, caso houver underflow
+ * Entrada:      Nó que sofrerá merge e deixará de existir
+ * Retorno:      Nenhum
+ * Pré-condição: Somatório do número de chave dos dois nós não ser maior que ordem-1. Nós não nulos
+ * Pós-condição: Nó recebido como parâmetro sofre merge com o nó carregado na classe e é removido
+*/
+void BMais::mergeFolha(BMais removido){
+    int i;
+    BMais pai;
+    for(i=0;i<removido.no.numChaves;i++){
+        this->no.chave[this->no.numChaves + i] = removido.no.chave[i];
+    }
+    this->no.filhos[ORDEM] = removido.no.filhos[ORDEM];
+    pai.mudarNo(this->no.pai);
+    pai.removerChaveNaoFolhaNoMergeFolha(this->no.chave[this->no.numChaves]);
+    this->no.numChaves += removido.no.numChaves;
+    pai.arquivo.escreverNo(pai.no,pai.getPos());
+    this->arquivo.escreverNo(this->no,this->getPos());
+    this->cab = this->arquivo.lerCabecalhoArvore();
+    removido.no.pai = this->cab.posLivre;
+    this->cab.posLivre = removido.getPos();
+    removido.arquivo.escreverNo(removido.no,removido.getPos());
+    this->arquivo.escreverCabecalhoArvore(this->getCab());
+}
+
+/* Método que remove uma chave da folha que sofrerá merge
+ * Entrada:      Chave a ser removida
+ * Retorno:      Nenhum
+ * Pré-condição: O nó que sofrerá a remoção deve estar carregado na classe.
+ *               Nós não nulos.
+ *               Deve haver nós possíveis para se fazer merge
+ * Pós-condição: A chave é removida do nó
+*/
+void BMais::removerChaveNaFolhaComMerge(Chave chave){
+    BMais pai,esquerda,direita,temp;
+    int posChave;
+    this->removerChaveNaFolha(chave);
+    pai.mudarNo(this->no.pai);
+    if(pai.buscarPos(chave.info,&posChave)){//this = posChave+1
+        esquerda.mudarNo(posChave);
+        direita.mudarNo(posChave+2);
+        if(this->no.numChaves+esquerda.no.numChaves < ORDEM-1){
+            temp.mudarNo(this->getPos());
+            this->mudarNo(esquerda.getPos());
+            this->mergeFolha(temp);
+        }else{
+            printf("c\n");
+            this->mergeFolha(direita);
+        }
+    }else{//this = posChave
+        direita.mudarNo(posChave+1);
+        if(posChave != 0){ //Tem irmão da esquerda
+            esquerda.mudarNo(posChave-1);
+            if(this->no.numChaves+esquerda.no.numChaves < ORDEM-1){
+                printf("d\n");
+                direita.mudarNo(this->getPos());
+                this->mudarNo(esquerda.getPos());
+                this->mergeFolha(direita);
+            }else{
+                printf("e\n");
+                this->mergeFolha(direita);
+            }
+        }else{
+            printf("f\n");
+            this->mergeFolha(direita);
+        }
+    }
 }
 
 //destrutor da classe

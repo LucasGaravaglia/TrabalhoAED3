@@ -25,9 +25,9 @@ public:
      * Pre-condicao: String não null
      * Pos-condicao: Nenhum
     */
-    void removeSpaces(char *s);
+    //void removeSpaces(char *s);
 
-    InfoLivro Interacao::criaLivro(char *linha);
+    //InfoLivro Interacao::criaLivro(char *linha);
 
     // /* Carrega o arquivo inicial
     //  * Entrada:      Nenhum
