@@ -631,7 +631,7 @@ void BMais::removerChaveNaoFolhaNoMergeFolha(Chave chave){
  * Pré-condição: Somatório do número de chave dos dois nós não ser maior que ordem-1. Nós não nulos
  * Pós-condição: Nó recebido como parâmetro sofre merge com o nó carregado na classe e é removido
 */
-void BMais::mergeFolha(BMais removido){
+void BMais::mergeFolha(BMais removido, Chave chave){
     int i;
     BMais pai;
     for(i=0;i<removido.no.numChaves;i++){
@@ -639,7 +639,7 @@ void BMais::mergeFolha(BMais removido){
     }
     this->no.filhos[ORDEM] = removido.no.filhos[ORDEM];
     pai.mudarNo(this->no.pai);
-    pai.removerChaveNaoFolhaNoMergeFolha(this->no.chave[this->no.numChaves]);
+    pai.removerChaveNaoFolhaNoMergeFolha(chave);
     this->no.numChaves += removido.no.numChaves;
     pai.arquivo.escreverNo(pai.no,pai.getPos());
     this->arquivo.escreverNo(this->no,this->getPos());
@@ -660,7 +660,7 @@ void BMais::mergeFolha(BMais removido){
 */
 void BMais::removerChaveNaFolhaComMerge(Chave chave){
     BMais pai,esquerda,direita,temp;
-    int posChave;
+    int posChave,chaveARemoverNoPai;
     this->removerChaveNaFolha(chave);
     pai.mudarNo(this->no.pai);
     if(pai.buscarPos(chave.info,&posChave)){//this = posChave+1
@@ -669,27 +669,24 @@ void BMais::removerChaveNaFolhaComMerge(Chave chave){
         if(this->no.numChaves+esquerda.no.numChaves < ORDEM-1){
             temp.mudarNo(this->getPos());
             this->mudarNo(esquerda.getPos());
-            this->mergeFolha(temp);
+            this->mergeFolha(temp,chave);
         }else{
             printf("c\n");
-            this->mergeFolha(direita);
+            this->mergeFolha(direita,chave);
         }
     }else{//this = posChave
         direita.mudarNo(posChave+1);
         if(posChave != 0){ //Tem irmão da esquerda
             esquerda.mudarNo(posChave-1);
             if(this->no.numChaves+esquerda.no.numChaves < ORDEM-1){
-                printf("d\n");
-                direita.mudarNo(this->getPos());
+                temp.mudarNo(this->getPos());
                 this->mudarNo(esquerda.getPos());
-                this->mergeFolha(direita);
+                this->mergeFolha(temp,temp.no.chave[0]);
             }else{
-                printf("e\n");
-                this->mergeFolha(direita);
+                this->mergeFolha(direita,temp.no.chave[0]);
             }
         }else{
-            printf("f\n");
-            this->mergeFolha(direita);
+            this->mergeFolha(direita,temp.no.chave[0]);
         }
     }
 }

@@ -236,7 +236,7 @@ public:
      * Pré-condição: Somatório do número de chave dos dois nós não ser maior que ordem-1. Nós não nulos
      * Pós-condição: Nó recebido como parâmetro sofre merge com o nó carregado na classe e é removido
     */
-    void mergeFolha(BMais no);
+    void mergeFolha(BMais no, Chave chave);
 
     /* Método que remove uma chave da folha que sofrerá merge
      * Entrada:      Chave a ser removida

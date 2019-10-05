@@ -43,9 +43,8 @@ int main(){
     arv.removerChaveNaFolha(chave);
     arv.imprimirTodoOsNiveis();
     cout << "\n\n\n";
-    chave.info = 300;
-    //arv.mudarNo(1);
-    arv.mudarNo(1);
+    chave.info = 700;
+    arv.mudarNo(3);
     arv.removerChaveNaFolhaComMerge(chave);
     arv.imprimirTodoOsNiveis();
     return 0;
