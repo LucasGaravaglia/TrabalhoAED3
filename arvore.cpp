@@ -611,13 +611,13 @@ void BMais::arrastaPraEsquerdaComFilhos(int pos){
     }
 }
 
-/* Método que remove um chave que não está na folha
+/* Método que remove um chave que não está na folha durante o merge
  * Entrada:      Chave a ser removida
  * Retorno:      Nenhum
  * Pré-condição: Nó não nulo. Nó em que será a remoção deve estar carregado na classe
  * Pós-condição: A chave é removida do nó
 */
-void BMais::removerChaveNaoFolhaNoMergeFolha(Chave chave){
+void BMais::removerChaveNaoFolhaNoMerge(Chave chave){
     int posChave,posLivro;
     this->buscarPos(chave.info,&posChave);
     this->arrastaPraEsquerdaComFilhos(posChave);
@@ -639,7 +639,7 @@ void BMais::mergeFolha(BMais removido, Chave chave){
     }
     this->no.filhos[ORDEM] = removido.no.filhos[ORDEM];
     pai.mudarNo(this->no.pai);
-    pai.removerChaveNaoFolhaNoMergeFolha(chave);
+    pai.removerChaveNaoFolhaNoMerge(chave);
     this->no.numChaves += removido.no.numChaves;
     pai.arquivo.escreverNo(pai.no,pai.getPos());
     this->arquivo.escreverNo(this->no,this->getPos());
@@ -649,6 +649,7 @@ void BMais::mergeFolha(BMais removido, Chave chave){
     removido.arquivo.escreverNo(removido.no,removido.getPos());
     this->arquivo.escreverCabecalhoArvore(this->getCab());
 }
+
 
 /* Método que remove uma chave da folha que sofrerá merge
  * Entrada:      Chave a ser removida
@@ -689,6 +690,38 @@ void BMais::removerChaveNaFolhaComMerge(Chave chave){
             this->mergeFolha(direita,temp.no.chave[0]);
         }
     }
+}
+
+/* Método que faz o merge em dois nós internos
+ * Entrada:      Nó que deixara de existir e sofrerá merge com o nó carregado em memória
+ * Retorno:      Nenhum
+ * Pré-condição: O nó que receberá o merge deve estar carregado na memória.
+ *               O nó passado como parâmetro deve estar com underflow.
+ *               Somatório do número de chave dos dois nós não ser maior que ordem-1
+ * Pós-condição: O nó passado como parâmetro é copiado para o nó carregado e depois é apagado
+*/
+void BMais::mergeNaoFolha(BMais removido, Chave chave){
+    int i;
+    BMais pai;
+    BMais filho;
+    pai.mudarNo(this->no.pai);
+    this->adicionarDireita(this->no.numChaves,pai.no.chave[0],-1);
+    pai.removerChaveNaoFolhaNoMerge(chave);
+    for(i=0;i<removido.no.numChaves;i++){
+        this->no.chave[this->no.numChaves + i] = removido.no.chave[i];
+        this->no.filhos[this->no.numChaves+i+1] = removido.no.filhos[i];
+        filho.mudarNo(this->no.filhos[this->no.numChaves+i+1]);
+        filho.no.pai = this->getPos();
+        filho.arquivo.escreverNo(filho.no,filho.getPos());
+    }
+    this->no.numChaves += removido.no.numChaves;
+    pai.arquivo.escreverNo(pai.no,pai.getPos());
+    this->arquivo.escreverNo(this->no,this->getPos());
+    this->cab = this->arquivo.lerCabecalhoArvore();
+    removido.no.pai = this->cab.posLivre;
+    this->cab.posLivre = removido.getPos();
+    removido.arquivo.escreverNo(removido.no,removido.getPos());
+    this->arquivo.escreverCabecalhoArvore(this->getCab());
 }
 
 //destrutor da classe

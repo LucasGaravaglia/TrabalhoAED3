@@ -204,13 +204,13 @@ public:
     */
     void arrastaPraEsquerdaComFilhos(int pos);
     
-    /* Método que remove um chave que não está na folha
+    /* Método que remove um chave que não está na folha durante o merge
      * Entrada:      Chave a ser removida
      * Retorno:      Nenhum
      * Pré-condição: Nó não nulo. Nó em que será a remoção deve estar carregado na classe
      * Pós-condição: A chave é removida do nó
     */
-    void removerChaveNaoFolhaNoMergeFolha(Chave chave);
+    void removerChaveNaoFolhaNoMerge(Chave chave);
 
     /* Método que pega uma chave emprestada de um dos irmãos e coloca no nó atual
      * Entrada:      Nenhuma
@@ -247,6 +247,16 @@ public:
      * Pós-condição: A chave é removida do nó
     */
     void removerChaveNaFolhaComMerge(Chave chave);
+
+    /* Método que faz o merge em dois nós internos
+     * Entrada:      Nó que deixara de existir e sofrerá merge com o nó carregado em memória
+     * Retorno:      Nenhum
+     * Pré-condição: O nó que receberá o merge deve estar carregado na memória.
+     *               O nó passado como parâmetro deve estar com underflow.
+     *               Somatório do número de chave dos dois nós não ser maior que ordem-1
+     * Pós-condição: O nó passado como parâmetro é copiado para o nó carregado e depois é apagado
+    */
+    void mergeNaoFolha(BMais removido, Chave chave);
 
     //destrutor da classe
     ~BMais();
