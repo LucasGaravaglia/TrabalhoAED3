@@ -36,17 +36,9 @@ int main(){
     inserir(3);
     inserir(4);
     inserir(5);
-    inserir(6);
-    inserir(7);
-    inserir(8);
-    inserir(9);
-    inserir(10);
-    inserir(11);
-    inserir(12);
-    inserir(13);
     arv.imprimirTodoOsNiveis();
     printf("\n\n\n");
-    chave.info = 6;
+    chave.info = 3;
     arv.remover(chave);
     arv.imprimirTodoOsNiveis();
     return 0;
