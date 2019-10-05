@@ -42,7 +42,6 @@ public:
      * Pré-condição: Nó não pode ser NULL
      * Pós-condição: Nenhuma
     */    
-
     bool buscarPos(int chave, int *pos);
 
     /* Método que faz o split de um nó interno(Não folha)
@@ -173,13 +172,30 @@ public:
     */
     int pegarPrimeiraFolha();
 
+    /* Métod que checa se um nó está em underflow
+     * Entrada:      Nenhuma
+     * Retorno:      True caso o nó esteja em uderflow ou False caso contrário
+     * Pré-condição: Nó não nulo
+     * Pós-condição: Nenhuma
+    */
     bool underflow();
-    
-    void remover(int chave);
 
+    /* Método que arrasta tudo que está à direita de pos para pós no vetor de chaves
+     * Entrada:      Posição que será apagada
+     * Retorno:      Nenhum
+     * Pré-condição: O nó que está sendo manipulado deve estar carregado na classe
+     * Pós-condição: A chave na posição pos é retirada do vetor
+    */
+    void arrastaPraEsquerda(int pos){
 
+    /* Método que remove uma chave de um nó folha
+     * Entrada:      Chave a ser removida
+     * Retorno:      Posição do livro no arquivo de livros da chave que foi removida
+     * Pré-condição: Nó não nulo. Nó em que a chave será removida deve estar na classe
+     * Pós-condição: A chave é removida do nó
+    */
+    int removerChaveNaFolha(Chave chave);
 
-    
     //destrutor da classe
     ~BMais();
 };

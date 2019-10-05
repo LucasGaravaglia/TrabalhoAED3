@@ -62,32 +62,32 @@ InfoLivro Interacao::criaLivro(char *linha){
 
 }
 
-/* Carrega o arquivo inicial
- * Entrada:      Nenhum
- * Retorno:      Nenhum
- * Pré-condição: Nenhum
- * Pós-condição: Nenhum
-*/
-void Interacao::loadStartFile(){
-    string NomeArquivo;
-    ifstream arquivo;
-    InfoLivro novoLivro;
-    char linha[200];
-    cout << "Digite o nome do arquivo de entrada: ";
-    cin.ignore();
-    getline(cin,NomeArquivo);
-    arquivo.open(NomeArquivo);
-    if(arquivo.is_open()){
-        while(getline(arquivo,linha)){
-            linha = removeSpaces(linha);//Tira espaços em branco excedentes da linha
-            novoLivro = this->criaLivro(linha);
-            if(!this->gerente.inserirLivro(novoLivro))
-                cout << "Erro ao inserir o arquivo de entrada" << endl;
-        }
-    }else{
-        cout << "Erro ao abrir o arquivo" << endl;
-    } 
-}
+// /* Carrega o arquivo inicial
+//  * Entrada:      Nenhum
+//  * Retorno:      Nenhum
+//  * Pré-condição: Nenhum
+//  * Pós-condição: Nenhum
+// */
+// void Interacao::loadStartFile(){
+//     string NomeArquivo;
+//     ifstream arquivo;
+//     InfoLivro novoLivro;
+//     char linha[200];
+//     cout << "Digite o nome do arquivo de entrada: ";
+//     cin.ignore();
+//     getline(cin,NomeArquivo);
+//     arquivo.open(NomeArquivo);
+//     if(arquivo.is_open()){
+//         while(getline(arquivo,linha)){
+//             linha = removeSpaces(linha);//Tira espaços em branco excedentes da linha
+//             novoLivro = this->criaLivro(linha);
+//             if(!this->gerente.inserirLivro(novoLivro))
+//                 cout << "Erro ao inserir o arquivo de entrada" << endl;
+//         }
+//     }else{
+//         cout << "Erro ao abrir o arquivo" << endl;
+//     } 
+// }
 
 /* Faz a interação com o usuario para inserir um livro
  * Entrada:      Nenhum

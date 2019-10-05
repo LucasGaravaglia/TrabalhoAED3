@@ -496,15 +496,42 @@ int BMais::pegarPrimeiraFolha(){
     return aux.pos;
 }
 
+/* Métod que checa se um nó está em underflow
+ * Entrada:      Nenhuma
+ * Retorno:      True caso o nó esteja em uderflow ou False caso contrário
+ * Pré-condição: Nó não nulo
+ * Pós-condição: Nenhuma
+*/
 bool BMais::underflow(){
     return (this->no.numChaves < (ORDEM/2));
 }
 
-void BMais::remover(int chave){
-    int pos;
-    if(this->buscarPos(chave,&pos)){
-
+/* Método que arrasta tudo que está à direita de pos para pós no vetor de chaves
+ * Entrada:      Posição que será apagada
+ * Retorno:      Nenhum
+ * Pré-condição: O nó que está sendo manipulado deve estar carregado na classe
+ * Pós-condição: A chave na posição pos é retirada do vetor
+*/
+void BMais::arrastaPraEsquerda(int pos){
+    int i;
+    for(i=pos;i<this->no.numChaves-2;i++){
+        this->no.chave[i] = this->no.chave[i+1];
     }
+}
+
+/* Método que remove uma chave de um nó folha
+ * Entrada:      Chave a ser removida
+ * Retorno:      Posição do livro no arquivo de livros da chave que foi removida
+ * Pré-condição: Nó não nulo. Nó em que a chave será removida deve estar na classe
+ * Pós-condição: A chave é removida do nó
+*/
+int BMais::removerChaveNaFolha(Chave chave){
+    int posChave,posLivro;
+    this->buscarPos(chave.info,&posChave);
+    posLivro = this->no.chave[pos].posLivro;
+    this->arrastaPraEsquerda(pos);
+    this->no.numChaves--;
+    return posLivro;
 }
 
 //destrutor da classe
