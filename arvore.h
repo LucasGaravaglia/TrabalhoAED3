@@ -258,6 +258,22 @@ public:
     */
     void mergeNaoFolha(BMais removido, Chave chave);
 
+    /* Método auxiliar para remoção
+     * Entrada:      Chave para remover e posição onde deveria estar a chave no vetor
+     * Retorno:      Nenhum
+     * Pré-condição: Nenhuma
+     * Pós-condição: A chave é removida da árvore
+    */
+    void removerAux(Chave chave);
+
+    /* Método que remove uma chave da árvore
+     * Entrada:      Chave a ser removida
+     * Retorno:      Nenhum
+     * Pré-condição: Nenhuma
+     * Pós-condição: A chave é removida da árvore
+    */
+    void remover(Chave chave);
+
     //destrutor da classe
     ~BMais();
 };

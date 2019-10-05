@@ -212,8 +212,6 @@ void BMais::inserirAux(Chave chave){
                 this->mudarNo(this->no.pai); //Volta o pai para o nó atual
             }
         }
-    }else{
-        printf("A chave já existe na árvore\n");
     }
 }
 
@@ -563,7 +561,7 @@ void BMais::empresta(Chave chave){
     }else{
         direita.mudarNo(pai.no.filhos[posChave+1]);
         if(posChave != 0){ //Tem um nó à esquerda
-            esquerda.mudarNo(posChave-1);
+            esquerda.mudarNo(pai.no.filhos[posChave-1]);
             if(esquerda.no.numChaves > ORDEM/2){
                 this->adicionarDireita(0,esquerda.no.chave[esquerda.no.numChaves-1],-1);
                 esquerda.removerChaveNaFolha(esquerda.no.chave[esquerda.no.numChaves-1]);
@@ -672,7 +670,6 @@ void BMais::removerChaveNaFolhaComMerge(Chave chave){
             this->mudarNo(esquerda.getPos());
             this->mergeFolha(temp,chave);
         }else{
-            printf("c\n");
             this->mergeFolha(direita,chave);
         }
     }else{//this = posChave
@@ -722,6 +719,138 @@ void BMais::mergeNaoFolha(BMais removido, Chave chave){
     this->cab.posLivre = removido.getPos();
     removido.arquivo.escreverNo(removido.no,removido.getPos());
     this->arquivo.escreverCabecalhoArvore(this->getCab());
+}
+
+/* Método auxiliar para remoção
+ * Entrada:      Chave para remover e posição onde deveria estar a chave no vetor
+ * Retorno:      Nenhum
+ * Pré-condição: Nenhuma
+ * Pós-condição: A chave é removida da árvore
+*/
+void BMais::removerAux(Chave chave){
+    int posChave;
+    int posChaveArquivo;
+    if(this->buscarPos(chave.info,&posChave)){
+        if(this->no.ehFolha){
+            if(this->no.numChaves > ORDEM/2){
+                this->removerChaveNaFolha(chave);
+            }else{
+                BMais pai,esquerda,direita;
+                int posChaveAux;
+                pai.mudarNo(this->no.pai);
+                if(pai.buscarPos(chave.info,&posChaveAux)){ //this = posChave+1
+                    esquerda.mudarNo(pai.no.filhos[posChaveAux]);
+                    direita.mudarNo(pai.no.filhos[posChaveAux+2]);
+                    if(esquerda.no.numChaves > ORDEM/2 || direita.no.numChaves > ORDEM/2){ //Empresta
+                        this->removerChaveNaFolhaComUnderflow(chave);
+                        printf("a\n");
+                    }else{ //Merge na folha
+                        if(esquerda.no.numChaves+this->no.numChaves-1 > ORDEM/2 || direita.no.numChaves+this->no.numChaves-1 > ORDEM/2 ){
+                            this->removerChaveNaFolhaComMerge(chave);
+                            printf("b\n");
+                        }
+                    }
+                }else{ //this = posChave
+                    direita.mudarNo(posChave+1);
+                    if(posChave != 0){
+                        esquerda.mudarNo(posChave-1);
+                        if(esquerda.no.numChaves > ORDEM/2 || direita.no.numChaves > ORDEM/2){ //Empresta
+                            this->removerChaveNaFolhaComUnderflow(chave);
+                            printf("c\n");
+                        }else{ //Merge na folha
+                            if(esquerda.no.numChaves+this->no.numChaves-1 > ORDEM/2 || direita.no.numChaves+this->no.numChaves-1 > ORDEM/2 ){
+                                this->removerChaveNaFolhaComMerge(chave);
+                                printf("d\n");
+                            }
+                        }
+                    }else{
+                        if(direita.no.numChaves > ORDEM/2){ //Empresta
+                            this->removerChaveNaFolhaComUnderflow(chave);
+                            printf("e\n");
+                        }else{ //Merge na folha
+                            this->removerChaveNaFolhaComMerge(chave);
+                            printf("fffff\n");
+                        }
+                    }
+                }
+            }
+        }else{ //Descendo até a folha para remover e verificando underflow no nó interno
+            int posChaveLocal,aux;
+            aux = this->pos;
+            this->buscarChave(chave,&posChaveLocal,&posChaveArquivo); 
+            this->mudarNo(posChaveArquivo); //O nó folha que tem a chave
+            this->removerAux(chave);
+            this->mudarNo(aux); //Pai antes de pegar a folha
+            if(this->underflow()){ //Faz merge interno
+                BMais pai,esquerda,direita;
+                pai.mudarNo(this->no.pai);
+                if(pai.buscarPos(chave.info,&posChaveLocal)){ //this = posChave+1
+                    esquerda.mudarNo(pai.no.filhos[posChave]);
+                    direita.mudarNo(pai.no.filhos[posChave+2]);
+                    if(this->no.numChaves + esquerda.no.numChaves < ORDEM-1){
+                        esquerda.mergeNaoFolha(*this,chave);
+                        printf("g\n");
+                    }else if(this->no.numChaves + direita.no.numChaves < ORDEM-1){
+                        direita.mergeNaoFolha(*this,chave);
+                        printf("h\n");
+                    }
+                }else{
+                    direita.mudarNo(posChave+1);
+                    if(posChave != 0){
+                        esquerda.mudarNo(posChave-1);
+                        if(this->no.numChaves + esquerda.no.numChaves < ORDEM-1){
+                            esquerda.mergeNaoFolha(*this,this->no.chave[0]);
+                            printf("i\n");
+                        }else if(this->no.numChaves + direita.no.numChaves < ORDEM-1){
+                            direita.mergeNaoFolha(*this,this->no.chave[0]);
+                            printf("j\n");
+                        }
+                    }else{
+                        direita.mergeNaoFolha(*this,this->no.chave[0]);
+                        printf("k\n");
+                    }
+                }
+            }else{
+                int posAux;
+                BMais filhoAux;
+                this->buscarPos(chave.info,&posAux);
+                filhoAux.mudarNo(this->no.filhos[posAux+1]);
+                this->no.chave[posAux] = filhoAux.no.chave[0];
+                this->arquivo.escreverNo(this->no,this->pos);
+                printf("l\n");
+            }
+        }
+    }else{ //Pesquisando na árvore
+        int posLocal;
+        this->buscarPos(chave.info,&posLocal);
+        this->mudarNo(this->no.filhos[posLocal]);
+        this->removerAux(chave);
+    }    
+}
+
+
+/* Método que remove uma chave da árvore
+ * Entrada:      Chave a ser removida
+ * Retorno:      Nenhum
+ * Pré-condição: Nenhuma
+ * Pós-condição: A chave é removida da árvore
+*/
+void BMais::remover(Chave chave){
+    this->setCab(this->arquivo.lerCabecalhoArvore());
+    if(this->cab.raiz != -1){//Árvore não é vazia
+        this->mudarNo(this->getCab().raiz);
+        this->removerAux(chave);
+        this->mudarNo(this->getCab().raiz);
+        if(this->no.numChaves == 0){
+            this->no.pai = this->cab.posLivre;
+            this->cab.posLivre = this->cab.raiz;
+            this->arquivo.escreverNo(this->no,this->getPos());
+            this->mudarNo(this->no.filhos[0]);
+            this->cab.raiz = this->getPos();
+            this->arquivo.escreverCabecalhoArvore(this->cab);
+            this->arquivo.escreverNo(this->no,this->getPos());
+        }
+    }
 }
 
 //destrutor da classe
