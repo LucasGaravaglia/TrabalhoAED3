@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "gerenciamento.h"
+#include "interacao.h"
+#include "gerenciamento.h"
 
 
 /* Captura um char do terminal
@@ -199,38 +201,47 @@ void mainMenu(int *var){
  * Pós-condição: O menu é executado
 */ 
 void deciderMenu(){
+    Interacao var;
+    BMais arv;
+    Gerente ger;
     int MENU = 1; //Variável de decisão do menu
     while(MENU != SAIRDOPROGRAMA){ 
-        if(MENU == MENUPRINCIPAL){
+        if(MENU == MENUPRINCIPAL){//finzalizado
             system("clear");
-            backmenu();
             mainMenu(&MENU);
-        }else if(MENU == INSERIRLIVRO){
+        }else if(MENU == INSERIRLIVRO){//finalizada
             system("clear");
+            var.insereLivro();
             backmenu();
             MENU = MENUPRINCIPAL;
-        }else if(MENU == ATUALIZAREXEMPLARES){
+        }else if(MENU == ATUALIZAREXEMPLARES){//finalizada
             system("clear");
+            var.atualizaExemplares();
             backmenu();
             MENU = MENUPRINCIPAL;
-        }else if(MENU == REMOVERLIVRO){
+        }else if(MENU == REMOVERLIVRO){//terminar a remover
             system("clear");
+            var.removeLivro();
             backmenu();
             MENU = MENUPRINCIPAL;
-        }else if(MENU == BUSCARDADOSDOLIVRO){
+        }else if(MENU == BUSCARDADOSDOLIVRO){//finalizado
             system("clear");  
+            var.BuscarDadosLivro();
             backmenu();      
             MENU = MENUPRINCIPAL;
-        }else if(MENU == IMPRIMIRARVORENIVEL){ 
+        }else if(MENU == IMPRIMIRARVORENIVEL){ //finazalizada
             system("clear");  
+            arv.imprimirTodoOsNiveis();
             backmenu();       
             MENU = MENUPRINCIPAL;
-        }else if(MENU == IMPRIMIRACERVO){ 
+        }else if(MENU == IMPRIMIRACERVO){ //finalizada
             system("clear");
+            ger.imprimirAcervo();
             backmenu();
             MENU = MENUPRINCIPAL;
-        }else if(MENU == CARREGARARQUIVOINICIAL){  
+        }else if(MENU == CARREGARARQUIVOINICIAL){//finalizada
             system("clear"); 
+            var.loadStartFile();
             backmenu();                    
             MENU = MENUPRINCIPAL;
         }

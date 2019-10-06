@@ -2,6 +2,7 @@
 #include <string>
 #include "arquivo.h"
 #include "interacao.h"
+#include "menu.h"
 
 using namespace std;
 
@@ -11,6 +12,7 @@ Gerente gerente;
 InfoLivro livro;
 BMais arv;
 Chave chave;
+Interacao menu;
 
 void inserir(int codigo){
     livro.quantidade = 45;
@@ -30,16 +32,17 @@ void inicializarArquivos(string liv, string arv){
 
 int main(){
     inicializarArquivos("livros.bin","arvore.bin");
-    BMais aux;
-    inserir(1);
-    inserir(2);
-    inserir(3);
-    inserir(4);
-    inserir(5);
-    arv.imprimirTodoOsNiveis();
-    printf("\n\n\n");
-    chave.info = 3;
-    arv.remover(chave);
-    arv.imprimirTodoOsNiveis();
+    deciderMenu();
+    //BMais aux;
+    //inserir(1);
+    //inserir(2);
+    //inserir(3);
+    //inserir(4);
+    //inserir(5);
+    //arv.imprimirTodoOsNiveis();
+    //printf("\n\n\n");
+    //chave.info = 3;
+    //arv.remover(chave);
+    // arv.imprimirTodoOsNiveis();
     return 0;
 }

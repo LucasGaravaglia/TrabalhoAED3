@@ -81,6 +81,7 @@ bool Gerente::alterarQuantidadeLivros(int codigo,int novaQuantidade){
     if(pos != -1){
         livro = this->livro.arquivo.lerLivro(pos);
         livro.quantidade = novaQuantidade;
+        cout << livro.quantidade ;
         this->livro.arquivo.escreverLivro(livro,pos);
         return true;
     }else return false;

@@ -394,7 +394,7 @@ void BMais::DeBug(int pos){
 
 /* Método que busca em qual nó FOLHA está uma chave
  * Entrada:      Chave a ser procurada e ponteiro para a chave no vetor
- * Retorno:      Nó em que a chave foi encontrada ou no.numChaves 1 caso não a ache
+ * Retorno:      Nó em que a chave foi encontrada ou no.numChaves - caso não a ache
  * Pré-condição: Nenhuma
  * Pós-condição: Nenhuma
  */ 

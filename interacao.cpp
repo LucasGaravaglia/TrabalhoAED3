@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <string.h>
+#include <string>
 #include "gerenciamento.h"
 #include "estruturaLivro.h"
 #include "interacao.h"
@@ -30,18 +31,31 @@ Gerente Interacao::getGerente(){
  * Pre-condicao: String não null
  * Pos-condicao: Nenhum
 */
-//void Interacao::removeSpaces(char *s){
-//	char *temp = NULL;
-//	char novo[200];
-//    novo[0] = '\0';
-//	temp = strtok(s," ");
-//	while(temp != NULL){
-//		strcat(novo,temp);
-//		temp = strtok(NULL," ");
-//		if(temp != NULL) strcat(novo," ");
-//	}
-//	strcpy(s,novo);
-//}
+
+string Interacao::removeSpaces(string &str){
+    int i;
+    int j = 0;
+    int size = str.length();
+    string newStr;
+    bool spaceFlag = false;
+    if(str[0] == ' ')
+        i = 1;
+    else
+        i = 0;
+    for(;i < size; i++){
+        if(str[i] != ' ') {
+            newStr += str[i];
+        }else if(str[i] == ' ' && (i+1) != size && str[i+1] == ';'){
+            continue;
+        }else if(str[i] == ' ' && (i+1) != size && str[i+1] != ' '){
+                newStr += str[i];
+        }else{
+            i++;
+        }
+    }
+    str = newStr;
+    return str;
+}
 
 /* Método que cria uma struct de dados a partir de uma linha lida no arquivo
  * Entrada:      Uma linha do arquivo
@@ -49,45 +63,67 @@ Gerente Interacao::getGerente(){
  * Pre-condicao: Linha não nulla
  * Pos-condicao: Nenhum
 */
-//InfoLivro Interacao::criaLivro(char *linha){
-    //InfoLivro novoLivro;
-    //char *temp;
-    //int valor=0,i=0;
-    //temp = strtok(linha,";");
-    //while(temp[i]){
-    //    valor = (valor * 10) + (temp[i++]-48);
-    //}
-    //novoLivro.codigo = valor;
-    
+InfoLivro Interacao::criaLivro(string linha){
+    InfoLivro novoLivro;
+    string aux;
+    int valor=0,i=0,j;
+    while(linha[i] != ';'){
+        if(linha[i] >= 48 && linha[i] <= 48+9)
+            valor = (valor * 10) + (linha[i++]-48);
+        else i++;
+    }
+    j = i+1;
+    novoLivro.codigo = valor;
+    aux = "";
+    while(linha[j] != ';')
+        aux+=linha[j++];
+    aux = this->removeSpaces(aux);
+    strcpy(novoLivro.titulo,aux.c_str());
+    aux = "";
+    j++;
+    while(linha[j] != ';')
+        aux+=linha[j++];
+    aux = this->removeSpaces(aux);
+    strcpy(novoLivro.autor,aux.c_str());
+    i=0;
+    valor = 0;
+    while(linha[j]){
+       if(linha[j] >= 48 && linha[j] <= 48+9)
+            valor = (valor * 10) + (linha[j++]-48);
+        else j++;
+    }
+    novoLivro.quantidade = valor;
+    return novoLivro;
+}
 
-//}
-
-// /* Carrega o arquivo inicial
-//  * Entrada:      Nenhum
-//  * Retorno:      Nenhum
-//  * Pré-condição: Nenhum
-//  * Pós-condição: Nenhum
-// */
-// void Interacao::loadStartFile(){
-//     string NomeArquivo;
-//     ifstream arquivo;
-//     InfoLivro novoLivro;
-//     char linha[200];
-//     cout << "Digite o nome do arquivo de entrada: ";
-//     cin.ignore();
-//     getline(cin,NomeArquivo);
-//     arquivo.open(NomeArquivo);
-//     if(arquivo.is_open()){
-//         while(getline(arquivo,linha)){
-//             linha = removeSpaces(linha);//Tira espaços em branco excedentes da linha
-//             novoLivro = this->criaLivro(linha);
-//             if(!this->gerente.inserirLivro(novoLivro))
-//                 cout << "Erro ao inserir o arquivo de entrada" << endl;
-//         }
-//     }else{
-//         cout << "Erro ao abrir o arquivo" << endl;
-//     } 
-// }
+/* Carrega o arquivo inicial
+ * Entrada:      Nenhum
+ * Retorno:      Nenhum
+ * Pré-condição: Nenhum
+ * Pós-condição: Nenhum
+*/
+void Interacao::loadStartFile(){
+    string NomeArquivo;
+    ifstream arquivo;
+    InfoLivro novoLivro;
+    string linha;
+    cout << "Digite o nome do arquivo de entrada: ";
+    getline(cin,NomeArquivo);
+    arquivo.open(NomeArquivo);
+    if(arquivo.is_open()){
+        getline(arquivo,linha);
+        while(!arquivo.eof()){
+            linha = this->removeSpaces(linha);//Tira espaços em branco excedentes da linha
+            novoLivro = this->criaLivro(linha);
+            if(!this->gerente.inserirLivro(novoLivro))
+                cout << "Erro ao inserir o arquivo de entrada" << endl;
+            getline(arquivo,linha);
+        }
+    arquivo.close();
+    }else{
+        cout << "Erro ao abrir o arquivo" << endl;
+    } 
+}
 
 /* Faz a interação com o usuario para inserir um livro
  * Entrada:      Nenhum
@@ -151,6 +187,25 @@ void Interacao::atualizaExemplares(){
         cout << endl << "Livro alterado com sucesso." << endl;
     }else{
         cout << endl << "Erro ao alterar livro." << endl;
+    }
+}
+
+void Interacao::BuscarDadosLivro(){
+    Chave chave;
+    InfoLivro info;
+    NoBMais temp;
+    cout << "Qual livro voce deseja vizualizar?"<< endl <<"Codigo: ";
+    cin >>chave.info;
+    temp = this->gerente.getArvore().buscarChave(chave,&chave.posLivro);
+    if(temp.numChaves != -1){
+        chave.posLivro = temp.chave[chave.posLivro].posLivro;
+        info = this->gerente.getLivro().arquivo.lerLivro(chave.posLivro);
+        cout << "Codigo: " << info.codigo << endl;
+        cout << "Título: " << info.titulo << endl;
+        cout << "Autor:  " << info.autor << endl;
+        cout << "Quantidade de exemplares: " << info.quantidade << endl;
+    }else{
+        cout << "Livro nao encontrado";
     }
 }
 

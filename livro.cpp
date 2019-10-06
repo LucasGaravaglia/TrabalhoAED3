@@ -89,10 +89,10 @@ CabecalhoLivro Livro::getCab(){
 */
 string Livro::toString(){
     return 
-    to_string(this->livro.quantidade)   + ";"
+    to_string(this->livro.codigo)   + ";"
     + this->livro.titulo                + ";"
     + this->livro.autor                 + ";"
-    + to_string(this->livro.codigo);
+    + to_string(this->livro.quantidade);
 }
 
 /* Método que permite alterar o número de exemplares de um livro

@@ -25,17 +25,23 @@ public:
      * Pre-condicao: String não null
      * Pos-condicao: Nenhum
     */
-    //void removeSpaces(char *s);
+    string removeSpaces(string &str);
 
-    //InfoLivro Interacao::criaLivro(char *linha);
+    /* Método que recebe uma string e converte ela em uma struct de dados
+     * Entrada:      String a ser alterada
+     * Retorno:      Nenhum
+     * Pre-condicao: String não null
+     * Pos-condicao: Nenhum
+    */
+    InfoLivro criaLivro(string s);
 
-    // /* Carrega o arquivo inicial
-    //  * Entrada:      Nenhum
-    //  * Retorno:      Nenhum
-    //  * Pré-condição: Nenhum
-    //  * Pós-condição: Nenhum
-    // */
-    // void loadStartFile();
+    /* Carrega o arquivo inicial
+     * Entrada:      Nenhum
+     * Retorno:      Nenhum
+     * Pré-condição: Nenhum
+     * Pós-condição: Nenhum
+    */
+    void loadStartFile();
 
     /* Faz a interação com o usuario para inserir um livro
      * Entrada:      Nenhum
@@ -60,6 +66,15 @@ public:
      * Pós-condição: Nenhum
     */
     void atualizaExemplares();
+
+    /* Faz interação com o usuario para vizualizar os dados de um livro a partir do codigo dele
+     * Entrada:      Nenhum
+     * Retorno:      Nenhum
+     * Pré-condição: Nenhum
+     * Pós-condição: Nenhum
+    */
+    void BuscarDadosLivro();
+
 
     //Destrutor da classe interacao
     ~Interacao();
