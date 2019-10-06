@@ -32,17 +32,22 @@ void inicializarArquivos(string liv, string arv){
 
 int main(){
     inicializarArquivos("livros.bin","arvore.bin");
-    deciderMenu();
+    // deciderMenu();
     //BMais aux;
-    //inserir(1);
-    //inserir(2);
-    //inserir(3);
-    //inserir(4);
-    //inserir(5);
-    //arv.imprimirTodoOsNiveis();
-    //printf("\n\n\n");
-    //chave.info = 3;
-    //arv.remover(chave);
-    // arv.imprimirTodoOsNiveis();
+    inserir(1);
+    inserir(2);
+    inserir(3);
+    inserir(4);
+    inserir(5);
+    inserir(6);
+    inserir(7);
+    inserir(8);
+    inserir(9);
+    // arv.DeBug(2);
+    arv.imprimirTodoOsNiveis();
+    printf("\n");
+    chave.info = 3;
+    arv.remover(chave);
+    arv.imprimirTodoOsNiveis();
     return 0;
 }

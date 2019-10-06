@@ -380,12 +380,12 @@ bool BMais::mudarNo(int posNo){
 void BMais::DeBug(int pos){
     int i;
     this->mudarNo(pos);
-    printf("pos   = %d\npai   = %d: \nfilho = ",pos,this->no.pai);//
-    for(i=0;i<=this->no.numChaves;i++)
-        printf("%d | ",this->no.filhos[i]);
     printf("\nchave = ");
     for(i=0;i<this->no.numChaves;i++)
         printf(" %d | ",this->no.chave[i]);
+    printf("\npos   = %d\npai   = %d: \nfilho = ",pos,this->no.pai);//
+    for(i=0;i<=this->no.numChaves;i++)
+        printf("%d | ",this->no.filhos[i]);
     printf("Quantidade de chaves = %d\n",this->no.numChaves);
     if(this->no.ehFolha)
         printf("\nproxima folha = %d",this->no.filhos[ORDEM]);
@@ -729,7 +729,7 @@ void BMais::mergeNaoFolha(BMais removido, Chave chave){
 */
 void BMais::removerAux(Chave chave){
     int pos;
-    BMais pai,esquerda,direita;
+    BMais pai,esquerda,direita,aux;
     if(this->no.ehFolha){ //Chegou na folha
         if(this->buscarPos(chave.info,&pos)){ //Achou a chave na folha
             if(this->no.numChaves > ORDEM/2){ //Pode ser simplesmente removido
@@ -739,16 +739,13 @@ void BMais::removerAux(Chave chave){
                 int posAux;
                 pai.mudarNo(this->no.pai);
                 if(pai.buscarPos(this->no.chave[pos].info,&posAux)){ //Achou a chave a ser removida no pai
-                    //Acha os irmãos: 
-                    if(posAux == 0){ //this é o filho da esquerda
-                        direita.mudarNo(pai.no.filhos[posAux+1]);
-                        esquerda.pos = -1;
-                    }else if(posAux == pai.no.numChaves-1){ //this é o filho da direita
-                        esquerda.mudarNo(pai.no.filhos[posAux-1]);
-                        direita.pos = -1;
-                    }else{ //This é o filho do meio
-                        esquerda.mudarNo(pai.no.filhos[posAux-1]);
-                        direita.mudarNo(pai.no.filhos[posAux+1]);
+                    //Acha os irmãos: //this = posAux+1
+                    if(posAux == pai.no.numChaves-1){ //this é o filho mais da direita
+                        esquerda.mudarNo(pai.no.filhos[posAux]); 
+                        direita.pos = -1;                         
+                    }else{ //This é qualuqer outro filho
+                        direita.mudarNo(pai.no.filhos[posAux+2]);
+                        esquerda.mudarNo(pai.no.filhos[posAux]);
                     }
                     //Remove a chave:
                     if(esquerda.pos != -1 && direita.pos != -1){ //Tem dois irmãos
@@ -757,30 +754,20 @@ void BMais::removerAux(Chave chave){
                         }else if(esquerda.no.numChaves+this->no.numChaves-1 < ORDEM-1){ //Merge com a esquerda 
                             esquerda.mergeFolha(*this,this->no.chave[pos]);
                         }else{ //Faz merge com a direita
-                            direita.mergeFolha(*this,this->no.chave[pos]);
+                            this->mergeFolha(direita,this->no.chave[pos]);
                         }
-                    }else if(esquerda.pos != -1){ //Só tem o imrão da esquerda
+                    }else{ //Só tem o imrão da esquerda
                         if(esquerda.no.numChaves > ORDEM/2){ //Faz o empresta
                             this->removerChaveNaFolhaComUnderflow(chave);
                         }else if(direita.no.numChaves+this->no.numChaves-1 < ORDEM-1){ //Merge com a esquerda 
                             esquerda.mergeFolha(*this,this->no.chave[pos]);
-                        }
-                    }else{ //Só tem o irmão da direita
-                        if(direita.no.numChaves > ORDEM/2){ //Faz o empresta
-                            this->removerChaveNaFolhaComUnderflow(chave);
-                        }else if(direita.no.numChaves+this->no.numChaves-1 < ORDEM-1){ //Merge com a direita 
-                            direita.mergeFolha(*this,this->no.chave[pos]);
                         }
                     }
                 }else{ /*Não achou a chave a ser removida no pai. Faz a mesma coisa do de cima, com índices 
                         diferentes para os irmãos da esquerda e direita*/
-                        /* ACHO QUE OS ÍNDICES ESTÃO ERRADOS, DESNEHA AI E CONFERE */
                     if(posAux == 0){ //this é o filho da esquerda
                         direita.mudarNo(pai.no.filhos[posAux+1]);
                         esquerda.pos = -1;
-                    }else if(posAux == pai.no.numChaves-1){ //this é o filho da direita
-                        esquerda.mudarNo(pai.no.filhos[posAux-1]);
-                        direita.pos = -1;
                     }else{ //This é o filho do meio
                         esquerda.mudarNo(pai.no.filhos[posAux-1]);
                         direita.mudarNo(pai.no.filhos[posAux+1]);
@@ -792,28 +779,128 @@ void BMais::removerAux(Chave chave){
                         }else if(esquerda.no.numChaves+this->no.numChaves-1 < ORDEM-1){ //Merge com a esquerda 
                             esquerda.mergeFolha(*this,this->no.chave[pos]);
                         }else{ //Faz merge com a direita
-                            direita.mergeFolha(*this,this->no.chave[pos]);
-                        }
-                    }else if(esquerda.pos != -1){ //Só tem o imrão da esquerda
-                        if(esquerda.no.numChaves > ORDEM/2){ //Faz o empresta
-                            this->removerChaveNaFolhaComUnderflow(chave);
-                        }else if(direita.no.numChaves+this->no.numChaves-1 < ORDEM-1){ //Merge com a esquerda 
-                            esquerda.mergeFolha(*this,this->no.chave[pos]);
+                            this->mergeFolha(direita,this->no.chave[pos]);
                         }
                     }else{ //Só tem o irmão da direita
                         if(direita.no.numChaves > ORDEM/2){ //Faz o empresta
                             this->removerChaveNaFolhaComUnderflow(chave);
                         }else if(direita.no.numChaves+this->no.numChaves-1 < ORDEM-1){ //Merge com a direita 
-                            direita.mergeFolha(*this,this->no.chave[pos]);
+                            this->mergeFolha(direita,this->no.chave[pos]);
+                        }else{
+                            this->removerChaveNaFolha(chave);
+                            this->mergeFolha(direita,direita.no.chave[0]);
                         }
                     }
                 }
-            }
+            }//--------------------------------------------------------------
         }else{
             printf("Chave não encontrada\n");
         }
     }else{ /*Não é uma folha. Precisa procurar a chave no nó atual, remover se achar e andar na árvore pra ver
             Se acha mais*/
+            if(this->buscarPos(chave.info,&pos)){//chave esta em this, e this.no.filhos[pos+1]
+                aux.mudarNo(this->getPos());
+                this->mudarNo(this->no.filhos[pos+1]);
+                this->removerAux(chave);//removeu da arvore
+                this->mudarNo(aux.getPos());
+                if(this->underflow()){//verifica se precisa de merge
+                    pai.mudarNo(this->no.pai);
+                    if(buscarPos(this->no.chave[0].info,&pos)){//rotina de procurar irmao da esquerda/direita
+                        if(pos == pai.no.numChaves-1){ //this é o filho mais da direita
+                            esquerda.mudarNo(pai.no.filhos[pos]); 
+                            direita.pos = -1;                         
+                        }else{ //This é qualuqer outro filho
+                            direita.mudarNo(pai.no.filhos[pos+2]);
+                            esquerda.mudarNo(pai.no.filhos[pos]);
+                        }
+                    }else{
+                        if(pos == 0){ //this é o filho da esquerda
+                            direita.mudarNo(pai.no.filhos[pos+1]);
+                            esquerda.pos = -1;
+                        }else{ //This é o filho do meio
+                            esquerda.mudarNo(pai.no.filhos[pos-1]);
+                            direita.mudarNo(pai.no.filhos[pos+1]);
+                        }
+                    }//final da rotina de procura de irmao
+                    if(esquerda.pos != -1 || direita.pos != -1){
+                        this->empresta(this->no.chave[0]);
+                    }else{
+                        if(esquerda.pos != -1){
+                            esquerda.mergeNaoFolha(*this,this->no.chave[0]);
+                        }else{
+                            this->mergeNaoFolha(direita,this->no.chave[0]);
+                        }
+                    }
+                }
+                if(this->buscarPos(chave.info,&pos)){//remove do no atual caso ele ainda exista, e vefirica se precisa de merge ou não
+                    this->removerChaveNaoFolhaNoMerge(chave);
+                    if(this->underflow()){//Verifica se precisa de merge
+                        if(this->underflow()){//verifica se precisa de merge
+                        pai.mudarNo(this->no.pai);
+                        if(buscarPos(this->no.chave[0].info,&pos)){//rotina de procurar irmao da esquerda/direita
+                            if(pos == pai.no.numChaves-1){ //this é o filho mais da direita
+                                esquerda.mudarNo(pai.no.filhos[pos]); 
+                                direita.pos = -1;                         
+                            }else{ //This é qualuqer outro filho
+                                direita.mudarNo(pai.no.filhos[pos+2]);
+                                esquerda.mudarNo(pai.no.filhos[pos]);
+                            }
+                            }else{
+                                if(pos == 0){ //this é o filho da esquerda
+                                    direita.mudarNo(pai.no.filhos[pos+1]);
+                                    esquerda.pos = -1;
+                                }else{ //This é o filho do meio
+                                    esquerda.mudarNo(pai.no.filhos[pos-1]);
+                                    direita.mudarNo(pai.no.filhos[pos+1]);
+                                }
+                            }//final da rotina de procura de irmao
+                            if(esquerda.pos != -1 || direita.pos != -1){
+                                this->empresta(this->no.chave[0]);
+                            }else{
+                                if(esquerda.pos != -1){
+                                    esquerda.mergeNaoFolha(*this,this->no.chave[0]);
+                                }else{
+                                    this->mergeNaoFolha(direita,this->no.chave[0]);
+                                }
+                            }
+                        }
+                    }
+                }
+            }else{//chave esta para this.no.filhos[pos]
+                aux.mudarNo(this->getPos());
+                this->mudarNo(this->no.filhos[pos]);
+                this->removerAux(chave);
+                this->mudarNo(aux.getPos());
+                if(this->underflow()){//verifica se precisa de merge
+                    pai.mudarNo(this->no.pai);
+                    if(buscarPos(this->no.chave[0].info,&pos)){//rotina de procurar irmao da esquerda/direita
+                        if(pos == pai.no.numChaves-1){ //this é o filho mais da direita
+                            esquerda.mudarNo(pai.no.filhos[pos]); 
+                            direita.pos = -1;                         
+                        }else{ //This é qualuqer outro filho
+                            direita.mudarNo(pai.no.filhos[pos+2]);
+                            esquerda.mudarNo(pai.no.filhos[pos]);
+                        }
+                    }else{
+                        if(pos == 0){ //this é o filho da esquerda
+                            direita.mudarNo(pai.no.filhos[pos+1]);
+                            esquerda.pos = -1;
+                        }else{ //This é o filho do meio
+                            esquerda.mudarNo(pai.no.filhos[pos-1]);
+                            direita.mudarNo(pai.no.filhos[pos+1]);
+                        }
+                    }//final da rotina de procura de irmao
+                    if(esquerda.pos != -1 || direita.pos != -1){
+                        this->empresta(this->no.chave[0]);
+                    }else{
+                        if(esquerda.pos != -1){
+                            esquerda.mergeNaoFolha(*this,this->no.chave[0]);
+                        }else{
+                            this->mergeNaoFolha(direita,this->no.chave[0]);
+                        }
+                    }
+                }
+            }
 
     }
 }
@@ -827,6 +914,8 @@ void BMais::removerAux(Chave chave){
 */
 void BMais::remover(Chave chave){
     int pos;
+    BMais direita;
+    BMais aux;
     CabecalhoArvore cab = this->arquivo.lerCabecalhoArvore();
     if(cab.raiz != -1){ //Raiz não nula
         this->mudarNo(cab.raiz); //Coloca o nó atual na raiz
@@ -835,12 +924,20 @@ void BMais::remover(Chave chave){
                 this->mudarNo(this->no.filhos[pos+1]); //Vai para a direita da chave, pois ela está na folha também
                 this->removerAux(chave); //Remove a outra cópia da chave no interior da árvore
                 this->mudarNo(cab.raiz); //Volta o nó da classe para a raiz
-                this->removerChaveNaoFolhaNoMerge(chave); //Remove a chave da raiz e arruma os filhos
-                if(this->no.numChaves == 0){ //A raiz sofreu merge e deixou de existir
+                if(this->no.numChaves == 1){ //A raiz sofreu merge e deixou de existir
+                    direita.mudarNo(this->no.filhos[1]);
                     this->no.pai = cab.posLivre;//Encadeia a raiz que deixou de existir em posLivre
                     cab.posLivre = this->getPos();//Arruma o cabecalho do arquivo
                     this->mudarNo(this->no.filhos[0]);//Vai para o filho da esquerda, que foi o que recebeu o merge
-                }   
+                    this->mergeNaoFolha(direita,direita.no.chave[0]);
+                    this->removerChaveNaoFolhaNoMerge(chave); //Remove a chave da raiz e arruma os filhos
+                    cab.raiz = this->getPos();
+                    this->arquivo.escreverCabecalhoArvore(cab);
+                }else{
+                    aux.mudarNo(this->no.filhos[pos+1]);
+                    this->no.chave[pos] = aux.no.chave[0];
+                    this->arquivo.escreverNo(this->no,this->getPos());
+                }
             }else{ //Não encontrou a chave na raiz
                 this->mudarNo(this->no.filhos[pos]);
                 this->removerAux(chave); //Remove uma ou duas cópias da chave na árvore
