@@ -102,7 +102,7 @@ InfoLivro Interacao::criaLivro(string linha){
  * Pré-condição: Nenhum
  * Pós-condição: Nenhum
 */
-void Interacao::loadStartFile(){
+void Interacao::carregaArquivoInicial(){
     string NomeArquivo;
     ifstream arquivo;
     InfoLivro novoLivro;

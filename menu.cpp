@@ -206,42 +206,42 @@ void deciderMenu(){
     Gerente ger;
     int MENU = 1; //Variável de decisão do menu
     while(MENU != SAIRDOPROGRAMA){ 
-        if(MENU == MENUPRINCIPAL){//finzalizado
+        if(MENU == MENUPRINCIPAL){
             system("clear");
             mainMenu(&MENU);
-        }else if(MENU == INSERIRLIVRO){//finalizada
+        }else if(MENU == INSERIRLIVRO){
             system("clear");
             var.insereLivro();
             backmenu();
             MENU = MENUPRINCIPAL;
-        }else if(MENU == ATUALIZAREXEMPLARES){//finalizada
+        }else if(MENU == ATUALIZAREXEMPLARES){
             system("clear");
             var.atualizaExemplares();
             backmenu();
             MENU = MENUPRINCIPAL;
-        }else if(MENU == REMOVERLIVRO){//terminar a remover
+        }else if(MENU == REMOVERLIVRO){
             system("clear");
             var.removeLivro();
             backmenu();
             MENU = MENUPRINCIPAL;
-        }else if(MENU == BUSCARDADOSDOLIVRO){//finalizado
+        }else if(MENU == BUSCARDADOSDOLIVRO){
             system("clear");  
             var.BuscarDadosLivro();
             backmenu();      
             MENU = MENUPRINCIPAL;
-        }else if(MENU == IMPRIMIRARVORENIVEL){ //finazalizada
+        }else if(MENU == IMPRIMIRARVORENIVEL){ 
             system("clear");  
             arv.imprimirTodoOsNiveis();
             backmenu();       
             MENU = MENUPRINCIPAL;
-        }else if(MENU == IMPRIMIRACERVO){ //finalizada
+        }else if(MENU == IMPRIMIRACERVO){ 
             system("clear");
             ger.imprimirAcervo();
             backmenu();
             MENU = MENUPRINCIPAL;
-        }else if(MENU == CARREGARARQUIVOINICIAL){//finalizada
+        }else if(MENU == CARREGARARQUIVOINICIAL){
             system("clear"); 
-            var.loadStartFile();
+            var.carregaArquivoInicial();
             backmenu();                    
             MENU = MENUPRINCIPAL;
         }

@@ -41,7 +41,7 @@ public:
      * Pré-condição: Nenhum
      * Pós-condição: Nenhum
     */
-    void loadStartFile();
+    void carregaArquivoInicial();
 
     /* Faz a interação com o usuario para inserir um livro
      * Entrada:      Nenhum

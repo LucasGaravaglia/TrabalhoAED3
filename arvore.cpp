@@ -695,37 +695,6 @@ void BMais::removerChaveNaFolhaComMerge(Chave chave){
     }
 }
 
-/* Método que faz o merge em dois nós internos
- * Entrada:      Nó que deixara de existir e sofrerá merge com o nó carregado em memória
- * Retorno:      Nenhum
- * Pré-condição: O nó que receberá o merge deve estar carregado na memória.
- *               O nó passado como parâmetro deve estar com underflow.
- *               Somatório do número de chave dos dois nós não ser maior que ordem-1
- * Pós-condição: O nó passado como parâmetro é copiado para o nó carregado e depois é apagado
-*/
-void BMais::mergeNaoFolha(BMais removido, Chave chave){
-    int i;
-    BMais pai;
-    BMais filho;
-    pai.mudarNo(this->no.pai);
-    this->adicionarDireita(this->no.numChaves,pai.no.chave[0],-1);
-    pai.removerChaveNaoFolhaNoMerge(chave);
-    for(i=0;i<removido.no.numChaves;i++){
-        this->no.chave[this->no.numChaves + i] = removido.no.chave[i];
-        this->no.filhos[this->no.numChaves+i+1] = removido.no.filhos[i];
-        filho.mudarNo(this->no.filhos[this->no.numChaves+i+1]);
-        filho.no.pai = this->getPos();
-        filho.arquivo.escreverNo(filho.no,filho.getPos());
-    }
-    this->no.numChaves += removido.no.numChaves;
-    pai.arquivo.escreverNo(pai.no,pai.getPos());
-    this->arquivo.escreverNo(this->no,this->getPos());
-    this->cab = this->arquivo.lerCabecalhoArvore();
-    removido.no.pai = this->cab.posLivre;
-    this->cab.posLivre = removido.getPos();
-    removido.arquivo.escreverNo(removido.no,removido.getPos());
-    this->arquivo.escreverCabecalhoArvore(this->getCab());
-}
 
 /* Método que faz o merge em dois nós internos
  * Entrada:      Nó que deixara de existir e sofrerá merge com o nó carregado em memória
@@ -814,7 +783,7 @@ void BMais::removerAux(Chave chave){
             }else if(esquerda.no.numChaves > ORDEM/2 || direita.no.numChaves > ORDEM/2){ //Empresta
                 this->removerChaveNaFolhaComUnderflow(chave);
             }else{ //Merge
-                this->removerChaveNaFolhaComMerge(this->no.chave[pos]); //POSSÍVEL ERRO//
+                this->removerChaveNaFolhaComMerge(this->no.chave[pos]); 
             }
         }else{ //Não achou a chave na folha
             printf("Erro, chave não encontrada na folha\n");
