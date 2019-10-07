@@ -642,9 +642,10 @@ void BMais::mergeFolha(BMais removido, Chave chave){
     this->no.numChaves += removido.no.numChaves;
     pai.arquivo.escreverNo(pai.no,pai.getPos());
     this->arquivo.escreverNo(this->no,this->getPos());
-    this->cab = this->arquivo.lerCabecalhoArvore();
-    removido.no.pai = this->cab.posLivre;
-    this->cab.posLivre = removido.getPos();
+    this->cab             = this->arquivo.lerCabecalhoArvore();
+    removido.no.pai       = this->cab.posLivre;
+    this->cab.posLivre    = removido.getPos();
+    removido.no.numChaves = 0;
     removido.arquivo.escreverNo(removido.no,removido.getPos());
     this->arquivo.escreverCabecalhoArvore(this->getCab());
 }
