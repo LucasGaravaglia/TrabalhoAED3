@@ -258,6 +258,16 @@ public:
     */
     void mergeNaoFolha(BMais removido, Chave chave);
 
+    /* Método que faz o merge em dois nós internos
+     * Entrada:      Nó que deixara de existir e sofrerá merge com o nó carregado em memória
+     * Retorno:      Nenhum
+     * Pré-condição: O nó que receberá o merge deve estar carregado na memória.
+     *               O nó passado como parâmetro deve estar com underflow.
+     *               Somatório do número de chave dos dois nós não ser maior que ordem-1
+     * Pós-condição: O nó passado como parâmetro é copiado para o nó carregado e depois é apagado
+    */
+    void mergeNaoFolhaIntermediario(BMais removido, Chave chave);
+
     /* Método auxiliar para remoção
      * Entrada:      Chave para remover e posição onde deveria estar a chave no vetor
      * Retorno:      Nenhum

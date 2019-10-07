@@ -32,8 +32,6 @@ void inicializarArquivos(string liv, string arv){
 
 int main(){
     inicializarArquivos("livros.bin","arvore.bin");
-    // deciderMenu();
-    //BMais aux;
     inserir(1);
     inserir(2);
     inserir(3);
@@ -43,11 +41,15 @@ int main(){
     inserir(7);
     inserir(8);
     inserir(9);
-    // arv.DeBug(2);
+    inserir(10);
+    inserir(11);
+    inserir(12);
+    inserir(13);
     arv.imprimirTodoOsNiveis();
-    printf("\n");
+    printf("\n----------\n");
     chave.info = 3;
     arv.remover(chave);
+    printf("\n----------\n");
     arv.imprimirTodoOsNiveis();
     return 0;
 }
