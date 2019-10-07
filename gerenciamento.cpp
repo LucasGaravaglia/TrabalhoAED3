@@ -46,8 +46,7 @@ bool Gerente::inserirLivro(InfoLivro livro){
         this->arvore.inserir(infoNo);
         return true;
     }else 
-    cout << "Erro ao inserir" << endl;
-    return false;
+        return false;
 }
 
 /* Métdo que remove um livro do arquivo de arvore e do arquivo de dados
@@ -63,7 +62,6 @@ bool Gerente::removerLivro(Chave chave){
         this->arvore.remover(chave);
         return true;
     }else{
-        cout << "Erro ao Remover"<<endl;
         return false;
     }
 }
@@ -81,7 +79,6 @@ bool Gerente::alterarQuantidadeLivros(int codigo,int novaQuantidade){
     if(pos != -1){
         livro = this->livro.arquivo.lerLivro(pos);
         livro.quantidade = novaQuantidade;
-        cout << livro.quantidade ;
         this->livro.arquivo.escreverLivro(livro,pos);
         return true;
     }else return false;
@@ -95,6 +92,7 @@ bool Gerente::alterarQuantidadeLivros(int codigo,int novaQuantidade){
  * Pós-condição: O acervo é impresso
 */
 void Gerente::imprimirAcervo(){
+    cout <<endl<<endl;
     BMais aux;
     Livro l;
     int i;

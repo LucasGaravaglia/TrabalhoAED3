@@ -134,16 +134,17 @@ void Interacao::carregaArquivoInicial(){
 void Interacao::insereLivro(){
     InfoLivro novolivro;
     string temp;
+    cout << endl <<"Digite o codigo do livro: ";
+    cin >> novolivro.codigo;
+    cout << endl << "Digite a quantidade de livros: ";
+    cin >> novolivro.quantidade;
+    cin.ignore();
     cout << endl << "Titulo do livro: ";
     getline(cin, temp);
     strcpy(novolivro.titulo,temp.c_str());
     cout << endl << "Autor do livro: ";
     getline(cin, temp);
     strcpy(novolivro.autor,temp.c_str());
-    cout << endl <<"Digite o codigo do livro: ";
-    cin >> novolivro.codigo;
-    cout << endl << "Digite a quantidade de livros: ";
-    cin >> novolivro.quantidade;
     if(this->gerente.inserirLivro(novolivro)){
         cout << endl << "Livro inserido com sucesso." << endl;
     }else{

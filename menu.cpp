@@ -71,123 +71,123 @@ void mainMenu(int *var){
     int inicioMenu = 0; int fimMenu = 7;
     while(teclaPressionada != 10){
         system("clear");
-        printf("\n\n\n\n\n\n\n\n\n\n\n");
+        printf("\n\n\n\n\n\n\n\n\n\n");
         if(parteDoMenu == 0){
-            printf("\t\t\t\t\t\t\t-> %-14s Carregar arquivos de inicializacao.[%c]\n"," ",'*');
-            printf("\t\t\t\t\t\t\t-> Inserir livro. %-35s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Atualizar numero de exemplares. %-18s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Remover livro. %-35s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Buscar dados do livro. %-27s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Imprimir arvore binaria por nivel. %-15s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Imprimir acervo. %-33s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Sair %-45s[%c]\n"," ",' ');
-            printf("\n\t\t\t\t\t\t\t ________________________________________________________\n\n");
-            printf("\t\t\t\t\t\t\t\tUtilize w e s para se movimentar no menu         \n");
+            printf("\t\t\t\t\t\t-> %-14s Carregar arquivos de inicializacao.[%c]\n"," ",'*');
+            printf("\t\t\t\t\t\t-> Inserir livro. %-35s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Atualizar numero de exemplares. %-18s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Remover livro. %-35s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Buscar dados do livro. %-27s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Imprimir arvore binaria por nivel. %-15s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Imprimir acervo. %-33s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Sair %-45s[%c]\n"," ",' ');
+            printf("\n\t\t\t\t\t\t ________________________________________________________\n\n");
+            printf("\t\t\t\t\t\t\tUtilize w e s para se movimentar no menu         \n");
             teclaPressionada = getchChar();
             if(movmentMenu(teclaPressionada,&parteDoMenu,inicioMenu,fimMenu)){
                 *var = CARREGARARQUIVOINICIAL;
             }
         }else if(parteDoMenu == 1){
-            printf("\t\t\t\t\t\t\t-> Carregar arquivos de inicializacao. %-14s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> %-35s Inserir livro.[%c]\n"," ",'*');
-            printf("\t\t\t\t\t\t\t-> Atualizar numero de exemplares. %-18s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Remover livro. %-35s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Buscar dados do livro. %-27s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Imprimir arvore binaria por nivel. %-15s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Imprimir acervo. %-33s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Sair %-45s[%c]\n"," ",' ');
-            printf("\n\t\t\t\t\t\t\t ________________________________________________________\n\n");
-            printf("\t\t\t\t\t\t\t\tUtilize w e s para se movimentar no menu         \n");
+            printf("\t\t\t\t\t\t-> Carregar arquivos de inicializacao. %-14s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> %-35s Inserir livro.[%c]\n"," ",'*');
+            printf("\t\t\t\t\t\t-> Atualizar numero de exemplares. %-18s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Remover livro. %-35s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Buscar dados do livro. %-27s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Imprimir arvore binaria por nivel. %-15s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Imprimir acervo. %-33s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Sair %-45s[%c]\n"," ",' ');
+            printf("\n\t\t\t\t\t\t ________________________________________________________\n\n");
+            printf("\t\t\t\t\t\t\tUtilize w e s para se movimentar no menu         \n");
             teclaPressionada = getchChar();
             if(movmentMenu(teclaPressionada,&parteDoMenu,inicioMenu,fimMenu)){
                 *var = INSERIRLIVRO;
             }
         }else if(parteDoMenu == 2){
-            printf("\t\t\t\t\t\t\t-> Carregar arquivos de inicializacao. %-14s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Inserir livro. %-35s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> %-18s Atualizar numero de exemplares.[%c]\n"," ",'*');
-            printf("\t\t\t\t\t\t\t-> Remover livro. %-35s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Buscar dados do livro. %-27s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Imprimir arvore binaria por nivel. %-15s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Imprimir acervo. %-33s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Sair %-45s[%c]\n"," ",' ');
-            printf("\n\t\t\t\t\t\t\t ________________________________________________________\n\n");
-            printf("\t\t\t\t\t\t\t\tUtilize w e s para se movimentar no menu         \n");
+            printf("\t\t\t\t\t\t-> Carregar arquivos de inicializacao. %-14s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Inserir livro. %-35s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> %-18s Atualizar numero de exemplares.[%c]\n"," ",'*');
+            printf("\t\t\t\t\t\t-> Remover livro. %-35s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Buscar dados do livro. %-27s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Imprimir arvore binaria por nivel. %-15s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Imprimir acervo. %-33s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Sair %-45s[%c]\n"," ",' ');
+            printf("\n\t\t\t\t\t\t ________________________________________________________\n\n");
+            printf("\t\t\t\t\t\t\tUtilize w e s para se movimentar no menu         \n");
             teclaPressionada = getchChar();
             if(movmentMenu(teclaPressionada,&parteDoMenu,inicioMenu,fimMenu)){
                 *var = ATUALIZAREXEMPLARES;
             }
         }else if(parteDoMenu == 3){
-            printf("\t\t\t\t\t\t\t-> Carregar arquivos de inicializacao. %-14s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Inserir livro. %-35s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Atualizar numero de exemplares. %-18s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> %-35s Remover livro.[%c]\n"," ",'*');
-            printf("\t\t\t\t\t\t\t-> Buscar dados do livro. %-27s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Imprimir arvore binaria por nivel. %-15s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Imprimir acervo. %-33s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Sair %-45s[%c]\n"," ",' ');
-            printf("\n\t\t\t\t\t\t\t ________________________________________________________\n\n");
-            printf("\t\t\t\t\t\t\t\tUtilize w e s para se movimentar no menu         \n");
+            printf("\t\t\t\t\t\t-> Carregar arquivos de inicializacao. %-14s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Inserir livro. %-35s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Atualizar numero de exemplares. %-18s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> %-35s Remover livro.[%c]\n"," ",'*');
+            printf("\t\t\t\t\t\t-> Buscar dados do livro. %-27s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Imprimir arvore binaria por nivel. %-15s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Imprimir acervo. %-33s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Sair %-45s[%c]\n"," ",' ');
+            printf("\n\t\t\t\t\t\t ________________________________________________________\n\n");
+            printf("\t\t\t\t\t\t\tUtilize w e s para se movimentar no menu         \n");
             teclaPressionada = getchChar();
             if(movmentMenu(teclaPressionada,&parteDoMenu,inicioMenu,fimMenu)){
                 *var = REMOVERLIVRO;
             }
         }else if(parteDoMenu == 4){
-            printf("\t\t\t\t\t\t\t-> Carregar arquivos de inicializacao. %-14s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Inserir livro. %-35s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Atualizar numero de exemplares. %-18s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Remover livro. %-35s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> %-27s Buscar dados do livro.[%c]\n"," ",'*');
-            printf("\t\t\t\t\t\t\t-> Imprimir arvore binaria por nivel. %-15s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Imprimir acervo. %-33s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Sair %-45s[%c]\n"," ",' ');
-            printf("\n\t\t\t\t\t\t\t ________________________________________________________\n\n");
-            printf("\t\t\t\t\t\t\t\tUtilize w e s para se movimentar no menu         \n");
+            printf("\t\t\t\t\t\t-> Carregar arquivos de inicializacao. %-14s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Inserir livro. %-35s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Atualizar numero de exemplares. %-18s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Remover livro. %-35s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> %-27s Buscar dados do livro.[%c]\n"," ",'*');
+            printf("\t\t\t\t\t\t-> Imprimir arvore binaria por nivel. %-15s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Imprimir acervo. %-33s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Sair %-45s[%c]\n"," ",' ');
+            printf("\n\t\t\t\t\t\t ________________________________________________________\n\n");
+            printf("\t\t\t\t\t\t\tUtilize w e s para se movimentar no menu         \n");
             teclaPressionada = getchChar();
             if(movmentMenu(teclaPressionada,&parteDoMenu,inicioMenu,fimMenu)){
                 *var = BUSCARDADOSDOLIVRO;
             }
         }else if(parteDoMenu == 5){
-            printf("\t\t\t\t\t\t\t-> Carregar arquivos de inicializacao. %-14s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Inserir livro. %-35s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Atualizar numero de exemplares. %-18s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Remover livro. %-35s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Buscar dados do livro. %-27s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> %-15s Imprimir arvore binaria por nivel.[%c]\n"," ",'*');
-            printf("\t\t\t\t\t\t\t-> Imprimir acervo. %-33s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Sair %-45s[%c]\n"," ",' ');
-            printf("\n\t\t\t\t\t\t\t ________________________________________________________\n\n");
-            printf("\t\t\t\t\t\t\t\tUtilize w e s para se movimentar no menu         \n");
+            printf("\t\t\t\t\t\t-> Carregar arquivos de inicializacao. %-14s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Inserir livro. %-35s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Atualizar numero de exemplares. %-18s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Remover livro. %-35s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Buscar dados do livro. %-27s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> %-15s Imprimir arvore binaria por nivel.[%c]\n"," ",'*');
+            printf("\t\t\t\t\t\t-> Imprimir acervo. %-33s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Sair %-45s[%c]\n"," ",' ');
+            printf("\n\t\t\t\t\t\t ________________________________________________________\n\n");
+            printf("\t\t\t\t\t\t\tUtilize w e s para se movimentar no menu         \n");
             teclaPressionada = getchChar();
             if(movmentMenu(teclaPressionada,&parteDoMenu,inicioMenu,fimMenu)){
                 *var = IMPRIMIRARVORENIVEL;
             }
         }else if(parteDoMenu == 6){
-            printf("\t\t\t\t\t\t\t-> Carregar arquivos de inicializacao. %-14s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Inserir livro. %-35s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Atualizar numero de exemplares. %-18s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Remover livro. %-35s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Buscar dados do livro. %-27s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Imprimir arvore binaria por nivel. %-15s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> %-33s Imprimir acervo.[%c]\n"," ",'*');
-            printf("\t\t\t\t\t\t\t-> Sair %-45s[%c]\n"," ",' ');
-            printf("\n\t\t\t\t\t\t\t ________________________________________________________\n\n");
-            printf("\t\t\t\t\t\t\t\tUtilize w e s para se movimentar no menu         \n");
+            printf("\t\t\t\t\t\t-> Carregar arquivos de inicializacao. %-14s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Inserir livro. %-35s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Atualizar numero de exemplares. %-18s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Remover livro. %-35s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Buscar dados do livro. %-27s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Imprimir arvore binaria por nivel. %-15s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> %-33s Imprimir acervo.[%c]\n"," ",'*');
+            printf("\t\t\t\t\t\t-> Sair %-45s[%c]\n"," ",' ');
+            printf("\n\t\t\t\t\t\t ________________________________________________________\n\n");
+            printf("\t\t\t\t\t\t\tUtilize w e s para se movimentar no menu         \n");
             teclaPressionada = getchChar();
             if(movmentMenu(teclaPressionada,&parteDoMenu,inicioMenu,fimMenu)){
                 *var = IMPRIMIRACERVO;
             }
         }else if(parteDoMenu == 7){
-            printf("\t\t\t\t\t\t\t-> Carregar arquivos de inicializacao. %-14s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Inserir livro. %-35s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Atualizar numero de exemplares. %-18s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Remover livro. %-35s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Buscar dados do livro. %-27s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Imprimir arvore binaria por nivel. %-15s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> Imprimir acervo. %-33s[%c]\n"," ",' ');
-            printf("\t\t\t\t\t\t\t-> %-45s Sair[%c]\n"," ",'*');
-            printf("\n\t\t\t\t\t\t\t ________________________________________________________\n\n");
-            printf("\t\t\t\t\t\t\t\tUtilize w e s para se movimentar no menu         \n");
+            printf("\t\t\t\t\t\t-> Carregar arquivos de inicializacao. %-14s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Inserir livro. %-35s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Atualizar numero de exemplares. %-18s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Remover livro. %-35s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Buscar dados do livro. %-27s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Imprimir arvore binaria por nivel. %-15s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> Imprimir acervo. %-33s[%c]\n"," ",' ');
+            printf("\t\t\t\t\t\t-> %-45s Sair[%c]\n"," ",'*');
+            printf("\n\t\t\t\t\t\t ________________________________________________________\n\n");
+            printf("\t\t\t\t\t\t\tUtilize w e s para se movimentar no menu         \n");
             teclaPressionada = getchChar();
             if(movmentMenu(teclaPressionada,&parteDoMenu,inicioMenu,fimMenu)){
                 *var = SAIRDOPROGRAMA;

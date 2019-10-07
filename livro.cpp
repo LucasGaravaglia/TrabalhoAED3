@@ -89,7 +89,7 @@ CabecalhoLivro Livro::getCab(){
 */
 string Livro::toString(){
     return 
-    to_string(this->livro.codigo)   + ";"
+    "\t" + to_string(this->livro.codigo)   + ";"
     + this->livro.titulo                + ";"
     + this->livro.autor                 + ";"
     + to_string(this->livro.quantidade);
