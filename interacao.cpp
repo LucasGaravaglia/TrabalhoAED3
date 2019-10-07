@@ -103,6 +103,10 @@ InfoLivro Interacao::criaLivro(string linha){
  * Pós-condição: Nenhum
 */
 void Interacao::carregaArquivoInicial(){
+    Arquivo aux = Arquivo("arvore.bin","arvore.bin");
+    aux.escreverArquivoArvoreVazio();
+    Arquivo aux2 = Arquivo("livros.bin","livros.bin");
+    aux2.escreverArquivoLivrosVazio();
     string NomeArquivo;
     ifstream arquivo;
     InfoLivro novoLivro;

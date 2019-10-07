@@ -1,18 +1,12 @@
 #include <iostream>
 #include <string>
 #include "arquivo.h"
-#include "interacao.h"
 #include "menu.h"
 
 using namespace std;
 
 Arquivo arvore;
 Arquivo livros;
-Gerente gerente;
-InfoLivro livro;
-BMais arv;
-Chave chave;
-Interacao menu;
 
 void inicializarArquivos(string liv, string arv){
     arvore = Arquivo(arv,arv);
