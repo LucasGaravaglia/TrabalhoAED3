@@ -139,6 +139,8 @@ public:
      * Pos-condicao: Nenhum
     */
     void DeBug(int pos);
+    
+    void DeBug2(BMais a);
 
     /* Método que busca em qual nó FOLHA está uma chave
      * Entrada:      Chave a ser procurada e ponteiro para a chave no vetor
@@ -267,6 +269,14 @@ public:
      * Pós-condição: O nó passado como parâmetro é copiado para o nó carregado e depois é apagado
     */
     void mergeNaoFolhaIntermediario(BMais removido, Chave chave);
+
+    /* Método que acha os irmãos no nó pai do filho de chave passada como parâmetro
+     * Entrada:      Pai do nó atual, ponteiro para a esquerda e direita, e chave do nó atual no pai, pos da chave no pai
+     * Retorno:      true se achou a chave no pai, false caso contrario
+     * Pré-condição: Pai não nulo
+     * Pós-condição: Nenhum
+    */
+    bool buscarFilhos(BMais pai, BMais *esquerda, BMais *direita, Chave chave,int *posChave);
 
     /* Método auxiliar para remoção
      * Entrada:      Chave para remover e posição onde deveria estar a chave no vetor
