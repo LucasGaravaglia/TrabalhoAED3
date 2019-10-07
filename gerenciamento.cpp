@@ -60,7 +60,7 @@ bool Gerente::removerLivro(Chave chave){
     int pos = this->arvore.buscarChave(chave);
     if(pos != -1){
         this->livro.removeLivro(pos);
-        // this->arvore.remover(chave);
+        this->arvore.remover(chave);
         return true;
     }else{
         cout << "Erro ao Remover"<<endl;
